@@ -1,11 +1,10 @@
----
-title: Kotlin Morning Talk
-author: Aleks
----
+% Kotlin Morning Talk
+% Aleks
+% February 2024
 
 # Slide One
 * This is a bullet
-* Notice the empty line above the title
+* Every # starts a new slide
 
 # Slide Two
-* Every # starts a new slide
+* This will now look like a real slide
