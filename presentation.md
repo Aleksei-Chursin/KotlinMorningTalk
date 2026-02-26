@@ -24,4 +24,7 @@ def hello_kotlin():
     print("Kotlin is great, but this highlighter loves Python!")
 
 hello_kotlin()
+```
 
+# Image slide
+![Screenshot 2026-01-24 184909.png](images/Screenshot%202026-01-24%20184909.png)
