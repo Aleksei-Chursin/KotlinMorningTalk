@@ -1,10 +1,19 @@
-% Kotlin Morning Talk
-% Aleks
-% February 2024
+---
+title: Master Class on HTML Slides
+author: Aleks
+date: 2024-02-26
+---
 
-# Slide One
-* This is a bullet
-* Every # starts a new slide
+# Why HTML Slides?
+- **Host for free**: Use GitHub Pages to share a URL instead of emailing large files.
+- **No Microsoft Office**: Avoid the "horrors" of PPTX and DOCX formats.
+- **Programmatic**: Generate slides directly from text or code.
 
-# Slide Two
-* This will now look like a real slide
+# Python Code Highlighting
+As mentioned in the "Pro-tips," you can get automatic syntax highlighting by using three backticks:
+
+```python
+def hello_kotlin():
+    print("Kotlin is great, but this highlighter loves Python!")
+
+hello_kotlin()
