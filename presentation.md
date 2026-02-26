@@ -8,6 +8,7 @@ date: 2024-02-26
 - **Host for free**: Use GitHub Pages to share a URL instead of emailing large files.
 - **No Microsoft Office**: Avoid the "horrors" of PPTX and DOCX formats.
 - **Programmatic**: Generate slides directly from text or code.
+- Command: pandoc -t slidy presentation.md -o index.html --self-contained
 
 # Python Code Highlighting
 As mentioned in the "Pro-tips," you can get automatic syntax highlighting by using three backticks:
