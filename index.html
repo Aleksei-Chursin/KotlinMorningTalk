@@ -92,6 +92,42 @@
     code span.va { color: #19177c; } /* Variable */
     code span.vs { color: #4070a0; } /* VerbatimString */
     code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+    
+    /* Center content on slides */
+    body {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .slide {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 100vh;
+      text-align: center;
+      padding: 2rem;
+      box-sizing: border-box;
+    }
+    .slide h1, .slide h2 {
+      margin: 0.5rem 0;
+    }
+    .slide p, .slide ul, .slide ol {
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .titlepage {
+      min-height: 100vh;
+    }
+    pre {
+      text-align: left;
+      display: inline-block;
+      margin: 1rem auto;
+    }
   </style>
   <link rel="stylesheet" type="text/css" media="screen, projection, print"
     href="https://www.w3.org/Talks/Tools/Slidy2/styles/slidy.css" />
@@ -111,15 +147,6 @@ Aleksei Chursin
 <p><strong>Kotlin for Java Developers</strong></p>
 <p><em>A friendly introduction to modern language features</em></p>
 </div>
-<div class="slide section level1">
-
-<h2 id="speaker-notes---slide-1">Speaker Notes - Slide 1</h2>
-<p>Good morning everyone! Welcome. I am excited to share Kotlin with you
-today. This is a practical introduction designed for Java developers
-like us.</p>
-<p>Take the next few minutes to settle in. Grab a coffee, say hello to
-your neighbor. We will begin in 3 minutes. No rush.</p>
-</div>
 <div id="about-me" class="slide section level1">
 <h1>About Me</h1>
 <ul>
@@ -128,38 +155,15 @@ your neighbor. We will begin in 3 minutes. No rush.</p>
 <li>Love making code simpler and safer</li>
 </ul>
 </div>
-<div class="slide section level1">
-
-<h2 id="speaker-notes---slide-2">Speaker Notes - Slide 2</h2>
-<p>A quick introduction: I have been writing Java code for a long time.
-Over the years, I noticed Kotlin solved many problems that frustrated
-me. Today I want to share what I learned. I am not here to say Java is
-bad. Java is solid. But Kotlin makes certain things easier, safer, and
-faster to write.</p>
-</div>
 <div id="todays-plan" class="slide section level1">
 <h1>Today’s Plan</h1>
 <ol style="list-style-type: decimal">
-<li><strong>Why Kotlin?</strong> - The motivation</li>
 <li><strong>Val and Var</strong> - Immutability matters</li>
 <li><strong>Null Safety</strong> - No more NullPointerException</li>
 <li><strong>Extension Functions</strong> - Superpower</li>
 <li><strong>Data Classes</strong> - Less boilerplate</li>
 <li><strong>Coroutines</strong> - Simpler concurrency</li>
 </ol>
-</div>
-<div class="slide section level1">
-
-<h2 id="speaker-notes---slide-3">Speaker Notes - Slide 3</h2>
-<p>Here is our roadmap for today. Each topic follows the same
-pattern:</p>
-<p>First, I tell you a story. A real problem. Then I explain why
-Kotlin’s feature helps. And finally, I show you how to solve it without
-the feature. This way, you understand the value.</p>
-<p>At the end, we look at a complex example where Kotlin really shines.
-Then we practice together. Tim and Jakub will help if you have
-questions.</p>
-<p>Let’s begin!</p>
 </div>
 <div id="why-kotlin" class="slide section level1">
 <h1>1. Why Kotlin?</h1>
@@ -169,16 +173,6 @@ for simple things.</p>
 write 50 lines of code for a simple data object. You add getters,
 setters, equals, hashCode, toString.</p>
 <p>“There must be a better way,” you think.</p>
-</div>
-<div class="slide section level1">
-
-<h2 id="speaker-notes---slide-4">Speaker Notes - Slide 4</h2>
-<p>Kotlin asks: why do I need 50 lines for a simple bean? The answer:
-you don’t. Kotlin removes ceremony. You keep only the logic.</p>
-<p>Without Kotlin, you use IDE tools to generate code. With Kotlin, you
-write less code to begin with.</p>
-<p>This is the thread through everything today. Kotlin = less noise,
-more focus on what matters.</p>
 </div>
 <div id="val-and-var" class="slide section level1">
 <h1>2. Val and Var</h1>
@@ -190,23 +184,6 @@ class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb1-1"><a hr
 <div class="sourceCode" id="cb2"><pre
 class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="kw">var</span> <span class="va">count</span> <span class="op">=</span> <span class="dv">0</span></span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>count <span class="op">=</span> <span class="dv">1</span>  <span class="co">// OK</span></span></code></pre></div>
-</div>
-<div class="slide section level1">
-
-<h2 id="speaker-notes---slide-5">Speaker Notes - Slide 5</h2>
-<p>In Java, you write <code>final</code> by default for variables you do
-not want to change. But most Java developers do not. They make things
-mutable when immutable is safer.</p>
-<p>Kotlin flips the default. <code>val</code> is the default -
-immutable. <code>var</code> for when you really need to change
-something.</p>
-<p>Why does this matter? Immutable data is easier to reason about. Bugs
-hide in mutable state. If a variable never changes, you understand it
-faster. Less subtle bugs.</p>
-<p>Example: If <code>name</code> is <code>val</code>, you know it never
-changes. You can read it anywhere, any time, and trust it. If it were
-<code>var</code>, maybe somewhere else it changed and you did not
-know.</p>
 </div>
 <div id="null-safety" class="slide section level1">
 <h1>3. Null Safety</h1>
@@ -220,24 +197,6 @@ class="sourceCode java"><code class="sourceCode java"><span id="cb3-1"><a href="
 class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co">// Kotlin - compiler stops you</span></span>
 <span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="kw">val</span> <span class="va">name</span><span class="op">:</span> <span class="kw">String</span> <span class="op">=</span> getName<span class="op">()</span>  <span class="co">// name CANNOT be null</span></span>
 <span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="kw">val</span> <span class="va">nickname</span><span class="op">:</span> <span class="kw">String</span><span class="op">?</span> <span class="op">=</span> getName<span class="op">()</span>  <span class="co">// nickname CAN be null</span></span></code></pre></div>
-</div>
-<div class="slide section level1">
-
-<h2 id="speaker-notes---slide-6">Speaker Notes - Slide 6</h2>
-<p>Java has <code>NullPointerException</code>. The billion dollar
-mistake, Tony Hoare calls it.</p>
-<p>In Kotlin, if you declare <code>String</code>, it cannot be null.
-Compiler checks. If you want null, you write <code>String?</code>. Two
-different types in Kotlin.</p>
-<p>This is huge. Many Java bugs are null-related. You forget to check.
-Code crashes in production.</p>
-<p>In Kotlin, if you write <code>String?</code>, you MUST handle the
-null case. You cannot forget. The compiler forces you.</p>
-<p>How to handle? You can check: <code>if (name != null) { ... }</code>.
-Or use safe call: <code>name?.length</code>. Or Elvis operator:
-<code>name?.length ?: 0</code>.</p>
-<p>Without null safety, you sprinkle null checks everywhere. With
-Kotlin, the language helps you.</p>
 </div>
 <div id="extension-functions" class="slide section level1">
 <h1>4. Extension Functions</h1>
@@ -253,143 +212,47 @@ class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb5-1"><a hr
 <span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="kw">val</span> <span class="va">email</span> <span class="op">=</span> <span class="st">&quot;alice@example.com&quot;</span></span>
 <span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>email<span class="op">.</span>isValidEmail<span class="op">()</span>  <span class="co">// true</span></span></code></pre></div>
 </div>
-<div class="slide section level1">
-
-<h2 id="speaker-notes---slide-7">Speaker Notes - Slide 7</h2>
-<p>In Java, you cannot add methods to existing classes. You write
-utility classes: <code>StringUtils.isValidEmail(email)</code>.
-Awkward.</p>
-<p>Kotlin lets you add methods as if you wrote the class. They are
-called extensions.</p>
-<p>Why? Code becomes more readable. You read like natural English:
-<code>email.isValidEmail()</code> instead of
-<code>StringUtils.isValidEmail(email)</code>.</p>
-<p>You feel like you own the class. You can extend String, List, Map,
-anything. Your code becomes more fluent.</p>
-<p>Without extensions, you have utility class layers. With extensions,
-the code reads better. You focus on logic, not finding the right utility
-class.</p>
-</div>
 <div id="data-classes" class="slide section level1">
 <h1>5. Data Classes</h1>
-<h2 id="java-way-verbose">Java Way (verbose)</h2>
+<h2 id="kotlin-way">Kotlin Way</h2>
 <div class="sourceCode" id="cb6"><pre
-class="sourceCode java"><code class="sourceCode java"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> Person <span class="op">{</span></span>
-<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>    <span class="kw">private</span> <span class="bu">String</span> name<span class="op">;</span></span>
-<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>    <span class="kw">private</span> <span class="dt">int</span> age<span class="op">;</span></span>
-<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>    </span>
-<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>    <span class="kw">public</span> <span class="fu">Person</span><span class="op">(</span><span class="bu">String</span> name<span class="op">,</span> <span class="dt">int</span> age<span class="op">)</span> <span class="op">{</span> <span class="kw">...</span> <span class="op">}</span></span>
-<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>    <span class="kw">public</span> <span class="bu">String</span> <span class="fu">getName</span><span class="op">()</span> <span class="op">{</span> <span class="kw">...</span> <span class="op">}</span></span>
-<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">int</span> <span class="fu">getAge</span><span class="op">()</span> <span class="op">{</span> <span class="kw">...</span> <span class="op">}</span></span>
-<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">boolean</span> <span class="fu">equals</span><span class="op">(</span><span class="bu">Object</span> o<span class="op">)</span> <span class="op">{</span> <span class="kw">...</span> <span class="op">}</span></span>
-<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">int</span> <span class="fu">hashCode</span><span class="op">()</span> <span class="op">{</span> <span class="kw">...</span> <span class="op">}</span></span>
-<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a>    <span class="kw">public</span> <span class="bu">String</span> <span class="fu">toString</span><span class="op">()</span> <span class="op">{</span> <span class="kw">...</span> <span class="op">}</span></span>
-<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
-</div>
-<div class="slide section level1">
-
-<h2 id="speaker-notes---slide-8a">Speaker Notes - Slide 8a</h2>
-<p>This is typical Java. A simple bean with two fields. How many lines?
-15-20. Lots of boilerplate. IDE generates it. But you maintain it.</p>
-</div>
-<div class="slide section level1">
-
-<h2 id="kotlin-way-simple">Kotlin Way (simple)</h2>
-<div class="sourceCode" id="cb7"><pre
-class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="kw">data</span> <span class="kw">class</span> Person<span class="op">(</span><span class="kw">val</span> <span class="va">name</span><span class="op">:</span> <span class="dt">String</span><span class="op">,</span> <span class="kw">val</span> <span class="va">age</span><span class="op">:</span> <span class="dt">Int</span><span class="op">)</span></span></code></pre></div>
-<p><strong>That is it.</strong> One line. Equals, hashCode, toString,
-copy - all automatic.</p>
-</div>
-<div class="slide section level1">
-
-<h2 id="speaker-notes---slide-8b">Speaker Notes - Slide 8b</h2>
-<p>One line in Kotlin gives you everything: constructor, getters,
-equals, hashCode, toString, copy method.</p>
-<p>Why copy? Because data is immutable by default (val). If you need to
-change one field, copy gives you a new object with one field
-changed.</p>
-<div class="sourceCode" id="cb8"><pre
-class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="kw">val</span> <span class="va">alice</span> <span class="op">=</span> Person<span class="op">(</span><span class="st">&quot;Alice&quot;</span><span class="op">,</span> <span class="dv">30</span><span class="op">)</span></span>
-<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="kw">val</span> <span class="va">olderAlice</span> <span class="op">=</span> alice<span class="op">.</span>copy<span class="op">(</span>age <span class="op">=</span> <span class="dv">31</span><span class="op">)</span></span></code></pre></div>
-<p>Same alice. New object olderAlice with different age. No side
-effects.</p>
-<p>Without data classes, you write tons of code. With data classes, you
-focus on the data shape. The ceremony vanishes.</p>
+class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="kw">data</span> <span class="kw">class</span> Person<span class="op">(</span><span class="kw">val</span> <span class="va">name</span><span class="op">:</span> <span class="dt">String</span><span class="op">,</span> <span class="kw">val</span> <span class="va">age</span><span class="op">:</span> <span class="dt">Int</span><span class="op">)</span></span></code></pre></div>
+<p><strong>One line.</strong> Equals, hashCode, toString, copy - all
+automatic.</p>
 </div>
 <div id="coroutines" class="slide section level1">
 <h1>6. Coroutines</h1>
 <h2 id="kotlin-coroutine-clean">Kotlin Coroutine (clean)</h2>
-<div class="sourceCode" id="cb9"><pre
-class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>suspend <span class="kw">fun</span> <span class="fu">fetchUser</span><span class="op">():</span> <span class="dt">User</span> <span class="op">{</span></span>
-<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>    <span class="kw">return</span> api<span class="op">.</span>getUser<span class="op">()</span>  <span class="co">// Async but reads sync</span></span>
-<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a><span class="op">}</span></span>
-<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a></span>
-<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>launch <span class="op">{</span></span>
-<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>    <span class="kw">val</span> <span class="va">user</span> <span class="op">=</span> fetchUser<span class="op">()</span>  <span class="co">// Waits here, thread free</span></span>
-<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a>    println<span class="op">(</span>user<span class="op">)</span></span>
-<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
-<h2 id="java-promise-hell">Java Promise Hell</h2>
-<div class="sourceCode" id="cb10"><pre
-class="sourceCode java"><code class="sourceCode java"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="co">// Callback pyramid</span></span>
-<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>api<span class="op">.</span><span class="fu">getUser</span><span class="op">(</span>user <span class="op">-&gt;</span> <span class="op">{</span></span>
-<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>    api<span class="op">.</span><span class="fu">getDetails</span><span class="op">(</span>user<span class="op">.</span><span class="fu">id</span><span class="op">,</span> details <span class="op">-&gt;</span> <span class="op">{</span></span>
-<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>        api<span class="op">.</span><span class="fu">getHistory</span><span class="op">(</span>user<span class="op">.</span><span class="fu">id</span><span class="op">,</span> history <span class="op">-&gt;</span> <span class="op">{</span></span>
-<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a>            <span class="fu">println</span><span class="op">(</span>user<span class="op">);</span></span>
-<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a>        <span class="op">});</span></span>
-<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a>    <span class="op">});</span></span>
-<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a><span class="op">});</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>suspend <span class="kw">fun</span> <span class="fu">fetchUser</span><span class="op">():</span> <span class="dt">User</span> <span class="op">{</span></span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>    <span class="kw">return</span> api<span class="op">.</span>getUser<span class="op">()</span>  <span class="co">// Async but reads sync</span></span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>launch <span class="op">{</span></span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a>    <span class="kw">val</span> <span class="va">user</span> <span class="op">=</span> fetchUser<span class="op">()</span>  <span class="co">// Waits here, thread free</span></span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>    println<span class="op">(</span>user<span class="op">)</span></span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 </div>
-<div class="slide section level1">
-
-<h2 id="speaker-notes---slide-9">Speaker Notes - Slide 9</h2>
-<p>Concurrency is hard in Java. Callbacks lead to pyramid code - hard to
-read, hard to maintain.</p>
-<p>Kotlin coroutines let you write async code like sync code. Your
-function looks normal. But it suspends when waiting. The thread is free
-for other work.</p>
-<p>No pyramid. No callback hell. Code reads top to bottom, just like you
-learned.</p>
-<p>Without coroutines, you juggle threads, callbacks, futures. Complex.
-Error-prone. With coroutines, concurrency becomes readable - almost like
-sync code.</p>
-<p>This is the real power move in Kotlin. Concurrency stops being a
-headache.</p>
-</div>
-<div id="real-world-example-api-call-display"
-class="slide section level1">
-<h1>Real-World Example: API Call &amp; Display</h1>
-<p><strong>The Scenario:</strong> Fetch user from API. Show result on
-screen. Handle errors.</p>
-<div class="sourceCode" id="cb11"><pre
-class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="kw">data</span> <span class="kw">class</span> User<span class="op">(</span><span class="kw">val</span> <span class="va">id</span><span class="op">:</span> <span class="dt">Int</span><span class="op">,</span> <span class="kw">val</span> <span class="va">name</span><span class="op">:</span> <span class="dt">String</span><span class="op">)</span></span>
-<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a></span>
-<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>suspend <span class="kw">fun</span> fetchUser<span class="op">(</span><span class="va">userId</span><span class="op">:</span> <span class="dt">Int</span><span class="op">):</span> <span class="dt">User</span> <span class="op">{</span></span>
-<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>    <span class="kw">return</span> api<span class="op">.</span>getUser<span class="op">(</span>userId<span class="op">)</span>  <span class="co">// Suspends, no thread blocking</span></span>
-<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a><span class="op">}</span></span>
-<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a></span>
-<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a><span class="kw">fun</span> <span class="fu">showUser</span><span class="op">(</span><span class="va">userId</span><span class="op">:</span> <span class="dt">Int</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a>    launch<span class="op">(</span>Dispatchers<span class="op">.</span>Main<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a>        <span class="cf">try</span> <span class="op">{</span></span>
-<span id="cb11-10"><a href="#cb11-10" tabindex="-1"></a>            <span class="kw">val</span> <span class="va">user</span> <span class="op">=</span> fetchUser<span class="op">(</span>userId<span class="op">)</span></span>
-<span id="cb11-11"><a href="#cb11-11" tabindex="-1"></a>            display<span class="op">.</span>show<span class="op">(</span>user<span class="op">.</span>name<span class="op">)</span></span>
-<span id="cb11-12"><a href="#cb11-12" tabindex="-1"></a>        <span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span>e<span class="op">:</span> IOException<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb11-13"><a href="#cb11-13" tabindex="-1"></a>            display<span class="op">.</span>showError<span class="op">(</span><span class="st">&quot;Network failed&quot;</span><span class="op">)</span></span>
-<span id="cb11-14"><a href="#cb11-14" tabindex="-1"></a>        <span class="op">}</span></span>
-<span id="cb11-15"><a href="#cb11-15" tabindex="-1"></a>    <span class="op">}</span></span>
-<span id="cb11-16"><a href="#cb11-16" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
-</div>
-<div class="slide section level1">
-
-<h2 id="speaker-notes---slide-10">Speaker Notes - Slide 10</h2>
-<p>This is where Kotlin shines. Look at this code:</p>
-<ul>
-<li><code>data class</code> - one line instead of 15</li>
-<li><code>suspend fun</code> - coroutine style, reads like sync</li>
-<li><code>try/catch</code> - simple error handling</li>
-<li>Main dispatcher - code runs on UI thread, no manual posting</li>
-</ul>
-<p>Compare to Java: more classes, more nesting, more callbacks.</p>
-<p>This code is concise. It is testable. It is maintainable.</p>
+<div id="real-world-example" class="slide section level1">
+<h1>Real-World Example</h1>
+<h2 id="api-call-display">API Call &amp; Display</h2>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="kw">data</span> <span class="kw">class</span> User<span class="op">(</span><span class="kw">val</span> <span class="va">id</span><span class="op">:</span> <span class="dt">Int</span><span class="op">,</span> <span class="kw">val</span> <span class="va">name</span><span class="op">:</span> <span class="dt">String</span><span class="op">)</span></span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>suspend <span class="kw">fun</span> fetchUser<span class="op">(</span><span class="va">userId</span><span class="op">:</span> <span class="dt">Int</span><span class="op">):</span> <span class="dt">User</span> <span class="op">{</span></span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>    <span class="kw">return</span> api<span class="op">.</span>getUser<span class="op">(</span>userId<span class="op">)</span></span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a><span class="kw">fun</span> <span class="fu">showUser</span><span class="op">(</span><span class="va">userId</span><span class="op">:</span> <span class="dt">Int</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a>    launch<span class="op">(</span>Dispatchers<span class="op">.</span>Main<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a>        <span class="cf">try</span> <span class="op">{</span></span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a>            <span class="kw">val</span> <span class="va">user</span> <span class="op">=</span> fetchUser<span class="op">(</span>userId<span class="op">)</span></span>
+<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a>            display<span class="op">.</span>show<span class="op">(</span>user<span class="op">.</span>name<span class="op">)</span></span>
+<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a>        <span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span>e<span class="op">:</span> IOException<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a>            display<span class="op">.</span>showError<span class="op">(</span><span class="st">&quot;Network failed&quot;</span><span class="op">)</span></span>
+<span id="cb8-14"><a href="#cb8-14" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb8-15"><a href="#cb8-15" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb8-16"><a href="#cb8-16" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 </div>
 <div id="key-takeaways" class="slide section level1">
 <h1>Key Takeaways</h1>
@@ -403,51 +266,45 @@ keystrokes</li>
 <li><strong>Interop with Java</strong> - you can use both</li>
 </ol>
 </div>
-<div class="slide section level1">
-
-<h2 id="speaker-notes---slide-11">Speaker Notes - Slide 11</h2>
-<p>Remember these points. Kotlin is not revolutionary. It is
-evolutionary. It keeps what works in Java. It removes what hurts.</p>
-<p>Immutability, null safety, less boilerplate - these patterns existed
-elsewhere. Kotlin brought them together, made them the default, made
-them ergonomic.</p>
-<p>You can mix Kotlin and Java in one project. No all-or-nothing
-decision.</p>
-</div>
-<div id="lets-practice" class="slide section level1">
-<h1>Let’s Practice</h1>
-<p><strong>Exercise 1:</strong> Convert a Java class to a Kotlin data
-class</p>
-<p><strong>Exercise 2:</strong> Use nullable vs non-nullable types</p>
-<p><strong>Exercise 3:</strong> Write a simple coroutine</p>
-<p><em>Tim and Jakub are here to help. Ask questions. No
-judgment.</em></p>
-</div>
-<div class="slide section level1">
-
-<h2 id="speaker-notes---slide-12">Speaker Notes - Slide 12</h2>
-<p>Now the fun part. We practice together. Do not worry about being
-perfect. Kotlin syntax is friendly. You will pick it up fast.</p>
-<p>I will give you problems. You solve them. Tim and Jakub can help if
-you get stuck. Ask! That is why they are here.</p>
-<p>After exercises, you have hands-on experience. You feel Kotlin, not
-just hear about it.</p>
-</div>
 <div id="questions" class="slide section level1">
 <h1>Questions?</h1>
 <p><em>Let us discuss. What interests you most?</em></p>
 </div>
-<div class="slide section level1">
+<script>
+// Track current slide and update localStorage for speaker notes sync
+function updateSlideNumber() {
+  const slides = document.querySelectorAll('.slide');
+  let currentSlide = 1;
+  
+  slides.forEach((slide, index) => {
+    const rect = slide.getBoundingClientRect();
+    if (rect.left >= window.innerWidth / 2 - 100 && rect.left <= window.innerWidth / 2 + 100) {
+      currentSlide = index + 1;
+    }
+  });
+  
+  localStorage.setItem('currentSlide', currentSlide);
+  // Dispatch custom event for other components
+  window.dispatchEvent(new CustomEvent('slideChange', { detail: { slide: currentSlide } }));
+}
 
-<h2 id="speaker-notes---slide-13">Speaker Notes - Slide 13</h2>
-<p>Final slide. Open discussion. Ask anything. Some of you might think:
-“This looks cool but we use Java everywhere.” Fair point. But knowing
-Kotlin helps you understand Java better too. Modern language features,
-functional thinking - these ideas matter regardless of which language
-you use.</p>
-<p>Also: Kotlin runs on the same JVM. Same libraries. Same servers. You
-can introduce it gradually.</p>
-<p>Thank you for your time today!</p>
-</div>
+// Update on page load
+window.addEventListener('load', updateSlideNumber);
+
+// Update on keypress (arrow keys for navigation)
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'ArrowLeft' || e.key === 'ArrowRight' || e.key === ' ') {
+    setTimeout(updateSlideNumber, 100);
+  }
+});
+
+// Update on pointer/touch events
+document.addEventListener('click', function(e) {
+  setTimeout(updateSlideNumber, 100);
+});
+
+// Update periodically to catch slide changes from any source
+setInterval(updateSlideNumber, 500);
+</script>
 </body>
 </html>

@@ -1,0 +1,64 @@
+{
+  "notes": [
+    {
+      "slide": 1,
+      "title": "Welcome",
+      "notes": "Good morning everyone! Welcome. I am excited to share Kotlin with you today. This is a practical introduction designed for Java developers like us.\n\nTake the next few minutes to settle in. Grab a coffee, say hello to your neighbor. We will begin in 3 minutes. No rush."
+    },
+    {
+      "slide": 2,
+      "title": "About Me",
+      "notes": "A quick introduction: I have been writing Java code for a long time. Over the years, I noticed Kotlin solved many problems that frustrated me. Today I want to share what I learned. I am not here to say Java is bad. Java is solid. But Kotlin makes certain things easier, safer, and faster to write."
+    },
+    {
+      "slide": 3,
+      "title": "Today's Plan",
+      "notes": "Here is our roadmap for today. Each topic follows the same pattern: First, I tell you a story. A real problem. Then I explain why Kotlin's feature helps. And finally, I show you how to solve it without the feature. This way, you understand the value.\n\nAt the end, we look at a complex example where Kotlin really shines. Tim and Jakub will help if you have questions.\n\nLet's begin!"
+    },
+    {
+      "slide": 4,
+      "title": "1. Why Kotlin?",
+      "notes": "Kotlin asks: why do I need 50 lines for a simple bean? The answer: you don't. Kotlin removes ceremony. You keep only the logic.\n\nWithout Kotlin, you use IDE tools to generate code. With Kotlin, you write less code to begin with.\n\nThis is the thread through everything today. Kotlin = less noise, more focus on what matters."
+    },
+    {
+      "slide": 5,
+      "title": "2. Val and Var",
+      "notes": "In Java, you write `final` by default for variables you do not want to change. But most Java developers do not. They make things mutable when immutable is safer.\n\nKotlin flips the default. `val` is the default - immutable. `var` for when you really need to change something.\n\nWhy does this matter? Immutable data is easier to reason about. Bugs hide in mutable state. If a variable never changes, you understand it faster. Less subtle bugs.\n\nExample: If `name` is `val`, you know it never changes. You can read it anywhere, any time, and trust it."
+    },
+    {
+      "slide": 6,
+      "title": "3. Null Safety",
+      "notes": "Java has `NullPointerException`. The billion dollar mistake, Tony Hoare calls it.\n\nIn Kotlin, if you declare `String`, it cannot be null. Compiler checks. If you want null, you write `String?`. Two different types in Kotlin.\n\nThis is huge. Many Java bugs are null-related. You forget to check. Code crashes in production.\n\nIn Kotlin, if you write `String?`, you MUST handle the null case. You cannot forget. The compiler forces you.\n\nHow to handle? You can check: `if (name != null) { ... }`. Or use safe call: `name?.length`. Or Elvis operator: `name?.length ?: 0`."
+    },
+    {
+      "slide": 7,
+      "title": "4. Extension Functions",
+      "notes": "In Java, you cannot add methods to existing classes. You write utility classes: `StringUtils.isValidEmail(email)`. Awkward.\n\nKotlin lets you add methods as if you wrote the class. They are called extensions.\n\nWhy? Code becomes more readable. You read like natural English: `email.isValidEmail()` instead of `StringUtils.isValidEmail(email)`.\n\nYou feel like you own the class. You can extend String, List, Map, anything. Your code becomes more fluent.\n\nWithout extensions, you have utility class layers. With extensions, the code reads better. You focus on logic, not finding the right utility class."
+    },
+    {
+      "slide": 8,
+      "title": "5. Data Classes",
+      "notes": "One line in Kotlin gives you everything: constructor, getters, equals, hashCode, toString, copy method.\n\nWhy copy? Because data is immutable by default (val). If you need to change one field, copy gives you a new object with one field changed.\n\nExample: `val alice = Person(\"Alice\", 30)` and `val olderAlice = alice.copy(age = 31)` - same alice, new object with different age. No side effects.\n\nWithout data classes, you write tons of code. With data classes, you focus on the data shape. The ceremony vanishes."
+    },
+    {
+      "slide": 9,
+      "title": "6. Coroutines",
+      "notes": "Concurrency is hard in Java. Callbacks lead to pyramid code - hard to read, hard to maintain.\n\nKotlin coroutines let you write async code like sync code. Your function looks normal. But it suspends when waiting. The thread is free for other work.\n\nNo pyramid. No callback hell. Code reads top to bottom, just like you learned.\n\nWithout coroutines, you juggle threads, callbacks, futures. Complex. Error-prone. With coroutines, concurrency becomes readable - almost like sync code.\n\nThis is the real power move in Kotlin. Concurrency stops being a headache."
+    },
+    {
+      "slide": 10,
+      "title": "Real-World Example",
+      "notes": "This is where Kotlin shines. Look at this code:\n\n- `data class` - one line instead of 15\n- `suspend fun` - coroutine style, reads like sync\n- `try/catch` - simple error handling\n- Main dispatcher - code runs on UI thread, no manual posting\n\nCompare to Java: more classes, more nesting, more callbacks.\n\nThis code is concise. It is testable. It is maintainable."
+    },
+    {
+      "slide": 11,
+      "title": "Key Takeaways",
+      "notes": "Remember these points. Kotlin is not revolutionary. It is evolutionary. It keeps what works in Java. It removes what hurts.\n\nImmutability, null safety, less boilerplate - these patterns existed elsewhere. Kotlin brought them together, made them the default, made them ergonomic.\n\nYou can mix Kotlin and Java in one project. No all-or-nothing decision."
+    },
+    {
+      "slide": 12,
+      "title": "Questions?",
+      "notes": "Final slide. Open discussion. Ask anything. Some of you might think: 'This looks cool but we use Java everywhere.' Fair point. But knowing Kotlin helps you understand Java better too. Modern language features, functional thinking - these ideas matter regardless of which language you use.\n\nAlso: Kotlin runs on the same JVM. Same libraries. Same servers. You can introduce it gradually.\n\nThank you for your time today!"
+    }
+  ]
+}
