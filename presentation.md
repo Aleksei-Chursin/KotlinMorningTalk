@@ -12,8 +12,16 @@ date: 2024-02-26
 # Python Code Highlighting
 As mentioned in the "Pro-tips," you can get automatic syntax highlighting by using three backticks:
 
+# Comparison Table
+| Feature | Markdown | Excel |
+| :--- | :---: | ---: |
+| Version Control | Easy | Hard |
+| Data Safety | High | Low (Auto-formats) |
+| Free Hosting | Yes | No |
+
 ```python
 def hello_kotlin():
     print("Kotlin is great, but this highlighter loves Python!")
 
 hello_kotlin()
+
