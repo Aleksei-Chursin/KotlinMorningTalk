@@ -1,12 +1,11 @@
-% My First Presentation
-% Your Name
-% Today's Date
+---
+title: Kotlin Morning Talk
+author: Aleks
+---
 
-# First Slide
-- This is a bullet point
-- This is another point
+# Slide One
+* This is a bullet
+* Notice the empty line above the title
 
-# Second Slide
-- You can add code blocks:
-```python
-print("Hello World")
+# Slide Two
+* Every # starts a new slide
