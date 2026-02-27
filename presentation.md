@@ -85,6 +85,8 @@ println(name?.length)  // null if name is null, otherwise prints length
 val displayName = name ?: "Guest"  // Use "Guest" if name is null
 ```
 
+![](image.png)
+
 ## Non-Null Assertion: `!!`
 
 ```kotlin
