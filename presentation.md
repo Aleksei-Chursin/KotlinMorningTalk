@@ -13,8 +13,8 @@
 # About Me
 
 - Java developer, 5+ years commercial experience
-- Currently: Leading @Deutsche Börse (intraday power trading, +20M requests/day)
-- Expert in reactive programming: Kotlin Flows, Coroutines, WebFlux
+- Currently working at: @Deutsche Börse (intraday power trading, +30M requests/day)
+- Love reactive programming: Kotlin Flows, Coroutines, WebFlux
 - 2 years junior-leading experience
 - Passionate about teaching and mentoring
 
@@ -22,138 +22,347 @@
 
 # Today's Plan
 
-1. **Val and Var** - Immutability matters
-2. **Null Safety** - No more NullPointerException
-3. **Extension Functions** - Superpower
-4. **Data Classes** - Less boilerplate
-5. **Coroutines** - Simpler concurrency
+1. The "Unlearning" Phase
+2. Null Safety in Action
+3. Data Classes & Properties
+4. Smart Casting
+5. Feature Mapping
+6. Functional Idioms
+7. Concurrency Reimagined
+8. The Framework Decision
+9. Ecosystem Recommendations
 
 ---
 
-# 1. Why Kotlin?
+# 1. The "Unlearning" Phase
 
-**The Problem:** Java is verbose. You write lots of code for simple things.
+## Semicolons: Actually Optional
 
-**The Story:** You start a new project. First day. You write 50 lines of code for a simple data object. You add getters, setters, equals, hashCode, toString. 
-
-"There must be a better way," you think.
-
----
-
-# 2. Val and Var
-
-## Val (immutable)
 ```kotlin
-val name = "Anna"
-// name = "Bob"  // ERROR! Cannot change
+val x = 42
+val y = "hello"
+val z = listOf(1, 2, 3)  // No semicolon needed
 ```
 
-## Var (mutable)
-```kotlin
-var count = 0
-count = 1  // OK
-```
+## The `new` Keyword Is Gone
 
----
-
-# 3. Null Safety
-
-## The Problem
 ```java
 // Java
-String name = getName();
-System.out.println(name.length());  // What if null?
+Person p = new Person("Alice", 30);
 ```
 
-## Kotlin Solution
 ```kotlin
-// Kotlin - compiler stops you
-val name: String = getName()  // name CANNOT be null
-val nickname: String? = getName()  // nickname CAN be null
+// Kotlin - no "new"
+val p = Person("Alice", 30)
 ```
 
----
-
-# 4. Extension Functions
-
-## Add methods to existing classes
+## No Static Overhead
 
 ```kotlin
-// Add to String class without inheriting
-fun String.isValidEmail(): Boolean {
-    return this.contains("@")
+// Top-level functions (no class needed)
+fun calculateTotal(items: List<Int>): Int {
+    return items.sum()
 }
 
-// Use it
-val email = "alice@example.com"
-email.isValidEmail()  // true
+// Use it anywhere
+val result = calculateTotal(listOf(1, 2, 3))
 ```
 
 ---
 
-# 5. Data Classes
+# 2. Null Safety in Action
 
-## Kotlin Way
+## Safe Calls: `?.` Operator
 
 ```kotlin
-data class Person(val name: String, val age: Int)
+val name: String? = getName()
+println(name?.length)  // null if name is null, otherwise prints length
 ```
 
-**One line.** Equals, hashCode, toString, copy - all automatic.
+## Elvis Operator: `?:`
 
----
-
-# 6. Coroutines
-
-## Kotlin Coroutine (clean)
 ```kotlin
-suspend fun fetchUser(): User {
-    return api.getUser()  // Async but reads sync
+val displayName = name ?: "Guest"  // Use "Guest" if name is null
+```
+
+## Non-Null Assertion: `!!`
+
+```kotlin
+val length = name!!.length  // Throws if null (use sparingly)
+```
+
+## Scope Functions with Null Checks
+
+```kotlin
+user?.let {
+    println("User: ${it.name}")
+    sendWelcomeEmail(it)
 }
+```
 
+---
+
+# 3. Data Classes & Properties
+
+## One-Line Data Classes
+
+```kotlin
+data class User(val id: Int, val name: String, val email: String)
+```
+
+Automatically generates:
+- Constructor
+- `equals()` & `hashCode()`
+- `toString()`
+- `copy()` function
+
+## Properties with Backing Fields
+
+```kotlin
+class Account {
+    private var _balance: Double = 0.0
+    
+    var balance: Double
+        get() = _balance
+        set(value) {
+            if (value >= 0) _balance = value
+        }
+}
+```
+
+## Copy Constructor
+
+```kotlin
+val user1 = User(1, "Alice", "alice@example.com")
+val user2 = user1.copy(name = "Bob")  // Only name changes
+```
+
+---
+
+# 4. Smart Casting
+
+## Automatic Type Narrowing
+
+```kotlin
+val obj: Any = "Hello"
+
+if (obj is String) {
+    println(obj.length)  // obj automatically cast to String!
+}
+```
+
+## Safe Cast: `as?`
+
+```kotlin
+val str = obj as? String  // Returns null if not String
+println(str?.uppercase())
+```
+
+## When with Type Checks
+
+```kotlin
+when (obj) {
+    is String -> println("It's a string: $obj")
+    is Int -> println("It's an int: $obj")
+    else -> println("Something else")
+}
+```
+
+---
+
+# 5. Feature Mapping
+
+## Stream → Sequences (Lazy Evaluation)
+
+```kotlin
+// Java: eager evaluation
+list.stream()
+    .filter(x -> x > 5)
+    .map(x -> x * 2)
+    .collect(Collectors.toList())
+
+// Kotlin: lazy evaluation
+list.asSequence()
+    .filter { it > 5 }
+    .map { it * 2 }
+    .toList()
+```
+
+## Collections API
+
+```kotlin
+val numbers = listOf(1, 2, 3, 4, 5)
+
+numbers.filter { it > 2 }
+    .map { it * 2 }
+    .forEach { println(it) }
+```
+
+## Destructuring
+
+```kotlin
+val pair = Pair(1, "one")
+val (num, str) = pair
+
+// With data classes
+val (id, name) = User(1, "Alice", "alice@test.com")
+```
+
+---
+
+# 6. Functional Idioms
+
+## `let`: Transform and Use
+
+```kotlin
+val result = name?.let {
+    it.uppercase()
+}.orEmpty()
+```
+
+## `apply`: Configure and Return
+
+```kotlin
+val user = User(1, "", "").apply {
+    name = "Alice"
+    email = "alice@example.com"
+}
+```
+
+## `run`: Execute and Return
+
+```kotlin
+val length = "hello".run {
+    this.length
+}
+```
+
+## `also`: Side Effects
+
+```kotlin
+val x = listOf(1, 2, 3)
+    .also { println("List: $it") }
+    .filter { it > 1 }
+```
+
+---
+
+# 7. Concurrency Reimagined
+
+## Coroutines: Async Without Threads
+
+```kotlin
 launch {
-    val user = fetchUser()  // Waits here, thread free
-    println(user)
+    val user = fetchUser(userId)  // Suspends, no blocking
+    val posts = fetchPosts(userId)
+    displayUser(user, posts)
+}
+```
+
+## Structured Concurrency
+
+```kotlin
+coroutineScope {
+    val user = async { fetchUser(id) }
+    val posts = async { fetchPosts(id) }
+    
+    combine(user.await(), posts.await())
+}
+```
+
+## Project Loom Bridge
+
+```kotlin
+// Virtual threads (future Java)
+// Kotlin coroutines now similar to Java's direction
+suspend fun operation() {
+    delay(1000)  // Non-blocking
 }
 ```
 
 ---
 
-# Real-World Example
+# 8. The Framework Decision
 
-## API Call & Display
+## Spring Boot: Full-Featured
 
 ```kotlin
-data class User(val id: Int, val name: String)
-
-suspend fun fetchUser(userId: Int): User {
-    return api.getUser(userId)
+@SpringBootApplication
+@RestController
+class Application {
+    @GetMapping("/users/{id}")
+    suspend fun getUser(@PathVariable id: Int) = userService.findById(id)
 }
+```
 
-fun showUser(userId: Int) {
-    launch(Dispatchers.Main) {
-        try {
-            val user = fetchUser(userId)
-            display.show(user.name)
-        } catch (e: IOException) {
-            display.showError("Network failed")
+## Ktor: Lightweight & Functional
+
+```kotlin
+embeddedServer(Netty, 8080) {
+    routing {
+        get("/users/{id}") {
+            val id = call.parameters["id"]?.toInt() ?: return@get
+            call.respond(userService.findById(id))
         }
     }
+}.start(wait = true)
+```
+
+**When to choose:**
+- **Spring Boot**: Enterprise, existing ecosystem, complexity
+- **Ktor**: Microservices, coroutines-first, lightweight
+
+---
+
+# 9. Ecosystem Recommendations
+
+## Testing: MockK
+
+```kotlin
+val userService = mockk<UserService>()
+every { userService.findById(1) } returns User(1, "Alice", "alice@test.com")
+
+verify { userService.findById(1) }
+```
+
+## DI: Koin
+
+```kotlin
+val koinModule = module {
+    single { UserRepository() }
+    factory { UserService(get()) }
 }
 ```
+
+## Functional Programming: Arrow
+
+```kotlin
+val result = Either.Right(42)
+    .map { it * 2 }
+    .flatMap { value -> Either.Right(value + 1) }
+```
+
+## Other Essentials
+
+- **Exposed**: Type-safe SQL DSL
+- **Kotlinx.serialization**: JSON at compile-time
+- **Coroutines**: Flow for reactive streams
 
 ---
 
 # Key Takeaways
 
-1. **Immutability first** - `val` by default
-2. **Null safety** - compiler helps you avoid crashes
-3. **Less boilerplate** - data classes save keystrokes
-4. **Readable async** - coroutines > callbacks
-5. **Interop with Java** - you can use both
+1. **Unlearning Java patterns** makes you faster
+2. **Null safety** built-in, not optional
+3. **Data classes** eliminate boilerplate
+4. **Compiler does the work** with smart casting
+5. **Functional idioms** clean up business logic
+6. **Coroutines scale better** than threads
+7. **Framework choice depends on goals**
+8. **Ecosystem is mature** and battle-tested
 
 ---
 
 # Questions?
 
-*Let us discuss. What interests you most?*
+*Let's discuss. What resonates with your current challenges?*

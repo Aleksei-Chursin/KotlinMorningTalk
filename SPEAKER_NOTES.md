@@ -2,139 +2,165 @@
 
 ## Slide 1: Welcome
 
-Good morning everyone! Welcome. I'm excited to share Kotlin with you today. This talk comes from real experience scaling systems and shipping code faster in production.
+Good morning! I'm Aleksei. Today we're going straight to practical Kotlin - not "why Kotlin" philosophy, but tangible features that help you write better code faster.
 
-Whether you're building backend systems, microservices, or real-time applications, Kotlin and reactive patterns like Coroutines can make a huge difference. We'll go through practical examples.
+This talk is targeted at Java developers who have 2-3 years of experience and either want to adopt Kotlin in their team or understand what the buzz is about.
 
-Take the next few minutes to settle in. Grab a coffee, say hello to your neighbor. We will begin in 3 minutes.
+We're going to cover 9 topics in roughly an hour. Each one is a skill you can pick up and use immediately in your projects. Let's dive in.
 
 ---
 
 ## Slide 2: About Me
 
-I'm Aleksei, a Java developer with 5+ years of commercial experience. Currently, I lead backend development at Deutsche Börse, where we handle over 20 million requests daily for intraday power trading. I've spent the last few years working extensively with Kotlin, reactive programming, and high-scale systems.
+Aleksei. 5+ years in Java, including 2 years junior-leading. Currently at Deutsche Börse working on the intraday power trading system - we handle 30+ million requests per day.
 
-Over time, I noticed that Kotlin—especially combined with reactive patterns like Coroutines and WebFlux—solves many problems we face in enterprise Java development. Today, I want to share what I've learned. I'm not here to say Java is bad. Java is solid. But Kotlin makes certain things easier, safer, and faster to write. And at scale, that matters.
+I'm a reactive programming enthusiast. Kotlin Flows, coroutines, WebFlux - these aren't just buzzwords for me, they're production reality at scale.
+
+You'll see in this talk: real patterns, real tradeoffs, real-world decisions. Nothing academic.
 
 ---
 
 ## Slide 3: Today's Plan
 
-Here is our roadmap for today. Each topic follows the same pattern:
+We're covering 9 topics. First three are about syntax: dropping the Java ceremony, null safety, and powerful data handling. Topics 4-6 are about features that make code cleaner. Topics 7-9 are about deployment: concurrency, frameworks, and what tools matter.
 
-First, I tell you a story. A real problem. Then I explain why Kotlin's feature helps. And finally, I show you how to solve it without the feature. This way, you understand the value.
-
-At the end, we look at a complex example where Kotlin really shines. Tim and Jakub will help if you have questions.
-
-Let's begin!
+We'll keep it practical. I show a problem + Kotlin solution + sometimes Java comparison. That way you see the value.
 
 ---
 
-## Slide 4: 1. Why Kotlin?
+## Slide 4-6: The "Unlearning" Phase
 
-Kotlin asks: why do I need 50 lines for a simple bean? The answer: you don't. Kotlin removes ceremony. You keep only the logic.
+Java taught us some habits we need to forget in Kotlin:
 
-Without Kotlin, you use IDE tools to generate code. With Kotlin, you write less code to begin with.
+**Semicolons?** Optional. Don't write them.
 
-This is the thread through everything today. Kotlin = less noise, more focus on what matters.
+**The new keyword?** Gone. Just call the constructor directly.
 
----
+**Static methods everywhere?** No need. Top-level functions are simpler.
 
-## Slide 5: 2. Val and Var
+These aren't features - they're missing boilerplate. But clean code matters. Especially when your codebase has thousands of files. Every line you remove is a line you don't have to read, test, or maintain.
 
-In Java, you write `final` by default for variables you do not want to change. But most Java developers do not. They make things mutable when immutable is safer.
-
-Kotlin flips the default. `val` is the default - immutable. `var` for when you really need to change something.
-
-Why does this matter? Immutable data is easier to reason about. Bugs hide in mutable state. If a variable never changes, you understand it faster. Less subtle bugs.
-
-Example: If `name` is `val`, you know it never changes. You can read it anywhere, any time, and trust it.
+Example at scale: Deutsche Börse. We have high-performance requirements. Every microsecond matters. Kotlin's top-level functions (no class wrapping) + inline functions actually help with performance profiles. But more importantly, the code is clearer.
 
 ---
 
-## Slide 6: 3. Null Safety
+## Slide 7-10: Null Safety - The Real Power
 
-Java has `NullPointerException`. The billion dollar mistake, Tony Hoare calls it.
+Java's Optional is a band-aid. Kotlin's null-safety is architectural.
 
-In Kotlin, if you declare `String`, it cannot be null. Compiler checks. If you want null, you write `String?`. Two different types in Kotlin.
+In Kotlin, `String` and `String?` are different types. Not an opinion - the compiler enforces it.
 
-This is huge. Many Java bugs are null-related. You forget to check. Code crashes in production.
+Why? Because most Java bugs in production are null-related. You skip a null check. System crashes. Kotlin makes that impossible.
 
-In Kotlin, if you write `String?`, you MUST handle the null case. You cannot forget. The compiler forces you.
+Safe calls (`?.`), Elvis operator (`?:`), and null coalescing - these are your tools.
 
-How to handle? You can check: `if (name != null) { ... }`. Or use safe call: `name?.length`. Or Elvis operator: `name?.length ?: 0`.
-
----
-
-## Slide 7: 4. Extension Functions
-
-In Java, you cannot add methods to existing classes. You write utility classes: `StringUtils.isValidEmail(email)`. Awkward.
-
-Kotlin lets you add methods as if you wrote the class. They are called extensions.
-
-Why? Code becomes more readable. You read like natural English: `email.isValidEmail()` instead of `StringUtils.isValidEmail(email)`.
-
-You feel like you own the class. You can extend String, List, Map, anything. Your code becomes more fluent.
-
-Without extensions, you have utility class layers. With extensions, the code reads better. You focus on logic, not finding the right utility class.
+Show example: If I have `user?.let { ... }` - I'm saying "IF user is not null, do this". And the code reads naturally.
 
 ---
 
-## Slide 8: 5. Data Classes
+## Slide 11-13: Data Classes & Properties
 
-One line in Kotlin gives you everything: constructor, getters, equals, hashCode, toString, copy method.
+Data classes aren't just syntactic sugar. They change how you think about data.
 
-Why copy? Because data is immutable by default (val). If you need to change one field, copy gives you a new object with one field changed.
+One line gives you: constructor, equals, hashCode, toString, copy.
 
-Example: `val alice = Person("Alice", 30)` and `val olderAlice = alice.copy(age = 31)` - same alice, new object with different age. No side effects.
+Copy is important because immutability is the default. `val user1.copy(name = "Bob")` creates a new object. No mutations. Predictable behavior.
 
-Without data classes, you write tons of code. With data classes, you focus on the data shape. The ceremony vanishes.
-
----
-
-## Slide 9: 6. Coroutines
-
-Concurrency is hard in Java. Callbacks lead to pyramid code - hard to read, hard to maintain.
-
-Kotlin coroutines let you write async code like sync code. Your function looks normal. But it suspends when waiting. The thread is free for other work.
-
-No pyramid. No callback hell. Code reads top to bottom, just like you learned.
-
-Without coroutines, you juggle threads, callbacks, futures. Complex. Error-prone. With coroutines, concurrency becomes readable - almost like sync code.
-
-This is the real power move in Kotlin. Concurrency stops being a headache.
+Properties with getters/setters? Kotlin lets you add validation. Private backing field, public property with validation logic. Java requires 15 lines of code. Kotlin: 5 lines.
 
 ---
 
-## Slide 10: Real-World Example
+## Slide 14-16: Smart Casting
 
-This is where Kotlin shines. Look at this code:
+The compiler knows types. Use that knowledge.
 
-- `data class` - one line instead of 15
-- `suspend fun` - coroutine style, reads like sync
-- `try/catch` - simple error handling
-- Main dispatcher - code runs on UI thread, no manual posting
+After you check `if (obj is String)`, inside that block, the compiler knows obj IS a String. No need to cast. You just use it.
 
-Compare to Java: more classes, more nesting, more callbacks.
+`when` expressions + type checking are powerful for pattern matching. Not full pattern matching like Scala, but enough to make code cleaner.
 
-This code is concise. It is testable. It is maintainable.
+Safe cast with `as?` returns null if incompatible. Never throws.
 
 ---
 
-## Slide 11: Key Takeaways
+## Slide 17-19: Feature Mapping
 
-Remember these points. Kotlin is not revolutionary. It is evolutionary. It keeps what works in Java. It removes what hurts.
+Java: Stream API. Map, filter, collect. Eager evaluation - builds intermediate lists.
 
-Immutability, null safety, less boilerplate - these patterns existed elsewhere. Kotlin brought them together, made them the default, made them ergonomic.
+Kotlin: Sequences. Same patterns. Lazy evaluation - only computed when needed.
 
-You can mix Kotlin and Java in one project. No all-or-nothing decision.
+For small lists, doesn't matter. For large datasets or pipelines, Sequences are more efficient.
+
+Destructuring is a bonus: `val (id, name) = user` unpacks in one line. Readable.
 
 ---
 
-## Slide 12: Questions?
+## Slide 20-23: Functional Idioms
 
-Final slide. Open discussion. Ask anything. Some of you might think: "This looks cool but we use Java everywhere." Fair point. But knowing Kotlin helps you understand Java better too. Modern language features, functional thinking - these ideas matter regardless of which language you use.
+Japan's scope functions: `let`, `apply`, `run`, `also` - they are context receivers that make code cleaner.
 
-Also: Kotlin runs on the same JVM. Same libraries. Same servers. You can introduce it gradually.
+`let`: Transform something and use the result. Often with null: `name?.let { it.uppercase() }`
 
-Thank you for your time today!
+`apply`: Configure an object and return it. Good for builders.
+
+`run`: Execute logic in context. Less common.
+
+`also`: Side effect then return. Debugging helper.
+
+These aren't necessary. You can write Kotlin without them. But they make code read better once you learn them.
+
+---
+
+## Slide 24-26: Concurrency Reimagined
+
+Threads are heavy. Callbacks are complex. Coroutines solve both.
+
+Coroutines suspend, not block. Your function looks sync but suspends when waiting. Meanwhile, the thread serves other coroutines.
+
+Structured concurrency: Tasks are logically grouped. If one fails, siblings cancel. Automatic cleanup. No resource leaks.
+
+Project Loom (Java's virtual threads) is moving Java in this direction. But Kotlin got there 5 years earlier.
+
+---
+
+## Slide 27-29: The Framework Decision
+
+**Spring Boot**: 100 years of Java ecosystem, mature, handles everything, sometimes bloated, perfect for enterprise complexity.
+
+**Ktor**: Lightweight, coroutines-first, beautiful API, smaller ecosystem, perfect for microservices and performance-critical code.
+
+At Deutsche Börse, we use Spring Boot. Ecosystem matters at scale. But for a new microservice? I'd pick Ktor today.
+
+---
+
+## Slide 30-32: Ecosystem Recommendations
+
+**MockK**: Mocking for Kotlin. Supports all Kotlin features (data classes, extensions, etc). Better than Mockito for Kotlin.
+
+**Koin**: Lightweight DI. No reflection magic. Compile-time safe. Simple to use.
+
+**Arrow**: Functional programming library. Either, Option, effects. If you want Scala-like FP in Kotlin, Arrow is it.
+
+Also know about: Exposed (SQL DSL), Kotlinx.serialization (compile-time JSON), Coroutines itself.
+
+The ecosystem is mature. Production-ready. You're not pioneering.
+
+---
+
+## Slide 33: Key Takeaways
+
+1. Unlearning Java ceremony helps.
+2. Null safety prevents entire categories of bugs.
+3. Data classes eliminate generator boilerplate.
+4. Smart casting cleans up type checking.
+5. Functional idioms improve readability.
+6. Coroutines make concurrency bearable.
+7. Framework choice matters at scale.
+8. Ecosystem is proven and solid.
+
+---
+
+## Slide 34: Questions?
+
+Open discussion. I'm happy to dig into any topic, discuss trade-offs, or debate the relative merits of Ktor vs Spring Boot relative to your specific deployment constraints.
+
+Thank you.

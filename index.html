@@ -115,10 +115,9 @@ Aleksei Chursin
 <h1>About Me</h1>
 <ul>
 <li>Java developer, 5+ years commercial experience</li>
-<li>Currently: Leading <span class="citation">@Deutsche</span> Börse
-(intraday power trading, +20M requests/day)</li>
-<li>Expert in reactive programming: Kotlin Flows, Coroutines,
-WebFlux</li>
+<li>Currently working at: <span class="citation">@Deutsche</span> Börse
+(intraday power trading, +30M requests/day)</li>
+<li>Love reactive programming: Kotlin Flows, Coroutines, WebFlux</li>
 <li>2 years junior-leading experience</li>
 <li>Passionate about teaching and mentoring</li>
 </ul>
@@ -126,117 +125,259 @@ WebFlux</li>
 <div id="todays-plan" class="slide section level1">
 <h1>Today’s Plan</h1>
 <ol style="list-style-type: decimal">
-<li><strong>Val and Var</strong> - Immutability matters</li>
-<li><strong>Null Safety</strong> - No more NullPointerException</li>
-<li><strong>Extension Functions</strong> - Superpower</li>
-<li><strong>Data Classes</strong> - Less boilerplate</li>
-<li><strong>Coroutines</strong> - Simpler concurrency</li>
+<li>The “Unlearning” Phase</li>
+<li>Null Safety in Action</li>
+<li>Data Classes &amp; Properties</li>
+<li>Smart Casting</li>
+<li>Feature Mapping</li>
+<li>Functional Idioms</li>
+<li>Concurrency Reimagined</li>
+<li>The Framework Decision</li>
+<li>Ecosystem Recommendations</li>
 </ol>
 </div>
-<div id="why-kotlin" class="slide section level1">
-<h1>1. Why Kotlin?</h1>
-<p><strong>The Problem:</strong> Java is verbose. You write lots of code
-for simple things.</p>
-<p><strong>The Story:</strong> You start a new project. First day. You
-write 50 lines of code for a simple data object. You add getters,
-setters, equals, hashCode, toString.</p>
-<p>“There must be a better way,” you think.</p>
-</div>
-<div id="val-and-var" class="slide section level1">
-<h1>2. Val and Var</h1>
-<h2 id="val-immutable">Val (immutable)</h2>
+<div id="the-unlearning-phase" class="slide section level1">
+<h1>1. The “Unlearning” Phase</h1>
+<h2 id="semicolons-actually-optional">Semicolons: Actually Optional</h2>
 <div class="sourceCode" id="cb1"><pre
-class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="kw">val</span> <span class="va">name</span> <span class="op">=</span> <span class="st">&quot;Anna&quot;</span></span>
-<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="co">// name = &quot;Bob&quot;  // ERROR! Cannot change</span></span></code></pre></div>
-<h2 id="var-mutable">Var (mutable)</h2>
+class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="kw">val</span> <span class="va">x</span> <span class="op">=</span> <span class="dv">42</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="kw">val</span> <span class="va">y</span> <span class="op">=</span> <span class="st">&quot;hello&quot;</span></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="kw">val</span> <span class="va">z</span> <span class="op">=</span> listOf<span class="op">(</span><span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span><span class="op">)</span>  <span class="co">// No semicolon needed</span></span></code></pre></div>
+<h2 id="the-new-keyword-is-gone">The <code>new</code> Keyword Is
+Gone</h2>
 <div class="sourceCode" id="cb2"><pre
-class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="kw">var</span> <span class="va">count</span> <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>count <span class="op">=</span> <span class="dv">1</span>  <span class="co">// OK</span></span></code></pre></div>
-</div>
-<div id="null-safety" class="slide section level1">
-<h1>3. Null Safety</h1>
-<h2 id="the-problem">The Problem</h2>
+class="sourceCode java"><code class="sourceCode java"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co">// Java</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>Person p <span class="op">=</span> <span class="kw">new</span> <span class="fu">Person</span><span class="op">(</span><span class="st">&quot;Alice&quot;</span><span class="op">,</span> <span class="dv">30</span><span class="op">);</span></span></code></pre></div>
 <div class="sourceCode" id="cb3"><pre
-class="sourceCode java"><code class="sourceCode java"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co">// Java</span></span>
-<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="bu">String</span> name <span class="op">=</span> <span class="fu">getName</span><span class="op">();</span></span>
-<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>name<span class="op">.</span><span class="fu">length</span><span class="op">());</span>  <span class="co">// What if null?</span></span></code></pre></div>
-<h2 id="kotlin-solution">Kotlin Solution</h2>
+class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co">// Kotlin - no &quot;new&quot;</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="kw">val</span> <span class="va">p</span> <span class="op">=</span> Person<span class="op">(</span><span class="st">&quot;Alice&quot;</span><span class="op">,</span> <span class="dv">30</span><span class="op">)</span></span></code></pre></div>
+<h2 id="no-static-overhead">No Static Overhead</h2>
 <div class="sourceCode" id="cb4"><pre
-class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co">// Kotlin - compiler stops you</span></span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="kw">val</span> <span class="va">name</span><span class="op">:</span> <span class="kw">String</span> <span class="op">=</span> getName<span class="op">()</span>  <span class="co">// name CANNOT be null</span></span>
-<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="kw">val</span> <span class="va">nickname</span><span class="op">:</span> <span class="kw">String</span><span class="op">?</span> <span class="op">=</span> getName<span class="op">()</span>  <span class="co">// nickname CAN be null</span></span></code></pre></div>
+class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co">// Top-level functions (no class needed)</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="kw">fun</span> <span class="fu">calculateTotal</span><span class="op">(</span><span class="va">items</span><span class="op">:</span> <span class="dt">List</span>&lt;<span class="va">Int</span>&gt;<span class="op">):</span> <span class="dt">Int</span> <span class="op">{</span></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>    <span class="kw">return</span> items<span class="op">.</span>sum<span class="op">()</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co">// Use it anywhere</span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="kw">val</span> <span class="va">result</span> <span class="op">=</span> calculateTotal<span class="op">(</span>listOf<span class="op">(</span><span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span><span class="op">))</span></span></code></pre></div>
 </div>
-<div id="extension-functions" class="slide section level1">
-<h1>4. Extension Functions</h1>
-<h2 id="add-methods-to-existing-classes">Add methods to existing
-classes</h2>
+<div id="null-safety-in-action" class="slide section level1">
+<h1>2. Null Safety in Action</h1>
+<h2 id="safe-calls-.-operator">Safe Calls: <code>?.</code> Operator</h2>
 <div class="sourceCode" id="cb5"><pre
-class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="co">// Add to String class without inheriting</span></span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="kw">fun</span> <span class="fu">String</span><span class="op">.</span><span class="fu">isValidEmail</span><span class="op">():</span> <span class="dt">Boolean</span> <span class="op">{</span></span>
-<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>    <span class="kw">return</span> <span class="kw">this</span><span class="op">.</span>contains<span class="op">(</span><span class="st">&quot;@&quot;</span><span class="op">)</span></span>
-<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="op">}</span></span>
-<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a></span>
-<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="co">// Use it</span></span>
-<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="kw">val</span> <span class="va">email</span> <span class="op">=</span> <span class="st">&quot;alice@example.com&quot;</span></span>
-<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>email<span class="op">.</span>isValidEmail<span class="op">()</span>  <span class="co">// true</span></span></code></pre></div>
-</div>
-<div id="data-classes" class="slide section level1">
-<h1>5. Data Classes</h1>
-<h2 id="kotlin-way">Kotlin Way</h2>
+class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="kw">val</span> <span class="va">name</span><span class="op">:</span> <span class="kw">String</span><span class="op">?</span> <span class="op">=</span> getName<span class="op">()</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>println<span class="op">(</span>name<span class="op">?.</span>length<span class="op">)</span>  <span class="co">// null if name is null, otherwise prints length</span></span></code></pre></div>
+<h2 id="elvis-operator">Elvis Operator: <code>?:</code></h2>
 <div class="sourceCode" id="cb6"><pre
-class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="kw">data</span> <span class="kw">class</span> Person<span class="op">(</span><span class="kw">val</span> <span class="va">name</span><span class="op">:</span> <span class="dt">String</span><span class="op">,</span> <span class="kw">val</span> <span class="va">age</span><span class="op">:</span> <span class="dt">Int</span><span class="op">)</span></span></code></pre></div>
-<p><strong>One line.</strong> Equals, hashCode, toString, copy - all
-automatic.</p>
-</div>
-<div id="coroutines" class="slide section level1">
-<h1>6. Coroutines</h1>
-<h2 id="kotlin-coroutine-clean">Kotlin Coroutine (clean)</h2>
+class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="kw">val</span> <span class="va">displayName</span> <span class="op">=</span> name <span class="op">?:</span> <span class="st">&quot;Guest&quot;</span>  <span class="co">// Use &quot;Guest&quot; if name is null</span></span></code></pre></div>
+<h2 id="non-null-assertion">Non-Null Assertion: <code>!!</code></h2>
 <div class="sourceCode" id="cb7"><pre
-class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>suspend <span class="kw">fun</span> <span class="fu">fetchUser</span><span class="op">():</span> <span class="dt">User</span> <span class="op">{</span></span>
-<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>    <span class="kw">return</span> api<span class="op">.</span>getUser<span class="op">()</span>  <span class="co">// Async but reads sync</span></span>
-<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="op">}</span></span>
-<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a></span>
-<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>launch <span class="op">{</span></span>
-<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a>    <span class="kw">val</span> <span class="va">user</span> <span class="op">=</span> fetchUser<span class="op">()</span>  <span class="co">// Waits here, thread free</span></span>
-<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>    println<span class="op">(</span>user<span class="op">)</span></span>
-<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
-</div>
-<div id="real-world-example" class="slide section level1">
-<h1>Real-World Example</h1>
-<h2 id="api-call-display">API Call &amp; Display</h2>
+class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="kw">val</span> <span class="va">length</span> <span class="op">=</span> name<span class="op">!!.</span>length  <span class="co">// Throws if null (use sparingly)</span></span></code></pre></div>
+<h2 id="scope-functions-with-null-checks">Scope Functions with Null
+Checks</h2>
 <div class="sourceCode" id="cb8"><pre
-class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="kw">data</span> <span class="kw">class</span> User<span class="op">(</span><span class="kw">val</span> <span class="va">id</span><span class="op">:</span> <span class="dt">Int</span><span class="op">,</span> <span class="kw">val</span> <span class="va">name</span><span class="op">:</span> <span class="dt">String</span><span class="op">)</span></span>
-<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a></span>
-<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>suspend <span class="kw">fun</span> fetchUser<span class="op">(</span><span class="va">userId</span><span class="op">:</span> <span class="dt">Int</span><span class="op">):</span> <span class="dt">User</span> <span class="op">{</span></span>
-<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>    <span class="kw">return</span> api<span class="op">.</span>getUser<span class="op">(</span>userId<span class="op">)</span></span>
-<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a><span class="op">}</span></span>
-<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a></span>
-<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a><span class="kw">fun</span> <span class="fu">showUser</span><span class="op">(</span><span class="va">userId</span><span class="op">:</span> <span class="dt">Int</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a>    launch<span class="op">(</span>Dispatchers<span class="op">.</span>Main<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a>        <span class="cf">try</span> <span class="op">{</span></span>
-<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a>            <span class="kw">val</span> <span class="va">user</span> <span class="op">=</span> fetchUser<span class="op">(</span>userId<span class="op">)</span></span>
-<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a>            display<span class="op">.</span>show<span class="op">(</span>user<span class="op">.</span>name<span class="op">)</span></span>
-<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a>        <span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span>e<span class="op">:</span> IOException<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a>            display<span class="op">.</span>showError<span class="op">(</span><span class="st">&quot;Network failed&quot;</span><span class="op">)</span></span>
-<span id="cb8-14"><a href="#cb8-14" tabindex="-1"></a>        <span class="op">}</span></span>
-<span id="cb8-15"><a href="#cb8-15" tabindex="-1"></a>    <span class="op">}</span></span>
-<span id="cb8-16"><a href="#cb8-16" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>user<span class="op">?.</span>let <span class="op">{</span></span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>    println<span class="op">(</span><span class="st">&quot;User: </span><span class="ss">${</span>it<span class="op">.</span>name<span class="ss">}</span><span class="st">&quot;</span><span class="op">)</span></span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>    sendWelcomeEmail<span class="op">(</span>it<span class="op">)</span></span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+</div>
+<div id="data-classes-properties" class="slide section level1">
+<h1>3. Data Classes &amp; Properties</h1>
+<h2 id="one-line-data-classes">One-Line Data Classes</h2>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="kw">data</span> <span class="kw">class</span> User<span class="op">(</span><span class="kw">val</span> <span class="va">id</span><span class="op">:</span> <span class="dt">Int</span><span class="op">,</span> <span class="kw">val</span> <span class="va">name</span><span class="op">:</span> <span class="dt">String</span><span class="op">,</span> <span class="kw">val</span> <span class="va">email</span><span class="op">:</span> <span class="dt">String</span><span class="op">)</span></span></code></pre></div>
+<p>Automatically generates: - Constructor - <code>equals()</code> &amp;
+<code>hashCode()</code> - <code>toString()</code> - <code>copy()</code>
+function</p>
+<h2 id="properties-with-backing-fields">Properties with Backing
+Fields</h2>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="kw">class</span> Account <span class="op">{</span></span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>    <span class="kw">private</span> <span class="kw">var</span> <span class="va">_balance</span><span class="op">:</span> <span class="kw">Double</span> <span class="op">=</span> <span class="fl">0.0</span></span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>    </span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>    <span class="kw">var</span> <span class="va">balance</span><span class="op">:</span> <span class="kw">Double</span></span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a>        <span class="kw">get</span><span class="op">()</span> <span class="op">=</span> _balance</span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a>        <span class="kw">set</span><span class="op">(</span>value<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a>            <span class="cf">if</span> <span class="op">(</span>value <span class="op">&gt;=</span> <span class="dv">0</span><span class="op">)</span> _balance <span class="op">=</span> value</span>
+<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h2 id="copy-constructor">Copy Constructor</h2>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="kw">val</span> <span class="va">user1</span> <span class="op">=</span> User<span class="op">(</span><span class="dv">1</span><span class="op">,</span> <span class="st">&quot;Alice&quot;</span><span class="op">,</span> <span class="st">&quot;alice@example.com&quot;</span><span class="op">)</span></span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="kw">val</span> <span class="va">user2</span> <span class="op">=</span> user1<span class="op">.</span>copy<span class="op">(</span>name <span class="op">=</span> <span class="st">&quot;Bob&quot;</span><span class="op">)</span>  <span class="co">// Only name changes</span></span></code></pre></div>
+</div>
+<div id="smart-casting" class="slide section level1">
+<h1>4. Smart Casting</h1>
+<h2 id="automatic-type-narrowing">Automatic Type Narrowing</h2>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="kw">val</span> <span class="va">obj</span><span class="op">:</span> Any <span class="op">=</span> <span class="st">&quot;Hello&quot;</span></span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a><span class="cf">if</span> <span class="op">(</span>obj <span class="kw">is</span> <span class="kw">String</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a>    println<span class="op">(</span>obj<span class="op">.</span>length<span class="op">)</span>  <span class="co">// obj automatically cast to String!</span></span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h2 id="safe-cast-as">Safe Cast: <code>as?</code></h2>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="kw">val</span> <span class="va">str</span> <span class="op">=</span> obj <span class="kw">as</span><span class="op">?</span> <span class="kw">String</span>  <span class="co">// Returns null if not String</span></span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>println<span class="op">(</span>str<span class="op">?.</span>uppercase<span class="op">())</span></span></code></pre></div>
+<h2 id="when-with-type-checks">When with Type Checks</h2>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="cf">when</span> <span class="op">(</span>obj<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a>    <span class="kw">is</span> <span class="kw">String</span> <span class="op">-&gt;</span> println<span class="op">(</span><span class="st">&quot;It&#39;s a string: </span><span class="ss">$obj</span><span class="st">&quot;</span><span class="op">)</span></span>
+<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a>    <span class="kw">is</span> <span class="kw">Int</span> <span class="op">-&gt;</span> println<span class="op">(</span><span class="st">&quot;It&#39;s an int: </span><span class="ss">$obj</span><span class="st">&quot;</span><span class="op">)</span></span>
+<span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a>    <span class="cf">else</span> <span class="op">-&gt;</span> println<span class="op">(</span><span class="st">&quot;Something else&quot;</span><span class="op">)</span></span>
+<span id="cb14-5"><a href="#cb14-5" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+</div>
+<div id="feature-mapping" class="slide section level1">
+<h1>5. Feature Mapping</h1>
+<h2 id="stream-sequences-lazy-evaluation">Stream → Sequences (Lazy
+Evaluation)</h2>
+<div class="sourceCode" id="cb15"><pre
+class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="co">// Java: eager evaluation</span></span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>list<span class="op">.</span>stream<span class="op">()</span></span>
+<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a>    <span class="op">.</span>filter<span class="op">(</span>x <span class="op">-&gt;</span> x <span class="op">&gt;</span> <span class="dv">5</span><span class="op">)</span></span>
+<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a>    <span class="op">.</span>map<span class="op">(</span>x <span class="op">-&gt;</span> x <span class="op">*</span> <span class="dv">2</span><span class="op">)</span></span>
+<span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a>    <span class="op">.</span>collect<span class="op">(</span>Collectors<span class="op">.</span>toList<span class="op">())</span></span>
+<span id="cb15-6"><a href="#cb15-6" tabindex="-1"></a></span>
+<span id="cb15-7"><a href="#cb15-7" tabindex="-1"></a><span class="co">// Kotlin: lazy evaluation</span></span>
+<span id="cb15-8"><a href="#cb15-8" tabindex="-1"></a>list<span class="op">.</span>asSequence<span class="op">()</span></span>
+<span id="cb15-9"><a href="#cb15-9" tabindex="-1"></a>    <span class="op">.</span>filter <span class="op">{</span> it <span class="op">&gt;</span> <span class="dv">5</span> <span class="op">}</span></span>
+<span id="cb15-10"><a href="#cb15-10" tabindex="-1"></a>    <span class="op">.</span>map <span class="op">{</span> it <span class="op">*</span> <span class="dv">2</span> <span class="op">}</span></span>
+<span id="cb15-11"><a href="#cb15-11" tabindex="-1"></a>    <span class="op">.</span>toList<span class="op">()</span></span></code></pre></div>
+<h2 id="collections-api">Collections API</h2>
+<div class="sourceCode" id="cb16"><pre
+class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="kw">val</span> <span class="va">numbers</span> <span class="op">=</span> listOf<span class="op">(</span><span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span><span class="op">,</span> <span class="dv">4</span><span class="op">,</span> <span class="dv">5</span><span class="op">)</span></span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a>numbers<span class="op">.</span>filter <span class="op">{</span> it <span class="op">&gt;</span> <span class="dv">2</span> <span class="op">}</span></span>
+<span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a>    <span class="op">.</span>map <span class="op">{</span> it <span class="op">*</span> <span class="dv">2</span> <span class="op">}</span></span>
+<span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a>    <span class="op">.</span>forEach <span class="op">{</span> println<span class="op">(</span>it<span class="op">)</span> <span class="op">}</span></span></code></pre></div>
+<h2 id="destructuring">Destructuring</h2>
+<div class="sourceCode" id="cb17"><pre
+class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="kw">val</span> <span class="va">pair</span> <span class="op">=</span> Pair<span class="op">(</span><span class="dv">1</span><span class="op">,</span> <span class="st">&quot;one&quot;</span><span class="op">)</span></span>
+<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a><span class="kw">val</span> (<span class="va">num</span><span class="op">,</span> str<span class="op">)</span> <span class="op">=</span> pair</span>
+<span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="#cb17-4" tabindex="-1"></a><span class="co">// With data classes</span></span>
+<span id="cb17-5"><a href="#cb17-5" tabindex="-1"></a><span class="kw">val</span> (<span class="va">id</span><span class="op">,</span> name<span class="op">)</span> <span class="op">=</span> User<span class="op">(</span><span class="dv">1</span><span class="op">,</span> <span class="st">&quot;Alice&quot;</span><span class="op">,</span> <span class="st">&quot;alice@test.com&quot;</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div id="functional-idioms" class="slide section level1">
+<h1>6. Functional Idioms</h1>
+<h2 id="let-transform-and-use"><code>let</code>: Transform and Use</h2>
+<div class="sourceCode" id="cb18"><pre
+class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="kw">val</span> <span class="va">result</span> <span class="op">=</span> name<span class="op">?.</span>let <span class="op">{</span></span>
+<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a>    it<span class="op">.</span>uppercase<span class="op">()</span></span>
+<span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a><span class="op">}.</span>orEmpty<span class="op">()</span></span></code></pre></div>
+<h2 id="apply-configure-and-return"><code>apply</code>: Configure and
+Return</h2>
+<div class="sourceCode" id="cb19"><pre
+class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="kw">val</span> <span class="va">user</span> <span class="op">=</span> User<span class="op">(</span><span class="dv">1</span><span class="op">,</span> <span class="st">&quot;&quot;</span><span class="op">,</span> <span class="st">&quot;&quot;</span><span class="op">).</span>apply <span class="op">{</span></span>
+<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a>    name <span class="op">=</span> <span class="st">&quot;Alice&quot;</span></span>
+<span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a>    email <span class="op">=</span> <span class="st">&quot;alice@example.com&quot;</span></span>
+<span id="cb19-4"><a href="#cb19-4" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h2 id="run-execute-and-return"><code>run</code>: Execute and
+Return</h2>
+<div class="sourceCode" id="cb20"><pre
+class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a><span class="kw">val</span> <span class="va">length</span> <span class="op">=</span> <span class="st">&quot;hello&quot;</span><span class="op">.</span>run <span class="op">{</span></span>
+<span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span>length</span>
+<span id="cb20-3"><a href="#cb20-3" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h2 id="also-side-effects"><code>also</code>: Side Effects</h2>
+<div class="sourceCode" id="cb21"><pre
+class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a><span class="kw">val</span> <span class="va">x</span> <span class="op">=</span> listOf<span class="op">(</span><span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span><span class="op">)</span></span>
+<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a>    <span class="op">.</span>also <span class="op">{</span> println<span class="op">(</span><span class="st">&quot;List: </span><span class="ss">$it</span><span class="st">&quot;</span><span class="op">)</span> <span class="op">}</span></span>
+<span id="cb21-3"><a href="#cb21-3" tabindex="-1"></a>    <span class="op">.</span>filter <span class="op">{</span> it <span class="op">&gt;</span> <span class="dv">1</span> <span class="op">}</span></span></code></pre></div>
+</div>
+<div id="concurrency-reimagined" class="slide section level1">
+<h1>7. Concurrency Reimagined</h1>
+<h2 id="coroutines-async-without-threads">Coroutines: Async Without
+Threads</h2>
+<div class="sourceCode" id="cb22"><pre
+class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a>launch <span class="op">{</span></span>
+<span id="cb22-2"><a href="#cb22-2" tabindex="-1"></a>    <span class="kw">val</span> <span class="va">user</span> <span class="op">=</span> fetchUser<span class="op">(</span>userId<span class="op">)</span>  <span class="co">// Suspends, no blocking</span></span>
+<span id="cb22-3"><a href="#cb22-3" tabindex="-1"></a>    <span class="kw">val</span> <span class="va">posts</span> <span class="op">=</span> fetchPosts<span class="op">(</span>userId<span class="op">)</span></span>
+<span id="cb22-4"><a href="#cb22-4" tabindex="-1"></a>    displayUser<span class="op">(</span>user<span class="op">,</span> posts<span class="op">)</span></span>
+<span id="cb22-5"><a href="#cb22-5" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h2 id="structured-concurrency">Structured Concurrency</h2>
+<div class="sourceCode" id="cb23"><pre
+class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a>coroutineScope <span class="op">{</span></span>
+<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a>    <span class="kw">val</span> <span class="va">user</span> <span class="op">=</span> async <span class="op">{</span> fetchUser<span class="op">(</span>id<span class="op">)</span> <span class="op">}</span></span>
+<span id="cb23-3"><a href="#cb23-3" tabindex="-1"></a>    <span class="kw">val</span> <span class="va">posts</span> <span class="op">=</span> async <span class="op">{</span> fetchPosts<span class="op">(</span>id<span class="op">)</span> <span class="op">}</span></span>
+<span id="cb23-4"><a href="#cb23-4" tabindex="-1"></a>    </span>
+<span id="cb23-5"><a href="#cb23-5" tabindex="-1"></a>    combine<span class="op">(</span>user<span class="op">.</span>await<span class="op">(),</span> posts<span class="op">.</span>await<span class="op">())</span></span>
+<span id="cb23-6"><a href="#cb23-6" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h2 id="project-loom-bridge">Project Loom Bridge</h2>
+<div class="sourceCode" id="cb24"><pre
+class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a><span class="co">// Virtual threads (future Java)</span></span>
+<span id="cb24-2"><a href="#cb24-2" tabindex="-1"></a><span class="co">// Kotlin coroutines now similar to Java&#39;s direction</span></span>
+<span id="cb24-3"><a href="#cb24-3" tabindex="-1"></a>suspend <span class="kw">fun</span> <span class="fu">operation</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb24-4"><a href="#cb24-4" tabindex="-1"></a>    delay<span class="op">(</span><span class="dv">1000</span><span class="op">)</span>  <span class="co">// Non-blocking</span></span>
+<span id="cb24-5"><a href="#cb24-5" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+</div>
+<div id="the-framework-decision" class="slide section level1">
+<h1>8. The Framework Decision</h1>
+<h2 id="spring-boot-full-featured">Spring Boot: Full-Featured</h2>
+<div class="sourceCode" id="cb25"><pre
+class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a><span class="at">@SpringBootApplication</span></span>
+<span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a><span class="at">@RestController</span></span>
+<span id="cb25-3"><a href="#cb25-3" tabindex="-1"></a><span class="kw">class</span> Application <span class="op">{</span></span>
+<span id="cb25-4"><a href="#cb25-4" tabindex="-1"></a>    <span class="at">@GetMapping</span><span class="op">(</span><span class="st">&quot;/users/{id}&quot;</span><span class="op">)</span></span>
+<span id="cb25-5"><a href="#cb25-5" tabindex="-1"></a>    suspend <span class="kw">fun</span> <span class="fu">getUser</span><span class="op">(</span>@<span class="va">PathVariable</span> <span class="va">id</span><span class="op">:</span> <span class="dt">Int</span><span class="op">)</span> <span class="op">=</span> userService<span class="op">.</span>findById<span class="op">(</span>id<span class="op">)</span></span>
+<span id="cb25-6"><a href="#cb25-6" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h2 id="ktor-lightweight-functional">Ktor: Lightweight &amp;
+Functional</h2>
+<div class="sourceCode" id="cb26"><pre
+class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a>embeddedServer<span class="op">(</span>Netty<span class="op">,</span> <span class="dv">8080</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb26-2"><a href="#cb26-2" tabindex="-1"></a>    routing <span class="op">{</span></span>
+<span id="cb26-3"><a href="#cb26-3" tabindex="-1"></a>        <span class="kw">get</span><span class="op">(</span><span class="st">&quot;/users/{id}&quot;</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb26-4"><a href="#cb26-4" tabindex="-1"></a>            <span class="kw">val</span> <span class="va">id</span> <span class="op">=</span> call<span class="op">.</span>parameters<span class="op">[</span><span class="st">&quot;id&quot;</span><span class="op">]?.</span>toInt<span class="op">()</span> <span class="op">?:</span> return<span class="at">@get</span></span>
+<span id="cb26-5"><a href="#cb26-5" tabindex="-1"></a>            call<span class="op">.</span>respond<span class="op">(</span>userService<span class="op">.</span>findById<span class="op">(</span>id<span class="op">))</span></span>
+<span id="cb26-6"><a href="#cb26-6" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb26-7"><a href="#cb26-7" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb26-8"><a href="#cb26-8" tabindex="-1"></a><span class="op">}.</span>start<span class="op">(</span>wait <span class="op">=</span> <span class="kw">true</span><span class="op">)</span></span></code></pre></div>
+<p><strong>When to choose:</strong> - <strong>Spring Boot</strong>:
+Enterprise, existing ecosystem, complexity - <strong>Ktor</strong>:
+Microservices, coroutines-first, lightweight</p>
+</div>
+<div id="ecosystem-recommendations" class="slide section level1">
+<h1>9. Ecosystem Recommendations</h1>
+<h2 id="testing-mockk">Testing: MockK</h2>
+<div class="sourceCode" id="cb27"><pre
+class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb27-1"><a href="#cb27-1" tabindex="-1"></a><span class="kw">val</span> <span class="va">userService</span> <span class="op">=</span> mockk<span class="op">&lt;</span>UserService<span class="op">&gt;()</span></span>
+<span id="cb27-2"><a href="#cb27-2" tabindex="-1"></a>every <span class="op">{</span> userService<span class="op">.</span>findById<span class="op">(</span><span class="dv">1</span><span class="op">)</span> <span class="op">}</span> returns User<span class="op">(</span><span class="dv">1</span><span class="op">,</span> <span class="st">&quot;Alice&quot;</span><span class="op">,</span> <span class="st">&quot;alice@test.com&quot;</span><span class="op">)</span></span>
+<span id="cb27-3"><a href="#cb27-3" tabindex="-1"></a></span>
+<span id="cb27-4"><a href="#cb27-4" tabindex="-1"></a>verify <span class="op">{</span> userService<span class="op">.</span>findById<span class="op">(</span><span class="dv">1</span><span class="op">)</span> <span class="op">}</span></span></code></pre></div>
+<h2 id="di-koin">DI: Koin</h2>
+<div class="sourceCode" id="cb28"><pre
+class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a><span class="kw">val</span> <span class="va">koinModule</span> <span class="op">=</span> module <span class="op">{</span></span>
+<span id="cb28-2"><a href="#cb28-2" tabindex="-1"></a>    single <span class="op">{</span> UserRepository<span class="op">()</span> <span class="op">}</span></span>
+<span id="cb28-3"><a href="#cb28-3" tabindex="-1"></a>    factory <span class="op">{</span> UserService<span class="op">(</span><span class="kw">get</span><span class="op">())</span> <span class="op">}</span></span>
+<span id="cb28-4"><a href="#cb28-4" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h2 id="functional-programming-arrow">Functional Programming: Arrow</h2>
+<div class="sourceCode" id="cb29"><pre
+class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb29-1"><a href="#cb29-1" tabindex="-1"></a><span class="kw">val</span> <span class="va">result</span> <span class="op">=</span> Either<span class="op">.</span>Right<span class="op">(</span><span class="dv">42</span><span class="op">)</span></span>
+<span id="cb29-2"><a href="#cb29-2" tabindex="-1"></a>    <span class="op">.</span>map <span class="op">{</span> it <span class="op">*</span> <span class="dv">2</span> <span class="op">}</span></span>
+<span id="cb29-3"><a href="#cb29-3" tabindex="-1"></a>    <span class="op">.</span>flatMap <span class="op">{</span> value <span class="op">-&gt;</span> Either<span class="op">.</span>Right<span class="op">(</span>value <span class="op">+</span> <span class="dv">1</span><span class="op">)</span> <span class="op">}</span></span></code></pre></div>
+<h2 id="other-essentials">Other Essentials</h2>
+<ul>
+<li><strong>Exposed</strong>: Type-safe SQL DSL</li>
+<li><strong>Kotlinx.serialization</strong>: JSON at compile-time</li>
+<li><strong>Coroutines</strong>: Flow for reactive streams</li>
+</ul>
 </div>
 <div id="key-takeaways" class="slide section level1">
 <h1>Key Takeaways</h1>
 <ol style="list-style-type: decimal">
-<li><strong>Immutability first</strong> - <code>val</code> by
-default</li>
-<li><strong>Null safety</strong> - compiler helps you avoid crashes</li>
-<li><strong>Less boilerplate</strong> - data classes save
-keystrokes</li>
-<li><strong>Readable async</strong> - coroutines &gt; callbacks</li>
-<li><strong>Interop with Java</strong> - you can use both</li>
+<li><strong>Unlearning Java patterns</strong> makes you faster</li>
+<li><strong>Null safety</strong> built-in, not optional</li>
+<li><strong>Data classes</strong> eliminate boilerplate</li>
+<li><strong>Compiler does the work</strong> with smart casting</li>
+<li><strong>Functional idioms</strong> clean up business logic</li>
+<li><strong>Coroutines scale better</strong> than threads</li>
+<li><strong>Framework choice depends on goals</strong></li>
+<li><strong>Ecosystem is mature</strong> and battle-tested</li>
 </ol>
 </div>
 <div id="questions" class="slide section level1">
 <h1>Questions?</h1>
-<p><em>Let us discuss. What interests you most?</em></p>
+<p><em>Let’s discuss. What resonates with your current
+challenges?</em></p>
 </div>
 </body>
 </html>
