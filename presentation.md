@@ -6,15 +6,17 @@
 
 **Kotlin for Java Developers**
 
-*A friendly introduction to modern language features*
+*From scaling systems to shipping faster*
 
 ---
 
 # About Me
 
-- Java developer for 10+ years
-- Kotlin enthusiast
-- Love making code simpler and safer
+- Java developer, 5+ years commercial experience
+- Currently: Leading @Deutsche Börse (intraday power trading, +20M requests/day)
+- Expert in reactive programming: Kotlin Flows, Coroutines, WebFlux
+- 2 years junior-leading experience
+- Passionate about teaching and mentoring
 
 ---
 

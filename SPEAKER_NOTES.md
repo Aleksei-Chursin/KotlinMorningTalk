@@ -2,15 +2,19 @@
 
 ## Slide 1: Welcome
 
-Good morning everyone! Welcome. I am excited to share Kotlin with you today. This is a practical introduction designed for Java developers like us.
+Good morning everyone! Welcome. I'm excited to share Kotlin with you today. This talk comes from real experience scaling systems and shipping code faster in production.
 
-Take the next few minutes to settle in. Grab a coffee, say hello to your neighbor. We will begin in 3 minutes. No rush.
+Whether you're building backend systems, microservices, or real-time applications, Kotlin and reactive patterns like Coroutines can make a huge difference. We'll go through practical examples.
+
+Take the next few minutes to settle in. Grab a coffee, say hello to your neighbor. We will begin in 3 minutes.
 
 ---
 
 ## Slide 2: About Me
 
-A quick introduction: I have been writing Java code for a long time. Over the years, I noticed Kotlin solved many problems that frustrated me. Today I want to share what I learned. I am not here to say Java is bad. Java is solid. But Kotlin makes certain things easier, safer, and faster to write.
+I'm Aleksei, a Java developer with 5+ years of commercial experience. Currently, I lead backend development at Deutsche Börse, where we handle over 20 million requests daily for intraday power trading. I've spent the last few years working extensively with Kotlin, reactive programming, and high-scale systems.
+
+Over time, I noticed that Kotlin—especially combined with reactive patterns like Coroutines and WebFlux—solves many problems we face in enterprise Java development. Today, I want to share what I've learned. I'm not here to say Java is bad. Java is solid. But Kotlin makes certain things easier, safer, and faster to write. And at scale, that matters.
 
 ---
 
