@@ -42,6 +42,28 @@ These aren't features - they're missing boilerplate. But clean code matters. Esp
 
 Example at scale: Deutsche Börse. We have high-performance requirements. Every microsecond matters. Kotlin's top-level functions (no class wrapping) + inline functions actually help with performance profiles. But more importantly, the code is clearer.
 
+**Top-level Functions:**
+```kotlin
+// No class wrapper needed
+fun calculateTotal(items: List<Int>): Int {
+    return items.sum()
+}
+
+// Use directly, no static prefix required
+val result = calculateTotal(listOf(1, 2, 3))
+```
+
+**Inline Functions:**
+```kotlin
+// The inline keyword tells compiler to expand this at call site
+inline fun <T> myFilter(items: List<T>, predicate: (T) -> Boolean): List<T> {
+    return items.filter(predicate)
+}
+
+// When you call it, the function body is copied directly - no function call overhead
+val evens = myFilter(numbers) { it % 2 == 0 }
+```
+
 **Why does this matter for performance?**
 
 Top-level functions eliminate class instantiation overhead. Each static method in Java is wrapped in a class object. When the compiler processes thousands of utility functions, those class wrappers add up in memory and startup time. Kotlin's top-level functions compile directly to static methods WITHOUT the class wrapper.
