@@ -50,7 +50,7 @@ The compiler does something interesting here called smart casting. After you che
 
 What this gives us in practice: we've measured zero NullPointerExceptions coming from our Kotlin code in production, while our legacy Java services still see dozens of NPEs every month. The type-level null safety eliminates runtime null checks in hot code paths, which means fewer branch instructions and better CPU branch prediction.
 
-The `?.let { }` pattern is particularly nice for optional fields. When you're building objects where some fields might be present or not, it reads naturally - if this field exists, use it to set this property. Compare that to Java where you'd write explicit if-not-null checks or chain Optional methods.
+The `?.let { }` pattern is particularly useful for optional fields. When you're building objects where some fields might be present or not, you write one concise line instead of an if-not-null block. Compare that to Java where you'd write explicit if-not-null checks or chain Optional methods.
 
 ---
 
@@ -76,7 +76,7 @@ When we looked at our codebase, we estimated about 83% code reduction for data m
 
 Let me show you how we model events in our trading platform. We have this hierarchy called `GWOutputEvent` that's implemented as a sealed class, and it has three subtypes: OrderMessageGWOutputEvent for actual orderbook messages, HeartBeatGWOutputEvent for keepalive signals, and SnapshotGWOutputEvent for bulk snapshot data.
 
-Sealed classes give you something really powerful: exhaustive checking. When you use a `when` expression with a sealed class, the compiler forces you to handle all possible cases. If you add a new event type later, every single `when` expression becomes a compile error until you update it to handle the new case.
+Sealed classes provide exhaustive checking at compile time. When you use a `when` expression with a sealed class, the compiler forces you to handle all possible cases. If you add a new event type later, every single `when` expression becomes a compile error until you update it to handle the new case.
 
 Let me give you a concrete example from our experience. When we added trade confirmations as a new event type, the compiler immediately flagged 47 different locations in our codebase that needed to handle it. All of these were caught at compile time - the build simply failed until we fixed them. If we'd been using the traditional Java approach with abstract classes and instanceof checks, those would have been 47 potential runtime errors that we might not have discovered until they hit production.
 
@@ -94,7 +94,7 @@ Java has the Stream API with operations like map, filter, and collect. These use
 
 For small lists, the difference doesn't matter much. But when you're working with large datasets or building processing pipelines, lazy evaluation with Sequences can be significantly more efficient.
 
-Destructuring is a nice bonus feature. You can write `val (id, name) = user` and it unpacks the object in a single line. It's readable and convenient, especially when working with data classes.
+Destructuring is a syntax feature that lets you unpack objects. You can write `val (id, name) = user` and it unpacks the object in a single line, which is particularly useful when working with data classes.
 
 ---
 
@@ -104,11 +104,11 @@ Extension functions let you add methods to existing classes without modifying th
 
 We use Protobuf heavily for our gRPC services, and we've created extensions like `Long.toTimestamp()` that converts Unix milliseconds to Protobuf Timestamp format. In Java you'd need a utility class, so you'd write something like `ProtobufUtil.longToTimestamp(System.currentTimeMillis())`. With the extension function, it becomes `System.currentTimeMillis().toTimestamp()`.
 
-The advantage isn't just brevity. When you type a Long and hit dot in your IDE, the toTimestamp extension shows up in autocomplete. You don't need to remember which utility class contains which methods. The extensions are also scoped by import, so there's no namespace pollution.
+Beyond shorter code, when you type a Long and hit dot in your IDE, the toTimestamp extension shows up in autocomplete. You don't need to remember which utility class contains which methods. The extensions are also scoped by import, so there's no namespace pollution.
 
-For domain model conversions, we have multiple API versions - v5, v6, v7. Extension functions like `Order.asV7Order()` and `Collection<Order>.asOrderSnapshot()` let you chain conversions naturally. You can write something like `orders.filter { it.isActive }.map { it.asV7Order() }.asOrderSnapshot(123L)` and it reads left to right. The Java equivalent would require nested utility calls or temporary variables.
+For domain model conversions, we have multiple API versions - v5, v6, v7. Extension functions like `Order.asV7Order()` and `Collection<Order>.asOrderSnapshot()` let you chain conversions in a single expression. You can write something like `orders.filter { it.isActive }.map { it.asV7Order() }.asOrderSnapshot(123L)` and it reads left to right. The Java equivalent would require nested utility calls or temporary variables.
 
-We've measured about 50% less code compared to using Java utility classes, and the code is more readable because it flows in a natural left-to-right direction. Extension functions come up frequently when teams talk about why they adopted Kotlin - it's one of those features that once you start using, you really miss when you go back to Java.
+We've measured about 50% less code compared to using Java utility classes, and the code flows in a left-to-right direction that matches how you think about the transformation pipeline. Extension functions come up frequently when teams talk about why they adopted Kotlin - it's one of those features that once you start using, you really miss when you go back to Java.
 
 ---
 
@@ -116,13 +116,13 @@ We've measured about 50% less code compared to using Java utility classes, and t
 
 The `GWOrderService` I'm showing you is a real production service that streams orderbook data to traders in real time. Clients subscribe to get market data updates - they receive an initial snapshot, then continuous updates as the market changes, with heartbeats to keep the connection alive. This handles thousands of concurrent subscriptions.
 
-Coroutines give you several advantages here. First, the code structure is sequential even though execution is asynchronous. When you write `suspend fun subscribe` that returns a `Flow<OrderMessage>`, it looks like a regular function returning a collection, but the suspend keyword and Flow type make it fully asynchronous and capable of streaming data over time.
+Coroutines provide several technical advantages here. First, the code structure is sequential even though execution is asynchronous. When you write `suspend fun subscribe` that returns a `Flow<OrderMessage>`, it looks like a regular function returning a collection, but the suspend keyword and Flow type make it fully asynchronous and capable of streaming data over time.
 
 The Flow automatically handles backpressure. If a client is processing data slowly, the Flow applies backpressure without you writing any additional buffering logic. The compiler also verifies the types flowing through the stream, so you know at compile time that you're working with OrderMessage objects.
 
 In Java gRPC, you implement this with StreamObserver, which is callback-based. You manually call onNext, onError, and onCompleted. You have to track subscriptions yourself for cleanup and handle error propagation explicitly across callbacks.
 
-With Kotlin coroutines, errors propagate naturally through exceptions. Completion is automatic when the Flow completes. Cancellation is automatic when the client disconnects. There's no manual subscription tracking needed.
+With Kotlin coroutines, errors propagate through exceptions using the standard try-catch mechanism. Completion is automatic when the Flow completes. Cancellation is automatic when the client disconnects. There's no manual subscription tracking needed - no map of subscription IDs to disposable objects.
 
 The performance characteristics are interesting. Each coroutine uses roughly 100 bytes when suspended, compared to about 1 megabyte for a Java thread. That's a 10,000x difference in memory usage. Our system handles more than 10,000 concurrent gRPC streams on just 4 CPU cores, using less than 1 gigabyte of memory for all subscriptions. A thread-per-connection model would require at least 10 gigabytes and would need about 2,500 threads per core, creating massive context switching overhead.
 
@@ -134,13 +134,13 @@ We've measured about 50% less code compared to the Java equivalent because we do
 
 The `GWOrderService` constructor shows how Spring dependency injection works in Kotlin. You define properties directly in the constructor - no separate field declarations, no manual assignments. What would be 20 lines in Java becomes 7 lines in Kotlin. 
 
-You can also provide default parameters right in the constructor, like `channelBufferSize = 1_000`. This means you don't need method overloading for optional dependencies. All the properties are `val`, which makes them final - immutability is enforced by the language. Lambda parameters like `(OrderMessage) -> Unit` are natural to express in Kotlin's type system.
+You can also provide default parameters right in the constructor, like `channelBufferSize = 1_000`. This means you don't need method overloading for optional dependencies. All the properties are `val`, which makes them final - immutability is enforced by the language. Lambda parameters like `(OrderMessage) -> Unit` work directly in Kotlin's type system without requiring functional interfaces.
 
 There's one thing to be aware of with Spring and Kotlin: Kotlin classes are final by default, but Spring needs classes to be open for CGLIB proxies. The solution is the kotlin-spring compiler plugin, which automatically makes classes with Spring annotations open. You can also use the open keyword manually or switch to interface-based proxies.
 
 At Deutsche Börse, we use Spring Boot because we need the extensive ecosystem - Spring Data, Spring Security, all of that. The team already knows Spring, and we value the enterprise support.
 
-For new microservices though, it's worth evaluating Ktor. Ktor is designed with coroutines as a first-class concept from the ground up, whereas Spring Boot added coroutine support later. This means the integration is more natural in Ktor - you don't fight against the framework when everything is suspend functions and Flows.
+For new microservices though, it's worth evaluating Ktor. Ktor is designed with coroutines as a first-class concept from the ground up, whereas Spring Boot added coroutine support later. In Ktor, you write your handlers directly as suspend functions and return Flow types without any wrappers. In Spring WebFlux with coroutines, you need to use specific annotations and sometimes wrap reactive types - the framework was built for Reactor first, coroutines second.
 
 Ktor also has less framework overhead - faster startup times and a smaller memory footprint. For a simple microservice that's mostly routing requests and calling other services, you don't need all of Spring's features, and Ktor's simpler architecture means there are fewer abstraction layers to go through.
 
@@ -150,7 +150,7 @@ The way I think about the choice: use Spring when you're building enterprise app
 
 ## Slide 30-32: Ecosystem Recommendations
 
-For testing, MockK is designed specifically for Kotlin and supports all Kotlin features like data classes and extensions. It works better than Mockito when you're working in Kotlin.
+For testing, MockK is designed specifically for Kotlin and supports all Kotlin features like data classes and extensions. It handles Kotlin-specific features that Mockito struggles with, like suspend functions and inline classes.
 
 Koin is a lightweight dependency injection library with no reflection magic - it's compile-time safe and straightforward to use.
 
