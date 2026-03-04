@@ -339,7 +339,7 @@ embeddedServer(Netty, 8080) {
 }.start(wait = true)
 ```
 
-**When to choose**: Spring (enterprise, ecosystem), Ktor (microservices, performance)
+**When to choose**: Spring (enterprise, ecosystem), Ktor (lightweight microservices, coroutines-first)
 
 ---
 
