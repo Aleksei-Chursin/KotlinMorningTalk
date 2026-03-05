@@ -2,39 +2,46 @@
 
 ## Slide 1: Welcome
 
-Good morning, I'm Aleksei. Today we're focusing on practical Kotlin features rather than philosophical discussions about why you should or shouldn't use it. I want to show you tangible patterns that can make your code better and help you ship faster.
+Good morning. 
+Today's morning talk is about Kotlin for Java developers. We'll focus on practical Kotlin features rather than philosophical discussions about why you should or shouldn't use it. I want to show you tangible examples of how Kotlin makes your code better and helps you ship faster.
 
-This talk is designed for Java developers with a couple years of experience who are either considering Kotlin for their team or just curious about what makes it different. We'll cover 9 topics in about an hour, and each one represents a concrete skill you can start using in your own projects right away.
+This talk is designed for Java developers with a couple years of experience who are either considering Kotlin for their team or just curious about what makes it different. We'll cover 9 topics in about an hour, and each one represents a concrete feature you can start using in your own projects right away.
 
 ---
 
 ## Slide 2: About Me
 
-I've been working with Java for over 5 years, including about 2 years in a junior lead role. Right now I'm at Deutsche Börse working on an intraday power trading system that processes more than 30 million requests every day.
+My name is Aleksei. I've been working with Java for over 5 years. Right now I'm at Deutsche Börse working on an intraday power trading system that processes more than 30 million requests every day.
 
-I work a lot with reactive programming - Kotlin Flows, coroutines, WebFlux - and these aren't just theoretical concepts for me, they're tools I use daily in production systems at scale.
+I work a lot with reactive programming - Kotlin Flows, coroutines, WebFlux, and we will also dive into concurrency today.
 
-Everything you'll see in this talk comes from real production experience: actual patterns we use, the tradeoffs we've made, and the kinds of decisions you face when building systems that need to handle serious load.
+Everything you'll see in this talk comes from my production experience: actual patterns i use, the tradeoffs i've made, and the kinds of decisions you face when building systems that need to handle serious load.
 
 ---
 
 ## Slide 3: Today's Plan
 
-Let me walk you through what we'll cover. The first three topics are about syntax - getting rid of Java ceremony, understanding null safety, and working with data more effectively. Topics four through six focus on language features that help keep your code clean. The last three are more practical - concurrency, framework choices, and the ecosystem tools that actually matter.
+Let me walk you through what we'll cover. The first three topics are about Kotlin syntax - getting rid of Java ceremony, understanding null safety, and working with data more effectively. Topics four through six focus on Kotlin features that help keep your code clean. The last three are more practical - concurrency, framework choices, and the ecosystem tools that are existing for Kotlin.
 
-I'll keep this hands-on. For each topic, I'll show you a problem and how Kotlin solves it, sometimes with a Java comparison so you can see the differences clearly.
+I'll try to keep this hands-on. For each topic, I'll show you a problem and how Kotlin solves it, sometimes with a Java comparison so you can see the differences clearly.
 
 ---
 
 ## Slide 4-6: The "Unlearning" Phase
 
-When you start with Kotlin, there are a few Java habits you need to unlearn. Semicolons are optional - you can just leave them off. The `new` keyword doesn't exist - you call constructors directly. And you don't need static methods everywhere - top-level functions work just fine.
+When you start with Kotlin, there are a few Java habits you need to unlearn. 
+First are Semicolons - they are now optional - you can just leave them off. 
+Second is The `new` keyword - it doesn't exist - you call constructors directly. 
+And you don't need static methods everywhere - top-level functions work just fine.
 
-These might seem like small things, but they add up. When you're working with a codebase that has thousands of files, every line of boilerplate you can remove is a line you don't have to read, test, or maintain later.
+These might seem like small things for now, but you will notice how they add up. 
+When you're working with a codebase that has thousands of files, every line of boilerplate you can remove is a line you don't have to read, test, or maintain later.
 
-At Deutsche Börse where we're working with high-performance requirements, we've found that Kotlin's top-level functions and inline functions actually help with performance. Top-level functions compile directly to static methods without any class wrapper overhead - no extra class instantiation to worry about.
+When working with high-performance requirements, I've found that Kotlin's top-level functions and inline functions actually help with performance. 
+Top-level functions compile directly to static methods without any class wrapper overhead - no extra class instantiation to worry about.
 
-Inline functions are particularly interesting for performance-critical code. The compiler copies the function body directly to the call site instead of doing a function call. This means no stack frame setup, no register spilling, no return jump. The JIT compiler can see the whole inlined code as a single unit and apply optimizations like loop unrolling and SIMD that wouldn't be possible across function boundaries. This matters a lot when you have filtering functions being called millions of times per second.
+Inline functions are particularly interesting for performance-critical code. 
+The compiler copies the function body directly to the call site instead of doing a function call. This means no stack frame setup, no register spilling, no return jump. The JIT compiler can see the whole inlined code as a single unit and apply optimizations like loop unrolling and SIMD that wouldn't be possible across function boundaries. This matters a lot when you have filtering functions being called millions of times per second.
 
 ---
 
