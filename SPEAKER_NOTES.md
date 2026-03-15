@@ -25,7 +25,7 @@ Let me walk you through what we'll cover.
 
 There are many Kotlin features we will not cover - inline classes, contracts, context receivers, delegation, type aliases, operator overloading, DSL builders, and more. The goal of this talk is to focus on the features that provide the most immediate practical value when transitioning from Java. You can think of this as 20% of Kotlin features that you'll use 80% of the time.
 
-We will have 3 blocks with 3 topics each. The first three topics are about Kotlin syntax - getting rid of Java ceremony, understanding null safety, and working with data more effectively. Topics four through six focus on Kotlin features that help keep your code clean. The last three are more practical - concurrency, framework choices, and the ecosystem tools that are existing for Kotlin.
+We will have 3 blocks with 3 topics each, plus a resources section at the end. The first three topics are about Kotlin syntax - getting rid of Java ceremony, understanding null safety, and working with data more effectively. Topics four through six focus on Kotlin features that help keep your code clean. Topics seven through nine are more practical - concurrency, framework choices, and the ecosystem tools available for Kotlin. Finally, I'll share some learning resources to help you get started.
 
 I'll try to keep this hands-on. For each topic, I'll show you a problem and how Kotlin solves it, sometimes with a Java comparison so you can see the differences clearly.
 
@@ -143,7 +143,7 @@ We use Protobuf heavily for our gRPC services, and we've created extensions like
 
 Beyond shorter code, when you type a Long and hit dot in your IDE, the toTimestamp extension shows up in autocomplete. You don't need to remember which utility class contains which methods. The extensions are also scoped by import, so there's no namespace pollution - meaning not having too many names visible in the global scope, making it unclear where methods come from. With extensions, you explicitly import only the functions you need, and they only appear on the types they extend.
 
-For domain model conversions, we maintain multiple API versions for backward compatibility. Extension functions like `Request.toCurrentVersion()` and `Collection<Request>.toSnapshot()` let you chain conversions in a single expression. You can write something like `requests.filter { it.isActive }.map { it.toCurrentVersion() }.toSnapshot(123L)` and it reads left to right. The Java equivalent would require nested utility calls or temporary variables.
+If you need to maintain multiple API versions for backward compatibility, extension functions like `Request.toCurrentVersion()` and `Collection<Request>.toSnapshot()` let you chain conversions in a single expression. You can write something like `requests.filter { it.isActive }.map { it.toCurrentVersion() }.toSnapshot(123L)` and it reads left to right. The Java equivalent would require nested utility calls or temporary variables.
 
 Extension functions come up frequently when teams talk about why they adopted Kotlin - it's one of those features that once you start using, you really miss when you go back to Java.
 
@@ -151,7 +151,7 @@ Extension functions come up frequently when teams talk about why they adopted Ko
 
 ## Slide 24-26: Concurrency Reimagined
 
-The `StreamingService` I'm showing you is from our actual production system that streams data to clients. The code example on the slide is simplified to show the core pattern without proprietary business logic. Clients subscribe to get data updates - they receive an initial snapshot, then continuous updates as data changes, with heartbeats to keep the connection alive. This service handles thousands of concurrent subscriptions.
+The `StreamingService` The code example on the slide is similar to the one I've written in hot path. Here the clients subscribe to get data updates - they receive an initial snapshot, then continuous updates as data changes, with heartbeats to keep the connection alive. This service handles thousands of concurrent subscriptions.
 
 In Java gRPC without coroutines, you'd implement this using StreamObserver with callbacks. You'd manually manage the subscription lifecycle, track active subscriptions in a concurrent map, handle threading explicitly, and coordinate error handling across callback boundaries. The callback-based approach makes the control flow harder to follow because logic is split across multiple callback methods rather than reading sequentially.
 Coroutines provide several technical advantages here. First, the code structure is sequential even though execution is asynchronous. When you write `suspend fun subscribe` that returns a `Flow<Message>`, it looks like a regular function returning a collection, but the suspend keyword and Flow type make it fully asynchronous and capable of streaming data over time.
@@ -220,9 +220,25 @@ The ecosystem is mature and production-ready. You're not pioneering uncharted te
 
 ---
 
-## Slide 33: Key Takeaways
+## Slide 33: Learning Resources
 
-## Slide 33: Key Takeaways
+If you're interested in learning Kotlin, let me share some resources that I found helpful and that teams at my company have used successfully.
+
+First, Kotlin Koans. This is an interactive tutorial that runs right in your IDE - either IntelliJ IDEA or as a web version. It has 42 exercises that walk you through Kotlin syntax and idioms step by step. Each exercise is small and focused - you write a few lines of code to make a test pass. Topics include collections, properties, conventions, generics, and more. This is hands-on learning - you're not just reading, you're actually writing Kotlin code from day one.
+
+The official documentation at kotlinlang.org is excellent. It's well-organized and includes lots of examples. The Kotlin Style Guide is particularly useful for learning idiomatic patterns - how experienced Kotlin developers write code.
+
+For books, "Kotlin in Action" by Dmitry Jemerov and Svetlana Isakova is the definitive guide. Both authors work at JetBrains on the Kotlin team. "Effective Kotlin" by Marcin Moskała is more advanced - it's similar to "Effective Java" but for Kotlin, covering best practices and common pitfalls.
+
+JetBrains Academy offers interactive courses where you learn by building projects. It's structured learning with automatic feedback.
+
+The Kotlin community is active and helpful. The Kotlin Slack has over 50,000 members and channels for different topics - coroutines, Android, backend, multiplatform. KotlinConf talks are all on YouTube and cover everything from beginner topics to advanced language features. The /r/Kotlin subreddit is also quite active for questions and discussions.
+
+My recommendation: start with Kotlin Koans to get a feel for the syntax, then pick a small project or feature in your codebase to convert to Kotlin. The best way to learn is by doing.
+
+---
+
+## Slide 34: Key Takeaways
 
 There are many Kotlin features we haven't covered - inline classes, contracts, context receivers, delegation, type aliases, operator overloading, DSL builders, and more. The goal of this talk was to focus on the features that provide the most immediate practical value when transitioning from Java, particularly around null safety, data modeling, async programming, and framework integration. Think of this as your foundation - the 20% of Kotlin features that you'll use 80% of the time.
 
@@ -246,6 +262,6 @@ Regarding the learning investment: that 2 to 4 week learning curve results in 40
 
 ---
 
-## Slide 34: Questions?
+## Slide 35: Questions?
 
 I'm happy to dive deeper into any of these topics, discuss specific tradeoffs you might be considering, or talk about how Ktor versus Spring Boot might work for your particular deployment needs. Thanks for your time.

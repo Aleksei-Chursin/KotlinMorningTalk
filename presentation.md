@@ -31,6 +31,7 @@
 7. Concurrency Reimagined
 8. The Framework Decision
 9. Ecosystem Recommendations
+10. Learning Resources
 
 ---
 
@@ -401,6 +402,34 @@ val result = Either.Right(42)
 - **Exposed**: Type-safe SQL DSL
 - **Kotlinx.serialization**: JSON at compile-time
 - **Coroutines**: Flow for reactive streams
+
+---
+
+# Learning Resources
+
+## Kotlin Koans
+
+Interactive exercises in your IDE - learn by solving 42 tasks covering Kotlin syntax and idioms
+
+**Best for**: Hands-on learners who want to practice immediately
+
+## Official Documentation
+
+- **kotlinlang.org** - Comprehensive language guide
+- **Kotlin Style Guide** - Idiomatic Kotlin patterns
+- **Kotlin Blog** - Updates and best practices from JetBrains
+
+## Books & Courses
+
+- **Kotlin in Action** (Dmitry Jemerov, Svetlana Isakova)
+- **Effective Kotlin** (Marcin Moskała)
+- **JetBrains Academy** - Interactive courses
+
+## Community
+
+- Kotlin Slack (50,000+ members)
+- KotlinConf talks on YouTube
+- /r/Kotlin subreddit
 
 ---
 
