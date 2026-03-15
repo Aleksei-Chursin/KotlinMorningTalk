@@ -49,7 +49,7 @@ Inline functions are particularly interesting for performance-critical code.
 
 Kotlin's `inline` keyword forces the compiler to copy the function's bytecode directly to the call site at compile time. Java can also inline methods, but only at runtime through JIT compilation based on hotspot analysis. The key difference with Kotlin is that inline functions eliminate lambda allocations entirely - when you pass a lambda to an inline function, the lambda's code is also inlined, avoiding object allocation. For example, `list.filter { it > 5 }` normally creates a Function object for the lambda, but if filter is inline, no object is created.
 
-This matters for higher-order functions called frequently. In our trading system, when filtering thousands of orders per second, avoiding lambda allocations reduces GC pressure. The JIT compiler can then optimize the inlined code as a single block - including loop unrolling and SIMD vectorization - but the inline keyword ensures this happens by eliminating the abstraction overhead upfront.
+This matters for higher-order functions called frequently. In our high-frequency system, when filtering thousands of items per second, avoiding lambda allocations reduces GC pressure. The JIT compiler can then optimize the inlined code as a single block - including loop unrolling and SIMD vectorization - but the inline keyword ensures this happens by eliminating the abstraction overhead upfront.
 
 ---
 
@@ -79,7 +79,7 @@ The `?.let { }` pattern is particularly useful for optional fields. The `let` fu
 
 Data classes are one of those features that seems simple on the surface but actually changes how you approach modeling your data structures and business entities.
 
-Let me show you a real example from our system. We have this `OutboundServiceState` that's used across 15 different services when they're handling concurrent requests. It's a generic container that holds internal state and tracks sequences for different message types.
+Let me show you a real example from our system. We have this `ServiceState` that's used across 15 different services when they're handling concurrent requests. It's a generic container that holds internal state and tracks sequences for different message types.
 
 Because this data class is immutable - all the fields are `val` - we don't need any locks for concurrent reads across services. Different threads can safely read this state without any synchronization overhead because nobody can mutate it.
 
@@ -97,7 +97,7 @@ The alternative in Java is either using mutable POJOs, which requires synchroniz
 
 ## Slide 14-16: Smart Casting
 
-Let me show you how you can model events with Kotlin. let's take a look at this hierarchy called `GWOutputEvent` that's implemented as a sealed class, and it has three subtypes: OrderMessageGWOutputEvent for actual orderbook messages, HeartBeatGWOutputEvent for keepalive signals, and SnapshotGWOutputEvent for bulk snapshot data.
+Let me show you how you can model events with Kotlin. Let's take a look at this hierarchy called `OutputEvent` that's implemented as a sealed class, and it has three subtypes: MessageEvent for actual payload messages, HeartbeatEvent for keepalive signals, and SnapshotEvent for bulk snapshot data.
 
 Sealed classes provide exhaustive checking at compile time. 
 When you use a `when` expression with a sealed class, the compiler forces you to handle all possible cases. If you add a new event type later, every single `when` expression becomes a compile error until you update it to handle the new case.
@@ -119,15 +119,15 @@ Not how Java here is trying to keep up: 17 and later do have sealed classes, tho
 
 Let me show you a Kotlin feature that Java doesn't have yet - inline value classes. These provide type safety without any runtime overhead.
 
-In many systems, you need to distinguish between different kinds of IDs or measurements. You might have a user ID, an order ID, and a trade ID - they're all Longs, but they represent different things. In Java, you'd either use raw Longs (losing type safety) or create wrapper classes (adding allocation overhead).
+In many systems, you need to distinguish between different kinds of IDs or measurements. You might have a user ID, a request ID, and a transaction ID - they're all Longs, but they represent different things. In Java, you'd either use raw Longs (losing type safety) or create wrapper classes (adding allocation overhead).
 
-Kotlin's value classes solve this with a compile-time wrapper. You define `@JvmInline value class OrderId(val value: Long)` and the compiler treats it as a distinct type at compile time, but at runtime it's just a Long - zero allocation, zero boxing overhead.
+Kotlin's value classes solve this with a compile-time wrapper. You define `@JvmInline value class RequestId(val value: Long)` and the compiler treats it as a distinct type at compile time, but at runtime it's just a Long - zero allocation, zero boxing overhead.
 
-This is particularly valuable in high-frequency code, where you pass order IDs through multiple layers - validation, mapping, routing, persistence. With value classes, we get compile-time type safety preventing bugs like passing a user ID where an order ID is expected, but at runtime there's no wrapper object allocation.
+This is particularly valuable in high-frequency code, where you pass request IDs through multiple layers - validation, mapping, routing, persistence. With value classes, we get compile-time type safety preventing bugs like passing a user ID where a request ID is expected, but at runtime there's no wrapper object allocation.
 
-The compiler optimizes value classes away entirely. When you pass an OrderId to a function, the JVM bytecode just passes a Long. No object allocation, no garbage collection pressure. 
+The compiler optimizes value classes away entirely. When you pass a RequestId to a function, the JVM bytecode just passes a Long. No object allocation, no garbage collection pressure. 
 
-Java doesn't have this feature yet. Oracle is working on Project Valhalla, which aims to bring value types to the JVM - essentially Java's version of inline value classes. But Valhalla has been in development since 2014, over a decade now, and still doesn't have a release date. Meanwhile, Kotlin has had this feature in production since version 1.5 in 2021.
+Java doesn't have this feature yet. Oracle is working on Project Valhalla, maybe you have heard of it. It aims to bring value types to the JVM - essentially Java's version of inline value classes. But Valhalla has been in development since 2014, over a decade now, and still doesn't have a release date. Meanwhile, Kotlin has had this feature in production since version 1.5 in 2021.
 
 Another useful Kotlin feature is destructuring. It's a syntax feature that lets you unpack objects. You can write `val (id, name) = user` and it unpacks the object in a single line, which is particularly useful when working with data classes or Pairs. In Java, you'd need separate statements to extract each field.
 
@@ -143,7 +143,7 @@ We use Protobuf heavily for our gRPC services, and we've created extensions like
 
 Beyond shorter code, when you type a Long and hit dot in your IDE, the toTimestamp extension shows up in autocomplete. You don't need to remember which utility class contains which methods. The extensions are also scoped by import, so there's no namespace pollution - meaning not having too many names visible in the global scope, making it unclear where methods come from. With extensions, you explicitly import only the functions you need, and they only appear on the types they extend.
 
-For domain model conversions, we have multiple API versions - v5, v6, v7. Extension functions like `Order.asV7Order()` and `Collection<Order>.asOrderSnapshot()` let you chain conversions in a single expression. You can write something like `orders.filter { it.isActive }.map { it.asV7Order() }.asOrderSnapshot(123L)` and it reads left to right. The Java equivalent would require nested utility calls or temporary variables.
+For domain model conversions, we maintain multiple API versions for backward compatibility. Extension functions like `Request.toCurrentVersion()` and `Collection<Request>.toSnapshot()` let you chain conversions in a single expression. You can write something like `requests.filter { it.isActive }.map { it.toCurrentVersion() }.toSnapshot(123L)` and it reads left to right. The Java equivalent would require nested utility calls or temporary variables.
 
 Extension functions come up frequently when teams talk about why they adopted Kotlin - it's one of those features that once you start using, you really miss when you go back to Java.
 
@@ -151,14 +151,14 @@ Extension functions come up frequently when teams talk about why they adopted Ko
 
 ## Slide 24-26: Concurrency Reimagined
 
-The `GWOrderService` I'm showing you is from our actual production system that streams orderbook data to traders. The code example on the slide is simplified to show the core pattern without proprietary business logic. Clients subscribe to get market data updates - they receive an initial snapshot, then continuous updates as the market changes, with heartbeats to keep the connection alive. This service handles thousands of concurrent subscriptions.
+The `StreamingService` I'm showing you is from our actual production system that streams data to clients. The code example on the slide is simplified to show the core pattern without proprietary business logic. Clients subscribe to get data updates - they receive an initial snapshot, then continuous updates as data changes, with heartbeats to keep the connection alive. This service handles thousands of concurrent subscriptions.
 
 In Java gRPC without coroutines, you'd implement this using StreamObserver with callbacks. You'd manually manage the subscription lifecycle, track active subscriptions in a concurrent map, handle threading explicitly, and coordinate error handling across callback boundaries. The callback-based approach makes the control flow harder to follow because logic is split across multiple callback methods rather than reading sequentially.
-Coroutines provide several technical advantages here. First, the code structure is sequential even though execution is asynchronous. When you write `suspend fun subscribe` that returns a `Flow<OrderMessage>`, it looks like a regular function returning a collection, but the suspend keyword and Flow type make it fully asynchronous and capable of streaming data over time.
+Coroutines provide several technical advantages here. First, the code structure is sequential even though execution is asynchronous. When you write `suspend fun subscribe` that returns a `Flow<Message>`, it looks like a regular function returning a collection, but the suspend keyword and Flow type make it fully asynchronous and capable of streaming data over time.
 
 The Flow automatically handles backpressure. 
 If a client is processing data slowly, the Flow applies backpressure without you writing any additional buffering logic. 
-The compiler also verifies the types flowing through the stream, so you know at compile time that you're working with OrderMessage objects.
+The compiler also verifies the types flowing through the stream, so you know at compile time that you're working with Message objects.
 
 In Java gRPC, you implement this with StreamObserver, which is callback-based. 
 You manually call onNext, onError, and onCompleted. You have to track subscriptions yourself for cleanup and handle error propagation explicitly across callbacks. While you could build subscription management utilities to automate some of this, it's not provided by the framework - you're writing infrastructure code rather than business logic.
@@ -174,7 +174,7 @@ Regarding debugging: IntelliJ IDEA provides specialized coroutine debuggers that
 
 ## Slide 27-29: The Framework Decision
 
-The `GWOrderService` constructor shows how Spring dependency injection works in Kotlin. 
+The `StreamingService` constructor shows how Spring dependency injection works in Kotlin. 
 You define properties directly in the constructor - no separate field declarations, no manual assignments. 
 What would be 20 lines in Java becomes 7 lines in Kotlin. 
 
@@ -182,7 +182,7 @@ You can also provide default parameters right in the constructor, like `channelB
 
 This means you don't need method overloading for optional dependencies. 
 All the properties are `val`, which makes them final - immutability is enforced by the language. 
-Lambda parameters like `(OrderMessage) -> Unit` work directly in Kotlin's type system without requiring functional interfaces.
+Lambda parameters like `(Message) -> Unit` work directly in Kotlin's type system without requiring functional interfaces.
 
 There's one thing to be aware of with Spring and Kotlin: Kotlin classes are final by default, but Spring needs classes to be open for CGLIB proxies. The solution is the kotlin-spring compiler plugin, which automatically makes classes with Spring annotations open. You can also use the open keyword manually or switch to interface-based proxies.
 
@@ -240,7 +240,7 @@ The learning curve is typically 2 to 4 weeks, and teams generally report product
 
 Looking at our specific metrics: we saved about 20,000 lines of code, which is a measured 40% reduction across the codebase. We can handle 10,000 concurrent subscriptions on 4 CPU cores, which would be about 400 max with thread-per-connection in Java. Memory efficiency is under 1 gigabyte for our subscriptions versus the roughly 10 gigabytes that would be required for an equivalent thread-based Java implementation. We estimate we saved 6 to 9 months of development time compared to a full Java rewrite.
 
-The bottom line is that Kotlin provides measurable improvements in code quality, reduces maintenance burden, and increases system reliability. The trading platform case study I've shown you demonstrates that this works in production under demanding requirements.
+The bottom line is that Kotlin provides measurable improvements in code quality, reduces maintenance burden, and increases system reliability. The production case study I've shown you demonstrates that this works at scale under demanding requirements.
 
 Regarding the learning investment: that 2 to 4 week learning curve results in 40% less code to maintain long-term, and teams typically see productivity gains after the initial ramp-up period.
 

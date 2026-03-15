@@ -12,7 +12,7 @@
 
 # About Me
 
-- Java developer, 5+ years commercial experience
+- Java developer, 6+ years commercial experience
 - Currently working at: @Deutsche Börse (intraday power trading, +30M requests/day)
 - Love reactive programming: Kotlin Flows, Coroutines, WebFlux
 - 2 years junior-leading experience
@@ -68,6 +68,22 @@ fun calculateTotal(items: List<Int>): Int {
 val result = calculateTotal(listOf(1, 2, 3))
 ```
 
+## Inline Functions: Zero-Cost Abstractions
+
+```kotlin
+inline fun List<Int>.filterAndSum(predicate: (Int) -> Boolean): Int {
+    var sum = 0
+    for (item in this) {
+        if (predicate(item)) sum += item
+    }
+    return sum
+}
+
+// Lambda is inlined - no allocation, no Function object
+val result = list.filterAndSum { it > 5 }
+```
+
+
 ---
 
 # 2. Null Safety in Action
@@ -75,17 +91,17 @@ val result = calculateTotal(listOf(1, 2, 3))
 ## Production Example: Safe Early Returns
 
 ```kotlin
-// High-frequency trading: null-safety eliminates branch misprediction overhead
+// High-frequency service: null-safety eliminates branch misprediction overhead
 // Type system guarantees no NPE checks needed in hot path (30M+ req/day)
 @Component
-class GWOrderService {
-    fun send(broadcasts: Iterable<GwBroadcast>) {
-        val ctx = sendingContext ?: return  // Elvis early return
+class StreamingService {
+    fun send(broadcasts: Iterable<Broadcast>) {
+        val ctx = context ?: return  // Elvis early return
         
         ctx.scope.launch {
             val messages = broadcasts.asSequence()
-                .filterIsInstance<GwOrderBroadcast>()
-                .map { it.message.build() }
+                .filterIsInstance<MessageBroadcast>()
+                .map { it.data.build() }
                 .toList()
             
             ctx.channel.send(messages)  // ctx is smart-cast to non-null
@@ -97,18 +113,18 @@ class GWOrderService {
 ## Safe Calls with `let`
 
 ```kotlin
-// Real-world: building orders with optional fields
-fun buildOrder(order: Order, modification: OrderModification) {
-    modification.clientOrderId?.let { builder.clientOrderId = it }
-    modification.peakPriceDelta?.let { builder.peakPriceDelta = it.cent }
+// Real-world: building objects with optional fields
+fun buildRequest(request: Request, modification: RequestModification) {
+    modification.clientId?.let { builder.clientId = it }
+    modification.priceDelta?.let { builder.priceDelta = it.value }
 }
 ```
 
 ## Elvis Operator for Defaults
 
 ```kotlin
-builder.price = (modification.price ?: order.price).cent
-builder.quantity = modification.quantity ?: order.quantity
+builder.price = (modification.price ?: request.price).value
+builder.quantity = modification.quantity ?: request.quantity
 ```
 
 ---
@@ -120,7 +136,7 @@ builder.quantity = modification.quantity ?: order.quantity
 ```kotlin
 // Generic state container: thread-safe by default due to immutability
 // Zero synchronization overhead - safe for concurrent access across services
-data class OutboundServiceState<T>(
+data class ServiceState<T>(
     val internal: T,
     val sequences: Map<String, Long>
 )
@@ -136,14 +152,14 @@ Automatically generates: `equals()`, `hashCode()`, `toString()`, `copy()`
 ## Immutable Updates with Copy
 
 ```kotlin
-val state = OutboundServiceState(
+val state = ServiceState(
     internal = ServiceStatus.RUNNING,
-    sequences = mapOf("order" to 123L, "trade" to 456L)
+    sequences = mapOf("request" to 123L, "response" to 456L)
 )
 
 // Immutable update - only sequences change
 val updated = state.copy(
-    sequences = mapOf("order" to 124L, "trade" to 456L)
+    sequences = mapOf("request" to 124L, "response" to 456L)
 )
 ```
 
@@ -158,30 +174,30 @@ val updated = state.copy(
 ```kotlin
 // Event system: compiler-enforced exhaustiveness prevents missing cases
 // Caught 47 locations at compile-time when adding new event type
-sealed class GWOutputEvent
+sealed class OutputEvent
 
-data class OrderMessageGWOutputEvent(
-    val orderbookMessage: OrderbookMessage,
+data class MessageEvent(
+    val payload: Message,
     val emittedTimestamp: Long,
     val receivedTimestamp: Long? = null
-) : GWOutputEvent()
+) : OutputEvent()
 
-data class HeartBeatGWOutputEvent(
-    val heartbeat: OrderbookMessage
-) : GWOutputEvent()
+data class HeartbeatEvent(
+    val heartbeat: Message
+) : OutputEvent()
 
-data class SnapshotGWOutputEvent(
+data class SnapshotEvent(
     val snapshots: List<SnapshotData>
-) : GWOutputEvent()
+) : OutputEvent()
 ```
 
 ## Exhaustive When - Compiler Enforced!
 
 ```kotlin
-fun process(event: GWOutputEvent): String = when (event) {
-    is OrderMessageGWOutputEvent -> "Message: ${event.orderbookMessage}"
-    is HeartBeatGWOutputEvent -> "Heartbeat"
-    is SnapshotGWOutputEvent -> "Snapshot: ${event.snapshots.size} items"
+fun process(event: OutputEvent): String = when (event) {
+    is MessageEvent -> "Message: ${event.payload}"
+    is HeartbeatEvent -> "Heartbeat"
+    is SnapshotEvent -> "Snapshot: ${event.snapshots.size} items"
     // Compiler ensures ALL cases covered - add new type? Compile error!
 }
 ```
@@ -190,31 +206,27 @@ fun process(event: GWOutputEvent): String = when (event) {
 
 # 5. Feature Mapping
 
-## Stream → Sequences (Lazy Evaluation)
+## Inline Value Classes: Type Safety Without Runtime Cost
 
 ```kotlin
-// Java: eager evaluation
-list.stream()
-    .filter(x -> x > 5)
-    .map(x -> x * 2)
-    .collect(Collectors.toList())
+// Compile-time wrapper, runtime just a Long - zero allocation
+@JvmInline
+value class RequestId(val value: Long)
 
-// Kotlin: lazy evaluation
-list.asSequence()
-    .filter { it > 5 }
-    .map { it * 2 }
-    .toList()
+@JvmInline
+value class UserId(val value: Long)
+
+// Type-safe at compile time
+fun processRequest(requestId: RequestId, userId: UserId) {
+    // Cannot accidentally swap parameters
+}
+
+// Usage
+val requestId = RequestId(12345L)
+processRequest(requestId, userId)  // Type-checked
+processRequest(userId, requestId)  // Compile error!
 ```
 
-## Collections API
-
-```kotlin
-val numbers = listOf(1, 2, 3, 4, 5)
-
-numbers.filter { it > 2 }
-    .map { it * 2 }
-    .forEach { println(it) }
-```
 
 ## Destructuring
 
@@ -222,8 +234,11 @@ numbers.filter { it > 2 }
 val pair = Pair(1, "one")
 val (num, str) = pair
 
-// With data classes
-val (id, name) = User(1, "Alice", "alice@test.com")
+// With data classes - extract multiple fields
+val (id, name, email) = User(1, "Alice", "alice@test.com")
+
+// Ignore fields with underscore
+val (id, _, email) = user
 ```
 
 ---
@@ -246,21 +261,21 @@ val timestamp = System.currentTimeMillis().toTimestamp()
 ## Domain Extensions for API Versioning
 
 ```kotlin
-fun Order.asV7Order(securityContext: SecurityContext? = null) = 
-    com.deutscheboerse.m7.api.v7.Order.newBuilder().also {
+fun Request.toCurrentVersion(securityContext: SecurityContext? = null) = 
+    com.example.api.Request.newBuilder().also {
         // Mapping logic
     }
 
-fun Collection<Order>.asOrderSnapshot(sequenceNumber: Long) = 
-    OrderMessage.newBuilder()
+fun Collection<Request>.toSnapshot(sequenceNumber: Long) = 
+    Message.newBuilder()
         .setDefaultHeader(sequenceNumber)
         .also { /* ... */ }
 
 // Method chaining
-val result = orders
+val result = requests
     .filter { it.isActive }
-    .map { it.asV7Order() }
-    .asOrderSnapshot(123L)
+    .map { it.toCurrentVersion() }
+    .toSnapshot(123L)
 ```
 
 **Compared to Java Utility Classes**: Better IDE autocomplete, natural method chaining, improved discoverability
@@ -275,9 +290,9 @@ val result = orders
 // Handles 10,000+ concurrent streams on 4 CPU cores
 // Coroutines: ~100 bytes each vs 1MB per thread (10,000x less memory)
 @Component
-class GWOrderService : OrderServiceGrpcKt.OrderServiceCoroutineImplBase() {
+class StreamingService : StreamingServiceGrpcKt.StreamingServiceCoroutineImplBase() {
     
-    override suspend fun subscribe(request: Subscription): Flow<OrderMessage> {
+    override suspend fun subscribe(request: Subscription): Flow<Message> {
         state.checkStarted()
         
         return sharedFlow
@@ -287,7 +302,7 @@ class GWOrderService : OrderServiceGrpcKt.OrderServiceCoroutineImplBase() {
             }
             .transform { event ->
                 when (event) {
-                    is OrderMessageEvent -> emit(event.message)
+                    is MessageEvent -> emit(event.payload)
                     is HeartbeatEvent -> emit(event.heartbeat)
                     is SnapshotEvent -> emit(event.snapshot)
                 }
@@ -303,6 +318,12 @@ class GWOrderService : OrderServiceGrpcKt.OrderServiceCoroutineImplBase() {
 **Code reduction**: 50% less code (no StreamObserver callbacks)  
 **Backpressure**: Automatic flow control vs manual buffering logic
 
+## Debugging Coroutines
+
+![Coroutine Debugger](images/coroutineDebugger.png)
+
+IntelliJ IDEA shows coroutine suspension points and state - essential for debugging async code
+
 ---
 
 # 8. The Framework Decision
@@ -313,14 +334,14 @@ class GWOrderService : OrderServiceGrpcKt.OrderServiceCoroutineImplBase() {
 // Constructor injection: 7 lines vs 20 in Java (65% reduction)
 // Immutability enforced by 'val' - thread-safe by default
 @Component
-class GWOrderService(
-    @Value("\${m7.outbound.gateway.channelBuffer.size}")
+class StreamingService(
+    @Value("\${streaming.channel.buffer.size}")
     private val channelBufferSize: Int = 1_000,
-    private val gwDispatchers: GwDispatchers,
+    private val dispatchers: Dispatchers,
     @Autowired(required = false)
-    private val droppedMessageHandler: (OrderMessage) -> Unit = {},
+    private val droppedMessageHandler: (Message) -> Unit = {},
     @Autowired @Lazy
-    private val timerPublisher: TimerDisruptorEventPublisher
+    private val eventPublisher: EventPublisher
 )
 ```
 
@@ -354,7 +375,7 @@ every { userService.findById(1) } returns User(1, "Alice", "alice@test.com")
 verify { userService.findById(1) }
 ```
 
-## DI: Koin
+## DI: Koin (Lightweight Alternative to Spring)
 
 ```kotlin
 val koinModule = module {
@@ -363,6 +384,8 @@ val koinModule = module {
 }
 ```
 
+**Koin vs Spring**: Koin is simpler (no reflection, no AOP), near-zero overhead. Spring is more powerful for enterprise applications needing full ecosystem.
+
 ## Functional Programming: Arrow
 
 ```kotlin
@@ -370,6 +393,8 @@ val result = Either.Right(42)
     .map { it * 2 }
     .flatMap { value -> Either.Right(value + 1) }
 ```
+
+**Kotlin-specific**: Integrates with coroutines and null safety. Java has Vavr (Javaslang) but without Kotlin's language features.
 
 ## Other Essentials
 
@@ -386,11 +411,9 @@ val result = Either.Right(42)
 3. **Extension functions improve code organization** - Natural method chaining
 4. **Coroutines + Flow provide simpler async** - Better than CompletableFuture
 5. **Sealed classes enable exhaustive checking** - Compiler catches missing cases
-6. **Production-proven** - 30M+ req/day trading platform
+6. **Production-proven** - 30M+ req/day at scale
 7. **Spring Boot integration is mature** - 65% less DI boilerplate
 8. **Learning curve: 2-4 weeks** - Long-term productivity benefits
-
-**Measured Impact**: 40% code reduction (20,000 lines), zero NPEs from Kotlin code in production
 
 ---
 
