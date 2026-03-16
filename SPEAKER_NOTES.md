@@ -23,7 +23,7 @@ Everything you'll see in this talk comes from my production experience: actual p
 
 Let me walk you through what we'll cover. 
 
-There are many Kotlin features we will not cover - inline classes, contracts, context receivers, delegation, type aliases, operator overloading, DSL builders, and more. The goal of this talk is to focus on the features that provide the most immediate practical value when transitioning from Java. You can think of this as 20% of Kotlin features that you'll use 80% of the time.
+There are many Kotlin features we will not cover - contracts, context receivers, delegation, type aliases, operator overloading, DSL builders, and more. The goal of this talk is to focus on the features that provide the most immediate practical value when transitioning from Java. You can think of this as 20% of Kotlin features that you'll use 80% of the time.
 
 We will have 3 blocks with 3 topics each, plus a resources section at the end. The first three topics are about Kotlin syntax - getting rid of Java ceremony, understanding null safety, and working with data more effectively. Topics four through six focus on Kotlin features that help keep your code clean. Topics seven through nine are more practical - concurrency, framework choices, and the ecosystem tools available for Kotlin. Finally, I'll share some learning resources to help you get started.
 

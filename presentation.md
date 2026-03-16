@@ -6,8 +6,6 @@
 
 **Kotlin for Java Developers**
 
-*From scaling systems to shipping faster*
-
 ---
 
 # About Me
