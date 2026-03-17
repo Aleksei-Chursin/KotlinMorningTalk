@@ -61,7 +61,7 @@ This matters for higher-order functions called frequently. In our high-frequency
 
 ---
 
-## Slide 6-9: Null Safety - The Real Power
+## Slide 6: Null Safety - Production Example
 
 Let me talk about null safety, because this is where Kotlin really differs from Java. In Java, we have Optional as a library solution, but in Kotlin, null safety is built into the type system itself.
 
@@ -73,13 +73,15 @@ Kotlin allows you to use patterns like the Elvis operator for early returns. Whe
 The compiler does something interesting here called smart casting. 
 After you check that a value isn't null, the compiler knows that for the rest of that scope, and it treats it as a non-null type. This means zero runtime overhead for accessing that value afterward - the compiler has already proven it's safe.
 
-What this gives us in practice: 
+What this gives us in practice: The type-level null safety eliminates runtime null checks in hot code paths, which means fewer branch instructions. CPU branch prediction works by guessing which path a conditional branch will take. When you have defensive null checks scattered throughout code, the CPU's branch predictor must track more branches, and mispredictions cause pipeline stalls. Kotlin's type system eliminates many branches at compile time because the compiler has already proven values are non-null, reducing the total number of branches the CPU needs to predict.
 
-The type-level null safety eliminates runtime null checks in hot code paths, which means fewer branch instructions. There is a thing called CPU branch prediction, and it basicaly works by guessing which path a conditional branch will take. 
+---
 
-When you have defensive null checks scattered throughout code, the CPU's branch predictor must track more branches, and mispredictions cause pipeline stalls. Kotlin's type system eliminates many branches at compile time because the compiler has already proven values are non-null, reducing the total number of branches the CPU needs to predict.
+## Slide 7: Null Safety (cont'd) - Safe Calls and Elvis
 
 The `?.let { }` pattern is particularly useful for optional fields. The `let` function takes the non-null value and passes it to a lambda, executing the block only when the value isn't null. Under the hood, this compiles to the same bytecode as an if-not-null check, but the scoping is cleaner - the lambda parameter shadows the outer variable, making it impossible to accidentally use the nullable reference inside the block. When you're building objects where some fields might be present or not, you write one concise line instead of an if-not-null block. Compare that to Java where you'd write explicit if-not-null checks or chain Optional methods.
+
+The Elvis operator `?:` provides default values for null cases. It's particularly useful when chaining nullable properties or providing fallback values.
 
 ---
 
@@ -113,7 +115,7 @@ The key advantage of Kotlin data classes is the `copy()` method with named param
 
 ---
 
-## Slide 13-15: Functional Programming
+## Slide 11: Functional Programming - First-Class Functions
 
 Let me talk about functional programming, because Kotlin has excellent support for it built right into the language - you don't need special libraries for most functional patterns.
 

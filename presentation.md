@@ -115,8 +115,8 @@ val result = list.filterAndSum { it > 5 }
 ## Production Example: Safe Early Returns
 
 ```kotlin
-// High-frequency service: null-safety eliminates branch misprediction overhead
-// Type system guarantees no NPE checks needed in hot path (30M+ req/day)
+// High-frequency service: null-safety eliminates
+// branch misprediction overhead
 @Component
 class StreamingService {
     fun send(broadcasts: Iterable<Broadcast>) {
@@ -128,27 +128,43 @@ class StreamingService {
                 .map { it.data.build() }
                 .toList()
             
-            ctx.channel.send(messages)  // ctx is smart-cast to non-null
+            ctx.channel.send(messages)
         }
     }
 }
 ```
 
+**Key**: `ctx` is smart-cast to non-null after the check
+
+---
+
+# 2. Null Safety (cont'd)
+
 ## Safe Calls with `let`
 
 ```kotlin
-// Real-world: building objects with optional fields
-fun buildRequest(request: Request, modification: RequestModification) {
-    modification.clientId?.let { builder.clientId = it }
-    modification.priceDelta?.let { builder.priceDelta = it.value }
+// Building objects with optional fields
+fun buildRequest(
+    request: Request,
+    modification: RequestModification
+) {
+    modification.clientId?.let {
+        builder.clientId = it
+    }
+    modification.priceDelta?.let {
+        builder.priceDelta = it.value
+    }
 }
 ```
 
 ## Elvis Operator for Defaults
 
 ```kotlin
-builder.price = (modification.price ?: request.price).value
-builder.quantity = modification.quantity ?: request.quantity
+builder.price = (modification.price
+    ?: request.price).value
+
+builder.quantity = modification.quantity
+    ?: request.quantity
 ```
 
 ---
@@ -158,8 +174,7 @@ builder.quantity = modification.quantity ?: request.quantity
 ## Production Domain Models
 
 ```kotlin
-// Generic state container: thread-safe by default due to immutability
-// Zero synchronization overhead - safe for concurrent access across services
+// Thread-safe by default (immutability)
 data class ServiceState<T>(
     val internal: T,
     val sequences: Map<String, Long>
@@ -171,25 +186,37 @@ data class Health(
 )
 ```
 
-Automatically generates: `equals()`, `hashCode()`, `toString()`, `copy()`
+**Auto-generated**: `equals()`, `hashCode()`, `toString()`, `copy()`
+
+**vs Java pre-Records**: 50+ lines needed
+
+---
+
+# 3. Data Classes (cont'd)
 
 ## Immutable Updates with Copy
 
 ```kotlin
 val state = ServiceState(
     internal = ServiceStatus.RUNNING,
-    sequences = mapOf("request" to 123L, "response" to 456L)
+    sequences = mapOf(
+        "request" to 123L,
+        "response" to 456L
+    )
 )
 
 // Immutable update - only sequences change
 val updated = state.copy(
-    sequences = mapOf("request" to 124L, "response" to 456L)
+    sequences = mapOf(
+        "request" to 124L,
+        "response" to 456L
+    )
 )
 ```
 
-**vs Java (pre-Records)**: Would need 50+ lines for constructor, getters, equals, hashCode, toString
+---
 
-## Kotlin Data Classes vs Java Records
+# 3. Kotlin Data Classes vs Java Records
 
 **Java Records** (Java 14+, standardized in 16):
 ```java
@@ -220,19 +247,26 @@ val add: (Int, Int) -> Int = { a, b -> a + b }
 val multiply = { a: Int, b: Int -> a * b }
 
 // Higher-order functions
-fun calculate(x: Int, y: Int, operation: (Int, Int) -> Int): Int {
+fun calculate(
+    x: Int,
+    y: Int,
+    operation: (Int, Int) -> Int
+): Int {
     return operation(x, y)
 }
 
 val result = calculate(5, 3, add)  // 8
 ```
 
-**Java**: Requires functional interfaces (Function, BiFunction, etc.) or custom interface declarations
+**Java**: Requires functional interfaces OR custom declarations
+
+---
+
+# 4. Functional Programming (cont'd)
 
 ## Collection Operations
 
 ```kotlin
-// Rich functional API on collections
 val numbers = listOf(1, 2, 3, 4, 5)
 
 val result = numbers
@@ -240,21 +274,20 @@ val result = numbers
     .map { it * it }
     .fold(0) { acc, value -> acc + value }  // 20
 
-// Production: processing 10K+ items per second
+// Production: 10K+ items/second
 val activeRequests = requests
     .filter { it.status == Status.ACTIVE }
     .groupBy { it.userId }
     .mapValues { (_, reqs) -> reqs.size }
 ```
 
-**Measured benefit**: 60% less code vs Java streams, more readable with lambda-as-last-parameter syntax
+**Benefit**: 60% less code vs Java streams
 
 ## Immutability by Default
 
 ```kotlin
-// val = immutable reference
-val data = listOf(1, 2, 3)  // Immutable list
-val map = mapOf("a" to 1)   // Immutable map
+val data = listOf(1, 2, 3)  // Immutable
+val map = mapOf("a" to 1)   // Immutable
 
 // Mutable explicitly marked
 val mutableData = mutableListOf(1, 2, 3)
