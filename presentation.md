@@ -460,6 +460,8 @@ val result = requests
     .toSnapshot(123L)
 ```
 
+<br>
+
 **Compared to Java Utility Classes**: Better IDE autocomplete, natural method chaining, improved discoverability
 
 ---
@@ -542,6 +544,8 @@ class UserController(private val userService: UserService) {
     }
 }
 ```
+
+<br>
 
 **Note**: Requires Spring WebFlux for suspend functions. Works with coroutines through adapters.
 

@@ -54,6 +54,30 @@
     border-radius: 8px;
 }
 
+/* Fix syntax highlighting colors for dark background */
+.reveal pre code .hljs-keyword,
+.reveal pre code .hljs-built_in,
+.reveal pre code .hljs-type {
+    color: #ff79c6 !important; /* Pink for keywords */
+}
+
+.reveal pre code .hljs-string {
+    color: #50fa7b !important; /* Green for strings */
+}
+
+.reveal pre code .hljs-number {
+    color: #bd93f9 !important; /* Purple for numbers */
+}
+
+.reveal pre code .hljs-function,
+.reveal pre code .hljs-title {
+    color: #8be9fd !important; /* Cyan for functions */
+}
+
+.reveal pre code .hljs-comment {
+    color: #6272a4 !important; /* Muted for comments */
+}
+
 /* Make inline code balanced */
 .reveal :not(pre) > code {
     font-size: 0.9em;
