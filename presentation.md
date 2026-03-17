@@ -59,13 +59,13 @@ val z = listOf(1, 2, 3)  // No semicolon needed
 
 ```kotlin
 val name = "Alice"  // Immutable - like 'final' in Java
-// name = "Bob"     // ❌ Compile error
+// name = "Bob"     // ERROR: Compile error
 
 var age = 25        // Mutable - can be reassigned
-age = 26            // ✅ OK
+age = 26            // OK
 
 val items = mutableListOf(1, 2, 3)
-items.add(4)        // ✅ Reference is immutable, content can change
+items.add(4)        // OK: Reference is immutable, content can change
 ```
 
 **Default to `val`** - only use `var` when you need mutability
@@ -118,29 +118,37 @@ val result = list.filterAndSum { it > 5 }
 
 # 2. Null Safety in Action
 
+## The Type System
+
+```kotlin
+// In Kotlin, nullable and non-null are different types
+val name: String = "Alice"     // Cannot be null
+val maybeName: String? = null   // Can be null
+
+// Compiler error - type mismatch
+// val x: String = maybeName
+```
+
 ## Production Example: Safe Early Returns
 
 ```kotlin
-// High-frequency service: null-safety eliminates
-// branch misprediction overhead
 @Component
 class StreamingService {
     fun send(broadcasts: Iterable<Broadcast>) {
-        val ctx = context ?: return  // Elvis early return
+        val ctx = context ?: return  // Elvis: return if null
         
+        // ctx is now smart-cast to non-null type
         ctx.scope.launch {
             val messages = broadcasts.asSequence()
                 .filterIsInstance<MessageBroadcast>()
                 .map { it.data.build() }
                 .toList()
             
-            ctx.channel.send(messages)
+            ctx.channel.send(messages)  // Safe - no null check
         }
     }
 }
 ```
-
-**Key**: `ctx` is smart-cast to non-null after the check
 
 ---
 
@@ -154,11 +162,12 @@ fun buildRequest(
     request: Request,
     modification: RequestModification
 ) {
-    modification.clientId?.let {
-        builder.clientId = it
+    // "it" is the non-null value of clientId
+    modification.clientId?.let { clientId ->
+        builder.clientId = clientId
     }
-    modification.priceDelta?.let {
-        builder.priceDelta = it.value
+    modification.priceDelta?.let { delta ->
+        builder.priceDelta = delta.value
     }
 }
 ```
@@ -233,11 +242,11 @@ record Point(int x, int y) {}  // Immutable, generates: constructor, getters, eq
 
 | Feature | Kotlin Data Classes (2011) | Java Records (2020) |
 |---------|---------------------------|---------------------|
-| `copy()` method | ✅ Built-in with named parameters | ❌ No copy method |
-| Inheritance | ✅ Can extend classes | ❌ Cannot extend classes |
-| Custom body | ✅ Full class features | ⚠️ Limited (only compact constructor) |
-| Mutability | ✅ Can mix `val`/`var` | ❌ All fields final |
-| JVM version | ✅ Works on JVM 6+ | ⚠️ Requires JVM 16+ |
+| `copy()` method | YES: Built-in with named parameters | NO: No copy method |
+| Inheritance | YES: Can extend classes | NO: Cannot extend classes |
+| Custom body | YES: Full class features | LIMITED: Only compact constructor |
+| Mutability | YES: Can mix `val`/`var` | NO: All fields final |
+| JVM version | YES: Works on JVM 6+ | LIMITED: Requires JVM 16+ |
 
 **Kotlin advantage:** `copy()` makes immutable updates practical
 

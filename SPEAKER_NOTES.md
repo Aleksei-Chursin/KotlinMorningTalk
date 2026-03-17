@@ -61,19 +61,17 @@ This matters for higher-order functions called frequently. In our high-frequency
 
 ---
 
-## Slide 6: Null Safety - Production Example
+## Slide 6: Null Safety - Type System & Production Example
 
 Let me talk about null safety, because this is where Kotlin really differs from Java. In Java, we have Optional as a library solution, but in Kotlin, null safety is built into the type system itself.
 
-Here's the key difference: in Kotlin, `String` and `String?` are actually different types at compile time. The compiler enforces this distinction, so you can't accidentally use a nullable value where a non-null one is expected.
+[Point to the Type System section] Here's the key difference: in Kotlin, `String` and `String?` are actually different types at compile time. Look at this - `name: String` cannot be null, but `maybeName: String?` can be null. The compiler enforces this distinction, so you can't accidentally use a nullable value where a non-null one is expected - the commented line would cause a compile error.
 
-[Point to the slide title] This is a production example from a high-frequency service that handles 30+ million requests per day. Let me walk through what this code does.
+[Point to the Production Example] Now let's see how this works in practice. This is a production example from a high-frequency service that handles 30+ million requests per day.
 
-[Point to the function signature] The `send` function takes an iterable of broadcasts. Inside, we check if `context` is null using the Elvis operator: `val ctx = context ?: return`. If context is null, the function returns early. If it's not null, `ctx` is now smart-cast to a non-null type.
+[Walk through the send function] The `send` function takes an iterable of broadcasts. Inside, we check if `context` is null using the Elvis operator: `val ctx = context ?: return`. If context is null, the function returns early. If it's not null, the magic happens - `ctx` is now smart-cast to a non-null type.
 
-[Point to the ctx.scope.launch block] Now we can safely use `ctx` without any null checks because the compiler has proven it's non-null. We launch a coroutine, filter for MessageBroadcast instances, map them to data, and send through the channel.
-
-[Point to the comment about smart-cast] The key benefit: after the null check, `ctx` is smart-cast to non-null, so accessing `ctx.channel.send(messages)` requires zero runtime overhead - no null check needed because the compiler has already proven it's safe.
+[Point to the comment "ctx is now smart-cast"] After the null check, the compiler knows that `ctx` cannot be null for the rest of the scope. So when we access `ctx.scope.launch` and later `ctx.channel.send(messages)`, there's zero runtime overhead - no null check needed because the compiler has already proven it's safe.
 
 This matters for performance: type-level null safety eliminates runtime null checks in hot code paths, reducing branch instructions. When you have defensive null checks scattered throughout code, the CPU's branch predictor must track more branches, and mispredictions cause pipeline stalls. Kotlin's type system eliminates many branches at compile time.
 
@@ -83,11 +81,13 @@ This matters for performance: type-level null safety eliminates runtime null che
 
 [Point to the first code block] Now let's look at more null safety patterns. The `?.let { }` pattern is particularly useful when building objects with optional fields.
 
-[Walk through the buildRequest function] This function takes a request and a modification. When `modification.clientId` is not null, we execute the lambda and set the builder's clientId. If it's null, nothing happens - no exception, no extra code needed.
+[Walk through the buildRequest function] This function takes a request and a modification. When `modification.clientId` is not null, we execute the lambda. See the lambda parameter `clientId` - this is the unwrapped, non-null value. We could also use the default `it` parameter, but giving it an explicit name makes the code more readable.
 
-[Point to the second let block] Same pattern with priceDelta - only when it's present do we extract its value and set it on the builder.
+[Point to the comment about "it"] I've included a comment explaining what "it" would represent if we used the shorthand syntax. In the code below, I use explicit names like `clientId` and `delta` to make it clearer what each value represents.
 
-The beauty here: the lambda parameter shadows the outer variable, making it impossible to accidentally use the nullable reference inside the block. This compiles to the same bytecode as an if-not-null check, but it's more concise and safer.
+[Point to the second let block] Same pattern with priceDelta - when it's present, we get the non-null `delta` value and extract its `.value` property to set on the builder.
+
+The beauty here: the lambda parameter is guaranteed to be non-null, so you can't accidentally use the nullable reference inside the block. This compiles to the same bytecode as an if-not-null check, but it's more concise and safer.
 
 [Point to the Elvis operator examples] The Elvis operator `?:` provides default values. Read it as "use the left side if it's not null, otherwise use the right side". So `modification.price ?: request.price` means: if modification has a price, use it; otherwise fall back to the request's price.
 
@@ -232,7 +232,8 @@ The performance characteristics are interesting. Each coroutine uses roughly 100
 
 Coroutines provide a more maintainable async programming model than CompletableFuture, and the performance is comparable to Java 21's Virtual Threads while working on any JVM version.
 
-Regarding debugging: IntelliJ IDEA provides specialized coroutine debuggers that show the coroutine call stack and suspension points. For Java threads, you see the traditional call stack. For coroutines, you can inspect which coroutines are suspended and their state. The presentation slide includes a screenshot of the coroutine debugger showing this capability. However, debugging async code in general - whether coroutines or threads - is more complex than synchronous code, and this comparison deserves its own deep-dive session.
+Regarding debugging: 
+IntelliJ IDEA provides specialized coroutine debuggers that show the coroutine call stack and suspension points. For Java threads, you see the traditional call stack. For coroutines, you can inspect which coroutines are suspended and their state. The presentation slide includes a screenshot of the coroutine debugger showing this capability. However, debugging async code in general - whether coroutines or threads - is more complex than synchronous code, and this comparison deserves its own deep-dive session.
 ---
 
 ## Slide 28: The Framework Decision - Spring Boot
