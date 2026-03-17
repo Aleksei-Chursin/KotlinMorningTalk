@@ -19,8 +19,10 @@ pandoc presentation.md \
   --metadata generator=pandoc \
   -V revealjs-url=https://unpkg.com/reveal.js@3.9.2 \
   -V theme=white \
-  -V transition=slide
+  -V transition=slide \
+  --css=custom.css
 
 echo "✓ Presentation built: index.html"
 echo "✓ Using reveal.js 3.9.2 from CDN (compatible with pandoc 2.9)"
+echo "✓ Custom CSS applied for better readability"
 echo "Open index.html in a browser to view the slideshow"
