@@ -1,181 +1,25 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 <head>
-  <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <meta name="author" content="Aleksei Chursin" />
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="author" content="Aleksei Chursin">
   <title>Kotlin for Java Developers</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="reveal.js/css/reset.css">
+  <link rel="stylesheet" href="reveal.js/css/reveal.css">
   <style>
-    /* Default styles provided by pandoc.
-    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
-    */
-    html {
-      color: #1a1a1a;
-      background-color: #fdfdfd;
-    }
-    body {
-      margin: 0 auto;
-      max-width: 36em;
-      padding-left: 50px;
-      padding-right: 50px;
-      padding-top: 50px;
-      padding-bottom: 50px;
-      hyphens: auto;
-      overflow-wrap: break-word;
-      text-rendering: optimizeLegibility;
-      font-kerning: normal;
-    }
-    @media (max-width: 600px) {
-      body {
-        font-size: 0.9em;
-        padding: 12px;
-      }
-      h1 {
-        font-size: 1.8em;
-      }
-    }
-    @media print {
-      html {
-        background-color: white;
-      }
-      body {
-        background-color: transparent;
-        color: black;
-        font-size: 12pt;
-      }
-      p, h2, h3 {
-        orphans: 3;
-        widows: 3;
-      }
-      h2, h3, h4 {
-        page-break-after: avoid;
-      }
-    }
-    p {
-      margin: 1em 0;
-    }
-    a {
-      color: #1a1a1a;
-    }
-    a:visited {
-      color: #1a1a1a;
-    }
-    img {
-      max-width: 100%;
-    }
-    svg {
-      height: auto;
-      max-width: 100%;
-    }
-    h1, h2, h3, h4, h5, h6 {
-      margin-top: 1.4em;
-    }
-    h5, h6 {
-      font-size: 1em;
-      font-style: italic;
-    }
-    h6 {
-      font-weight: normal;
-    }
-    ol, ul {
-      padding-left: 1.7em;
-      margin-top: 1em;
-    }
-    li > ol, li > ul {
-      margin-top: 0;
-    }
-    blockquote {
-      margin: 1em 0 1em 1.7em;
-      padding-left: 1em;
-      border-left: 2px solid #e6e6e6;
-      color: #606060;
-    }
-    code {
-      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
-      font-size: 85%;
-      margin: 0;
-      hyphens: manual;
-    }
-    pre {
-      margin: 1em 0;
-      overflow: auto;
-    }
-    pre code {
-      padding: 0;
-      overflow: visible;
-      overflow-wrap: normal;
-    }
-    .sourceCode {
-     background-color: transparent;
-     overflow: visible;
-    }
-    hr {
-      border: none;
-      border-top: 1px solid #1a1a1a;
-      height: 1px;
-      margin: 1em 0;
-    }
-    table {
-      margin: 1em 0;
-      border-collapse: collapse;
-      width: 100%;
-      overflow-x: auto;
-      display: block;
-      font-variant-numeric: lining-nums tabular-nums;
-    }
-    table caption {
-      margin-bottom: 0.75em;
-    }
-    tbody {
-      margin-top: 0.5em;
-      border-top: 1px solid #1a1a1a;
-      border-bottom: 1px solid #1a1a1a;
-    }
-    th {
-      border-top: 1px solid #1a1a1a;
-      padding: 0.25em 0.5em 0.25em 0.5em;
-    }
-    td {
-      padding: 0.125em 0.5em 0.25em 0.5em;
-    }
-    header {
-      margin-bottom: 4em;
-      text-align: center;
-    }
-    #TOC li {
-      list-style: none;
-    }
-    #TOC ul {
-      padding-left: 1.3em;
-    }
-    #TOC > ul {
-      padding-left: 0;
-    }
-    #TOC a:not(:hover) {
-      text-decoration: none;
-    }
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
-    div.columns{display: flex; gap: min(4vw, 1.5em);}
-    div.column{flex: auto; overflow-x: auto;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-    /* The extra [class] is a hack that increases specificity enough to
-       override a similar rule in reveal.js */
-    ul.task-list[class]{list-style: none;}
-    ul.task-list li input[type="checkbox"] {
-      font-size: inherit;
-      width: 0.8em;
-      margin: 0 0.8em 0.2em -1.6em;
-      vertical-align: middle;
-    }
-    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
-    /* CSS for syntax highlighting */
-    html { -webkit-text-size-adjust: 100%; }
+    ul.task-list{list-style: none;}
     pre > code.sourceCode { white-space: pre; position: relative; }
     pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
     pre > code.sourceCode > span:empty { height: 1.2em; }
-    .sourceCode { overflow: visible; }
     code.sourceCode > span { color: inherit; text-decoration: inherit; }
     div.sourceCode { margin: 1em 0; }
     pre.sourceCode { margin: 0; }
@@ -210,7 +54,7 @@
     code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
     code span.at { color: #7d9029; } /* Attribute */
     code span.bn { color: #40a070; } /* BaseN */
-    code span.bu { color: #008000; } /* BuiltIn */
+    code span.bu { } /* BuiltIn */
     code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
     code span.ch { color: #4070a0; } /* Char */
     code span.cn { color: #880000; } /* Constant */
@@ -223,7 +67,7 @@
     code span.ex { } /* Extension */
     code span.fl { color: #40a070; } /* Float */
     code span.fu { color: #06287e; } /* Function */
-    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.im { } /* Import */
     code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
     code span.kw { color: #007020; font-weight: bold; } /* Keyword */
     code span.op { color: #666666; } /* Operator */
@@ -236,551 +80,492 @@
     code span.vs { color: #4070a0; } /* VerbatimString */
     code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
   </style>
+  <link rel="stylesheet" href="reveal.js/css/theme/white.css" id="theme">
+  <!-- Printing and PDF exports -->
+  <script>
+    var link = document.createElement( 'link' );
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match( /print-pdf/gi ) ? 'reveal.js/css/print/pdf.css' : 'reveal.js/css/print/paper.css';
+    document.getElementsByTagName( 'head' )[0].appendChild( link );
+  </script>
+  <!--[if lt IE 9]>
+  <script src="reveal.js/lib/js/html5shiv.js"></script>
+  <![endif]-->
 </head>
 <body>
-<header id="title-block-header">
-<h1 class="title">Kotlin for Java Developers</h1>
-<p class="author">Aleksei Chursin</p>
-<p class="date">March 2026</p>
-</header>
-<h1 id="welcome">Welcome</h1>
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide">
+  <h1 class="title">Kotlin for Java Developers</h1>
+  <p class="author">Aleksei Chursin</p>
+  <p class="date">March 2026</p>
+</section>
+
+<section id="welcome" class="slide level1">
+<h1>Welcome</h1>
 <p><strong>Kotlin for Java Developers</strong></p>
-<hr />
-<h1 id="about-me">About Me</h1>
+</section>
+<section id="about-me" class="slide level1">
+<h1>About Me</h1>
 <ul>
 <li>Java developer, 6+ years commercial experience</li>
-<li>Currently working at: <span class="citation"
-data-cites="Deutsche">@Deutsche</span> Börse (intraday power trading,
-+30M requests/day)</li>
+<li>Currently working at: <span class="citation" data-cites="Deutsche">@Deutsche</span> Börse (intraday power trading, +30M requests/day)</li>
 <li>Love reactive programming: Kotlin Flows, Coroutines, WebFlux</li>
 <li>2 years junior-leading experience</li>
 <li>Passionate about teaching and mentoring</li>
 </ul>
-<hr />
-<h1 id="todays-plan">Today’s Plan</h1>
-<p><strong>Block 1: Syntax &amp; Safety</strong> <em>(Getting rid of
-Java ceremony)</em> 1. The “Unlearning” Phase 2. Null Safety in Action
-3. Data Classes &amp; Properties</p>
-<p><strong>Block 2: Functional &amp; Expressive</strong> <em>(Language
-features that make code cleaner)</em> 4. Functional Programming 5.
-Operator Overloading 6. Feature Mapping 7. Extension Functions</p>
-<p><strong>Block 3: Practical</strong> <em>(Real-world usage)</em> 8.
-Concurrency Reimagined 9. The Framework Decision 10. Ecosystem
-Recommendations 11. Learning Resources</p>
-<hr />
-<h1 id="the-unlearning-phase">1. The “Unlearning” Phase</h1>
+</section>
+<section id="todays-plan" class="slide level1">
+<h1>Today’s Plan</h1>
+<p><strong>Block 1: Syntax &amp; Safety</strong> <em>(Getting rid of Java ceremony)</em> 1. The “Unlearning” Phase 2. Null Safety in Action 3. Data Classes &amp; Properties</p>
+<p><strong>Block 2: Functional &amp; Expressive</strong> <em>(Language features that make code cleaner)</em> 4. Functional Programming 5. Operator Overloading 6. Feature Mapping 7. Extension Functions</p>
+<p><strong>Block 3: Practical</strong> <em>(Real-world usage)</em> 8. Concurrency Reimagined 9. The Framework Decision 10. Ecosystem Recommendations 11. Learning Resources</p>
+</section>
+<section id="the-unlearning-phase" class="slide level1">
+<h1>1. The “Unlearning” Phase</h1>
 <h2 id="semicolons-actually-optional">Semicolons: Actually Optional</h2>
-<div class="sourceCode" id="cb1"><pre
-class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">val</span> <span class="va">x</span> <span class="op">=</span> <span class="dv">42</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">val</span> <span class="va">y</span> <span class="op">=</span> <span class="st">&quot;hello&quot;</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">val</span> <span class="va">z</span> <span class="op">=</span> listOf<span class="op">(</span><span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span><span class="op">)</span>  <span class="co">// No semicolon needed</span></span></code></pre></div>
-<h2 id="val-vs-var-immutability-first">val vs var: Immutability
-First</h2>
-<div class="sourceCode" id="cb2"><pre
-class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">val</span> <span class="va">name</span> <span class="op">=</span> <span class="st">&quot;Alice&quot;</span>  <span class="co">// Immutable - like &#39;final&#39; in Java</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co">// name = &quot;Bob&quot;     // ❌ Compile error</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="kw">var</span> <span class="va">age</span> <span class="op">=</span> <span class="dv">25</span>        <span class="co">// Mutable - can be reassigned</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>age <span class="op">=</span> <span class="dv">26</span>            <span class="co">// ✅ OK</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="kw">val</span> <span class="va">items</span> <span class="op">=</span> mutableListOf<span class="op">(</span><span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span><span class="op">)</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>items<span class="op">.</span>add<span class="op">(</span><span class="dv">4</span><span class="op">)</span>        <span class="co">// ✅ Reference is immutable, content can change</span></span></code></pre></div>
-<p><strong>Default to <code>val</code></strong> - only use
-<code>var</code> when you need mutability</p>
-<h2 id="the-new-keyword-is-gone">The <code>new</code> Keyword Is
-Gone</h2>
-<div class="sourceCode" id="cb3"><pre
-class="sourceCode java"><code class="sourceCode java"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Java</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>Person p <span class="op">=</span> <span class="kw">new</span> <span class="fu">Person</span><span class="op">(</span><span class="st">&quot;Alice&quot;</span><span class="op">,</span> <span class="dv">30</span><span class="op">);</span></span></code></pre></div>
-<div class="sourceCode" id="cb4"><pre
-class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Kotlin - no &quot;new&quot;</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="kw">val</span> <span class="va">p</span> <span class="op">=</span> Person<span class="op">(</span><span class="st">&quot;Alice&quot;</span><span class="op">,</span> <span class="dv">30</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="kw">val</span> <span class="va">x</span> = <span class="dv">42</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a><span class="kw">val</span> <span class="va">y</span> = <span class="st">&quot;hello&quot;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a><span class="kw">val</span> <span class="va">z</span> = listOf(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>)  <span class="co">// No semicolon needed</span></span></code></pre></div>
+<h2 id="val-vs-var-immutability-first">val vs var: Immutability First</h2>
+<div class="sourceCode" id="cb2"><pre class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="kw">val</span> <span class="va">name</span> = <span class="st">&quot;Alice&quot;</span>  <span class="co">// Immutable - like &#39;final&#39; in Java</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a><span class="co">// name = &quot;Bob&quot;     // ❌ Compile error</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true"></a><span class="kw">var</span> <span class="va">age</span> = <span class="dv">25</span>        <span class="co">// Mutable - can be reassigned</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true"></a>age = <span class="dv">26</span>            <span class="co">// ✅ OK</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true"></a><span class="kw">val</span> <span class="va">items</span> = mutableListOf(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true"></a>items.add(<span class="dv">4</span>)        <span class="co">// ✅ Reference is immutable, content can change</span></span></code></pre></div>
+<p><strong>Default to <code>val</code></strong> - only use <code>var</code> when you need mutability</p>
+<h2 id="the-new-keyword-is-gone">The <code>new</code> Keyword Is Gone</h2>
+<div class="sourceCode" id="cb3"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a><span class="co">// Java</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a>Person p = <span class="kw">new</span> <span class="fu">Person</span>(<span class="st">&quot;Alice&quot;</span>, <span class="dv">30</span>);</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a><span class="co">// Kotlin - no &quot;new&quot;</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true"></a><span class="kw">val</span> <span class="va">p</span> = Person(<span class="st">&quot;Alice&quot;</span>, <span class="dv">30</span>)</span></code></pre></div>
 <h2 id="no-static-overhead">No Static Overhead</h2>
-<div class="sourceCode" id="cb5"><pre
-class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Top-level functions (no class needed)</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="kw">fun</span> <span class="fu">calculateTotal</span><span class="op">(</span><span class="va">items</span><span class="op">:</span> <span class="dt">List</span>&lt;<span class="va">Int</span>&gt;<span class="op">):</span> <span class="dt">Int</span> <span class="op">{</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> items<span class="op">.</span>sum<span class="op">()</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co">// Use it anywhere</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="kw">val</span> <span class="va">result</span> <span class="op">=</span> calculateTotal<span class="op">(</span>listOf<span class="op">(</span><span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span><span class="op">))</span></span></code></pre></div>
-<h2 id="inline-functions-zero-cost-abstractions">Inline Functions:
-Zero-Cost Abstractions</h2>
-<div class="sourceCode" id="cb6"><pre
-class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">inline</span> <span class="kw">fun</span> <span class="fu">List</span><span class="op">&lt;</span><span class="dt">Int</span><span class="op">&gt;.</span><span class="fu">filterAndSum</span><span class="op">(</span><span class="va">predicate</span><span class="op">:</span> <span class="op">(</span><span class="dt">Int</span><span class="op">)</span> <span class="op">-&gt;</span> <span class="dt">Boolean</span><span class="op">):</span> <span class="dt">Int</span> <span class="op">{</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">var</span> <span class="va">sum</span> <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span>item <span class="kw">in</span> <span class="kw">this</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>predicate<span class="op">(</span>item<span class="op">))</span> sum <span class="op">+=</span> item</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> sum</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co">// Lambda is inlined - no allocation, no Function object</span></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="kw">val</span> <span class="va">result</span> <span class="op">=</span> list<span class="op">.</span>filterAndSum <span class="op">{</span> it <span class="op">&gt;</span> <span class="dv">5</span> <span class="op">}</span></span></code></pre></div>
-<hr />
-<h1 id="null-safety-in-action">2. Null Safety in Action</h1>
-<h2 id="production-example-safe-early-returns">Production Example: Safe
-Early Returns</h2>
-<div class="sourceCode" id="cb7"><pre
-class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">// High-frequency service: null-safety eliminates branch misprediction overhead</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co">// Type system guarantees no NPE checks needed in hot path (30M+ req/day)</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="at">@Component</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> StreamingService <span class="op">{</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">fun</span> <span class="fu">send</span><span class="op">(</span><span class="va">broadcasts</span><span class="op">:</span> <span class="dt">Iterable</span>&lt;<span class="va">Broadcast</span>&gt;<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>        <span class="kw">val</span> <span class="va">ctx</span> <span class="op">=</span> context <span class="op">?:</span> <span class="kw">return</span>  <span class="co">// Elvis early return</span></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>        ctx<span class="op">.</span>scope<span class="op">.</span>launch <span class="op">{</span></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>            <span class="kw">val</span> <span class="va">messages</span> <span class="op">=</span> broadcasts<span class="op">.</span>asSequence<span class="op">()</span></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>                <span class="op">.</span>filterIsInstance<span class="op">&lt;</span>MessageBroadcast<span class="op">&gt;()</span></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>                <span class="op">.</span>map <span class="op">{</span> it<span class="op">.</span><span class="kw">data</span><span class="op">.</span>build<span class="op">()</span> <span class="op">}</span></span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>                <span class="op">.</span>toList<span class="op">()</span></span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>            </span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>            ctx<span class="op">.</span>channel<span class="op">.</span>send<span class="op">(</span>messages<span class="op">)</span>  <span class="co">// ctx is smart-cast to non-null</span></span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a><span class="co">// Top-level functions (no class needed)</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true"></a><span class="kw">fun</span> <span class="fu">calculateTotal</span>(<span class="va">items</span>: <span class="dt">List</span>&lt;<span class="va">Int</span>&gt;): <span class="dt">Int</span> {</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true"></a>    <span class="kw">return</span> items.sum()</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true"></a>}</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true"></a><span class="co">// Use it anywhere</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true"></a><span class="kw">val</span> <span class="va">result</span> = calculateTotal(listOf(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>))</span></code></pre></div>
+<h2 id="inline-functions-zero-cost-abstractions">Inline Functions: Zero-Cost Abstractions</h2>
+<div class="sourceCode" id="cb6"><pre class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a><span class="kw">inline</span> <span class="kw">fun</span> <span class="fu">List</span>&lt;<span class="dt">Int</span>&gt;.<span class="fu">filterAndSum</span>(<span class="va">predicate</span>: (<span class="dt">Int</span>) -&gt; <span class="dt">Boolean</span>): <span class="dt">Int</span> {</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true"></a>    <span class="kw">var</span> <span class="va">sum</span> = <span class="dv">0</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true"></a>    <span class="cf">for</span> (item <span class="kw">in</span> <span class="kw">this</span>) {</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true"></a>        <span class="cf">if</span> (predicate(item)) sum += item</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true"></a>    }</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true"></a>    <span class="kw">return</span> sum</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true"></a>}</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true"></a></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true"></a><span class="co">// Lambda is inlined - no allocation, no Function object</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true"></a><span class="kw">val</span> <span class="va">result</span> = list.filterAndSum { it &gt; <span class="dv">5</span> }</span></code></pre></div>
+</section>
+<section id="null-safety-in-action" class="slide level1">
+<h1>2. Null Safety in Action</h1>
+<h2 id="production-example-safe-early-returns">Production Example: Safe Early Returns</h2>
+<div class="sourceCode" id="cb7"><pre class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true"></a><span class="co">// High-frequency service: null-safety eliminates branch misprediction overhead</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true"></a><span class="co">// Type system guarantees no NPE checks needed in hot path (30M+ req/day)</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true"></a><span class="at">@Component</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true"></a><span class="kw">class</span> StreamingService {</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true"></a>    <span class="kw">fun</span> <span class="fu">send</span>(<span class="va">broadcasts</span>: <span class="dt">Iterable</span>&lt;<span class="va">Broadcast</span>&gt;) {</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true"></a>        <span class="kw">val</span> <span class="va">ctx</span> = context ?: <span class="kw">return</span>  <span class="co">// Elvis early return</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true"></a>        </span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true"></a>        ctx.scope.launch {</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true"></a>            <span class="kw">val</span> <span class="va">messages</span> = broadcasts.asSequence()</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true"></a>                .filterIsInstance&lt;MessageBroadcast&gt;()</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true"></a>                .map { it.<span class="kw">data</span>.build() }</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true"></a>                .toList()</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true"></a>            </span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true"></a>            ctx.channel.send(messages)  <span class="co">// ctx is smart-cast to non-null</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true"></a>        }</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true"></a>    }</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true"></a>}</span></code></pre></div>
 <h2 id="safe-calls-with-let">Safe Calls with <code>let</code></h2>
-<div class="sourceCode" id="cb8"><pre
-class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Real-world: building objects with optional fields</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="kw">fun</span> <span class="fu">buildRequest</span><span class="op">(</span><span class="va">request</span><span class="op">:</span> <span class="dt">Request</span><span class="op">,</span> <span class="va">modification</span><span class="op">:</span> <span class="dt">RequestModification</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    modification<span class="op">.</span>clientId<span class="op">?.</span>let <span class="op">{</span> builder<span class="op">.</span>clientId <span class="op">=</span> it <span class="op">}</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    modification<span class="op">.</span>priceDelta<span class="op">?.</span>let <span class="op">{</span> builder<span class="op">.</span>priceDelta <span class="op">=</span> it<span class="op">.</span>value <span class="op">}</span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true"></a><span class="co">// Real-world: building objects with optional fields</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true"></a><span class="kw">fun</span> <span class="fu">buildRequest</span>(<span class="va">request</span>: <span class="dt">Request</span>, <span class="va">modification</span>: <span class="dt">RequestModification</span>) {</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true"></a>    modification.clientId?.let { builder.clientId = it }</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true"></a>    modification.priceDelta?.let { builder.priceDelta = it.value }</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true"></a>}</span></code></pre></div>
 <h2 id="elvis-operator-for-defaults">Elvis Operator for Defaults</h2>
-<div class="sourceCode" id="cb9"><pre
-class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>builder<span class="op">.</span>price <span class="op">=</span> <span class="op">(</span>modification<span class="op">.</span>price <span class="op">?:</span> request<span class="op">.</span>price<span class="op">).</span>value</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>builder<span class="op">.</span>quantity <span class="op">=</span> modification<span class="op">.</span>quantity <span class="op">?:</span> request<span class="op">.</span>quantity</span></code></pre></div>
-<hr />
-<h1 id="data-classes-properties">3. Data Classes &amp; Properties</h1>
+<div class="sourceCode" id="cb9"><pre class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true"></a>builder.price = (modification.price ?: request.price).value</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true"></a>builder.quantity = modification.quantity ?: request.quantity</span></code></pre></div>
+</section>
+<section id="data-classes-properties" class="slide level1">
+<h1>3. Data Classes &amp; Properties</h1>
 <h2 id="production-domain-models">Production Domain Models</h2>
-<div class="sourceCode" id="cb10"><pre
-class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Generic state container: thread-safe by default due to immutability</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co">// Zero synchronization overhead - safe for concurrent access across services</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="kw">class</span> ServiceState<span class="op">&lt;</span><span class="dt">T</span><span class="op">&gt;(</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">val</span> <span class="kw">internal</span><span class="op">:</span> <span class="dt">T</span><span class="op">,</span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">val</span> <span class="va">sequences</span><span class="op">:</span> <span class="dt">Map</span>&lt;<span class="va">String</span><span class="op">,</span> <span class="va">Long</span>&gt;</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="op">)</span></span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="kw">class</span> Health<span class="op">(</span></span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">val</span> <span class="va">status</span><span class="op">:</span> <span class="dt">Status</span><span class="op">,</span></span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">val</span> <span class="va">details</span><span class="op">:</span> <span class="dt">Map</span>&lt;<span class="va">String</span><span class="op">,</span> <span class="va">String</span>&gt;</span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="op">)</span></span></code></pre></div>
-<p>Automatically generates: <code>equals()</code>,
-<code>hashCode()</code>, <code>toString()</code>,
-<code>copy()</code></p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true"></a><span class="co">// Generic state container: thread-safe by default due to immutability</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true"></a><span class="co">// Zero synchronization overhead - safe for concurrent access across services</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true"></a><span class="kw">data</span> <span class="kw">class</span> ServiceState&lt;<span class="dt">T</span>&gt;(</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true"></a>    <span class="kw">val</span> <span class="kw">internal</span>: <span class="dt">T</span>,</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true"></a>    <span class="kw">val</span> <span class="va">sequences</span>: <span class="dt">Map</span>&lt;<span class="va">String</span>, <span class="va">Long</span>&gt;</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true"></a>)</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true"></a></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true"></a><span class="kw">data</span> <span class="kw">class</span> Health(</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true"></a>    <span class="kw">val</span> <span class="va">status</span>: <span class="dt">Status</span>,</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true"></a>    <span class="kw">val</span> <span class="va">details</span>: <span class="dt">Map</span>&lt;<span class="va">String</span>, <span class="va">String</span>&gt;</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true"></a>)</span></code></pre></div>
+<p>Automatically generates: <code>equals()</code>, <code>hashCode()</code>, <code>toString()</code>, <code>copy()</code></p>
 <h2 id="immutable-updates-with-copy">Immutable Updates with Copy</h2>
-<div class="sourceCode" id="cb11"><pre
-class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">val</span> <span class="va">state</span> <span class="op">=</span> ServiceState<span class="op">(</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">internal</span> <span class="op">=</span> ServiceStatus<span class="op">.</span>RUNNING<span class="op">,</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    sequences <span class="op">=</span> mapOf<span class="op">(</span><span class="st">&quot;request&quot;</span> to <span class="dv">123L</span><span class="op">,</span> <span class="st">&quot;response&quot;</span> to <span class="dv">456L</span><span class="op">)</span></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="op">)</span></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="co">// Immutable update - only sequences change</span></span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="kw">val</span> <span class="va">updated</span> <span class="op">=</span> state<span class="op">.</span>copy<span class="op">(</span></span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    sequences <span class="op">=</span> mapOf<span class="op">(</span><span class="st">&quot;request&quot;</span> to <span class="dv">124L</span><span class="op">,</span> <span class="st">&quot;response&quot;</span> to <span class="dv">456L</span><span class="op">)</span></span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="op">)</span></span></code></pre></div>
-<p><strong>vs Java (pre-Records)</strong>: Would need 50+ lines for
-constructor, getters, equals, hashCode, toString</p>
-<h2 id="kotlin-data-classes-vs-java-records">Kotlin Data Classes vs Java
-Records</h2>
+<div class="sourceCode" id="cb11"><pre class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true"></a><span class="kw">val</span> <span class="va">state</span> = ServiceState(</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true"></a>    <span class="kw">internal</span> = ServiceStatus.RUNNING,</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true"></a>    sequences = mapOf(<span class="st">&quot;request&quot;</span> to 123L, <span class="st">&quot;response&quot;</span> to 456L)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true"></a>)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true"></a></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true"></a><span class="co">// Immutable update - only sequences change</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true"></a><span class="kw">val</span> <span class="va">updated</span> = state.copy(</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true"></a>    sequences = mapOf(<span class="st">&quot;request&quot;</span> to 124L, <span class="st">&quot;response&quot;</span> to 456L)</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true"></a>)</span></code></pre></div>
+<p><strong>vs Java (pre-Records)</strong>: Would need 50+ lines for constructor, getters, equals, hashCode, toString</p>
+<h2 id="kotlin-data-classes-vs-java-records">Kotlin Data Classes vs Java Records</h2>
 <p><strong>Java Records</strong> (Java 14+, standardized in 16):</p>
-<div class="sourceCode" id="cb12"><pre
-class="sourceCode java"><code class="sourceCode java"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">record</span> <span class="bu">Point</span><span class="op">(</span><span class="dt">int</span> x<span class="op">,</span> <span class="dt">int</span> y<span class="op">)</span> <span class="op">{}</span>  <span class="co">// Immutable, generates: constructor, getters, equals, hashCode, toString</span></span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true"></a>record <span class="bu">Point</span>(<span class="dt">int</span> x, <span class="dt">int</span> y) {}  <span class="co">// Immutable, generates: constructor, getters, equals, hashCode, toString</span></span></code></pre></div>
 <p><strong>Key Differences:</strong></p>
 <table>
-<colgroup>
-<col style="width: 15%" />
-<col style="width: 47%" />
-<col style="width: 36%" />
-</colgroup>
 <thead>
-<tr>
+<tr class="header">
 <th>Feature</th>
 <th>Kotlin Data Classes (2011)</th>
 <th>Java Records (2020)</th>
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td><code>copy()</code> method</td>
 <td>✅ Built-in with named parameters</td>
 <td>❌ No copy method</td>
 </tr>
-<tr>
+<tr class="even">
 <td>Inheritance</td>
 <td>✅ Can extend classes</td>
 <td>❌ Cannot extend classes</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>Custom body</td>
 <td>✅ Full class features</td>
 <td>⚠️ Limited (only compact constructor)</td>
 </tr>
-<tr>
+<tr class="even">
 <td>Mutability</td>
 <td>✅ Can mix <code>val</code>/<code>var</code></td>
 <td>❌ All fields final</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>JVM version</td>
 <td>✅ Works on JVM 6+</td>
 <td>⚠️ Requires JVM 16+</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Kotlin advantage:</strong> <code>copy()</code> makes
-immutable updates practical</p>
-<hr />
-<h1 id="functional-programming">4. Functional Programming</h1>
+<p><strong>Kotlin advantage:</strong> <code>copy()</code> makes immutable updates practical</p>
+</section>
+<section id="functional-programming" class="slide level1">
+<h1>4. Functional Programming</h1>
 <h2 id="first-class-functions">First-Class Functions</h2>
-<div class="sourceCode" id="cb13"><pre
-class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Functions are values - no interfaces needed</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="kw">val</span> <span class="va">add</span><span class="op">:</span> <span class="op">(</span><span class="kw">Int</span><span class="op">,</span> <span class="kw">Int</span><span class="op">)</span> <span class="op">-&gt;</span> <span class="kw">Int</span> <span class="op">=</span> <span class="op">{</span> a<span class="op">,</span> b <span class="op">-&gt;</span> a <span class="op">+</span> b <span class="op">}</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="kw">val</span> <span class="va">multiply</span> <span class="op">=</span> <span class="op">{</span> a<span class="op">:</span> <span class="kw">Int</span><span class="op">,</span> b<span class="op">:</span> <span class="kw">Int</span> <span class="op">-&gt;</span> a <span class="op">*</span> b <span class="op">}</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="co">// Higher-order functions</span></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="kw">fun</span> <span class="fu">calculate</span><span class="op">(</span><span class="va">x</span><span class="op">:</span> <span class="dt">Int</span><span class="op">,</span> <span class="va">y</span><span class="op">:</span> <span class="dt">Int</span><span class="op">,</span> <span class="va">operation</span><span class="op">:</span> <span class="op">(</span><span class="dt">Int</span><span class="op">,</span> <span class="dt">Int</span><span class="op">)</span> <span class="op">-&gt;</span> <span class="dt">Int</span><span class="op">):</span> <span class="dt">Int</span> <span class="op">{</span></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">return</span> operation<span class="op">(</span>x<span class="op">,</span> y<span class="op">)</span></span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="kw">val</span> <span class="va">result</span> <span class="op">=</span> calculate<span class="op">(</span><span class="dv">5</span><span class="op">,</span> <span class="dv">3</span><span class="op">,</span> add<span class="op">)</span>  <span class="co">// 8</span></span></code></pre></div>
-<p><strong>Java</strong>: Requires functional interfaces (Function,
-BiFunction, etc.) or custom interface declarations</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true"></a><span class="co">// Functions are values - no interfaces needed</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true"></a><span class="kw">val</span> <span class="va">add</span>: (<span class="kw">Int</span>, <span class="kw">Int</span>) -&gt; <span class="kw">Int</span> = { a, b -&gt; a + b }</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true"></a><span class="kw">val</span> <span class="va">multiply</span> = { a: <span class="kw">Int</span>, b: <span class="kw">Int</span> -&gt; a * b }</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true"></a></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true"></a><span class="co">// Higher-order functions</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true"></a><span class="kw">fun</span> <span class="fu">calculate</span>(<span class="va">x</span>: <span class="dt">Int</span>, <span class="va">y</span>: <span class="dt">Int</span>, <span class="va">operation</span>: (<span class="dt">Int</span>, <span class="dt">Int</span>) -&gt; <span class="dt">Int</span>): <span class="dt">Int</span> {</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true"></a>    <span class="kw">return</span> operation(x, y)</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true"></a>}</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true"></a></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true"></a><span class="kw">val</span> <span class="va">result</span> = calculate(<span class="dv">5</span>, <span class="dv">3</span>, add)  <span class="co">// 8</span></span></code></pre></div>
+<p><strong>Java</strong>: Requires functional interfaces (Function, BiFunction, etc.) or custom interface declarations</p>
 <h2 id="collection-operations">Collection Operations</h2>
-<div class="sourceCode" id="cb14"><pre
-class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Rich functional API on collections</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="kw">val</span> <span class="va">numbers</span> <span class="op">=</span> listOf<span class="op">(</span><span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span><span class="op">,</span> <span class="dv">4</span><span class="op">,</span> <span class="dv">5</span><span class="op">)</span></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="kw">val</span> <span class="va">result</span> <span class="op">=</span> numbers</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span>filter <span class="op">{</span> it <span class="op">%</span> <span class="dv">2</span> <span class="op">==</span> <span class="dv">0</span> <span class="op">}</span></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span>map <span class="op">{</span> it <span class="op">*</span> it <span class="op">}</span></span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span>fold<span class="op">(</span><span class="dv">0</span><span class="op">)</span> <span class="op">{</span> acc<span class="op">,</span> value <span class="op">-&gt;</span> acc <span class="op">+</span> value <span class="op">}</span>  <span class="co">// 20</span></span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="co">// Production: processing 10K+ items per second</span></span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="kw">val</span> <span class="va">activeRequests</span> <span class="op">=</span> requests</span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span>filter <span class="op">{</span> it<span class="op">.</span>status <span class="op">==</span> Status<span class="op">.</span>ACTIVE <span class="op">}</span></span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span>groupBy <span class="op">{</span> it<span class="op">.</span>userId <span class="op">}</span></span>
-<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span>mapValues <span class="op">{</span> <span class="op">(</span>_<span class="op">,</span> reqs<span class="op">)</span> <span class="op">-&gt;</span> reqs<span class="op">.</span>size <span class="op">}</span></span></code></pre></div>
-<p><strong>Measured benefit</strong>: 60% less code vs Java streams,
-more readable with lambda-as-last-parameter syntax</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true"></a><span class="co">// Rich functional API on collections</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true"></a><span class="kw">val</span> <span class="va">numbers</span> = listOf(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true"></a><span class="kw">val</span> <span class="va">result</span> = numbers</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true"></a>    .filter { it % <span class="dv">2</span> == <span class="dv">0</span> }</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true"></a>    .map { it * it }</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true"></a>    .fold(<span class="dv">0</span>) { acc, value -&gt; acc + value }  <span class="co">// 20</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true"></a></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true"></a><span class="co">// Production: processing 10K+ items per second</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true"></a><span class="kw">val</span> <span class="va">activeRequests</span> = requests</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true"></a>    .filter { it.status == Status.ACTIVE }</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true"></a>    .groupBy { it.userId }</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true"></a>    .mapValues { (_, reqs) -&gt; reqs.size }</span></code></pre></div>
+<p><strong>Measured benefit</strong>: 60% less code vs Java streams, more readable with lambda-as-last-parameter syntax</p>
 <h2 id="immutability-by-default">Immutability by Default</h2>
-<div class="sourceCode" id="cb15"><pre
-class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co">// val = immutable reference</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="kw">val</span> <span class="va">data</span> <span class="op">=</span> listOf<span class="op">(</span><span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span><span class="op">)</span>  <span class="co">// Immutable list</span></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="kw">val</span> <span class="va">map</span> <span class="op">=</span> mapOf<span class="op">(</span><span class="st">&quot;a&quot;</span> to <span class="dv">1</span><span class="op">)</span>   <span class="co">// Immutable map</span></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="co">// Mutable explicitly marked</span></span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="kw">val</span> <span class="va">mutableData</span> <span class="op">=</span> mutableListOf<span class="op">(</span><span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span><span class="op">)</span></span></code></pre></div>
-<p><strong>vs Java</strong>: Collections are mutable by default,
-immutability requires <code>Collections.unmodifiable*()</code>
-wrappers</p>
-<hr />
-<h1 id="operator-overloading">5. Operator Overloading</h1>
-<h2 id="custom-operators-for-domain-types">Custom Operators for Domain
-Types</h2>
-<div class="sourceCode" id="cb16"><pre
-class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Money type with custom arithmetic</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="kw">class</span> Money<span class="op">(</span><span class="kw">val</span> <span class="va">amount</span><span class="op">:</span> <span class="dt">Long</span><span class="op">,</span> <span class="kw">val</span> <span class="va">currency</span><span class="op">:</span> <span class="dt">String</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">operator</span> <span class="kw">fun</span> <span class="fu">plus</span><span class="op">(</span><span class="va">other</span><span class="op">:</span> <span class="dt">Money</span><span class="op">):</span> <span class="dt">Money</span> <span class="op">{</span></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>        require<span class="op">(</span>currency <span class="op">==</span> other<span class="op">.</span>currency<span class="op">)</span> <span class="op">{</span> <span class="st">&quot;Currency mismatch&quot;</span> <span class="op">}</span></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>        <span class="kw">return</span> Money<span class="op">(</span>amount <span class="op">+</span> other<span class="op">.</span>amount<span class="op">,</span> currency<span class="op">)</span></span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">operator</span> <span class="kw">fun</span> <span class="fu">times</span><span class="op">(</span><span class="va">multiplier</span><span class="op">:</span> <span class="dt">Int</span><span class="op">):</span> <span class="dt">Money</span> <span class="op">=</span></span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>        Money<span class="op">(</span>amount <span class="op">*</span> multiplier<span class="op">,</span> currency<span class="op">)</span></span>
-<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
-<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a><span class="co">// Natural arithmetic syntax</span></span>
-<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a><span class="kw">val</span> <span class="va">price</span> <span class="op">=</span> Money<span class="op">(</span><span class="dv">100</span><span class="op">,</span> <span class="st">&quot;EUR&quot;</span><span class="op">)</span></span>
-<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a><span class="kw">val</span> <span class="va">total</span> <span class="op">=</span> price <span class="op">*</span> <span class="dv">3</span>  <span class="co">// Money(300, &quot;EUR&quot;)</span></span>
-<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a><span class="kw">val</span> <span class="va">sum</span> <span class="op">=</span> total <span class="op">+</span> Money<span class="op">(</span><span class="dv">50</span><span class="op">,</span> <span class="st">&quot;EUR&quot;</span><span class="op">)</span>  <span class="co">// Money(350, &quot;EUR&quot;)</span></span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true"></a><span class="co">// val = immutable reference</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true"></a><span class="kw">val</span> <span class="va">data</span> = listOf(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>)  <span class="co">// Immutable list</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true"></a><span class="kw">val</span> <span class="va">map</span> = mapOf(<span class="st">&quot;a&quot;</span> to <span class="dv">1</span>)   <span class="co">// Immutable map</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true"></a></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true"></a><span class="co">// Mutable explicitly marked</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true"></a><span class="kw">val</span> <span class="va">mutableData</span> = mutableListOf(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>)</span></code></pre></div>
+<p><strong>vs Java</strong>: Collections are mutable by default, immutability requires <code>Collections.unmodifiable*()</code> wrappers</p>
+</section>
+<section id="operator-overloading" class="slide level1">
+<h1>5. Operator Overloading</h1>
+<h2 id="custom-operators-for-domain-types">Custom Operators for Domain Types</h2>
+<div class="sourceCode" id="cb16"><pre class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true"></a><span class="co">// Money type with custom arithmetic</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true"></a><span class="kw">data</span> <span class="kw">class</span> Money(<span class="kw">val</span> <span class="va">amount</span>: <span class="dt">Long</span>, <span class="kw">val</span> <span class="va">currency</span>: <span class="dt">String</span>) {</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true"></a>    <span class="kw">operator</span> <span class="kw">fun</span> <span class="fu">plus</span>(<span class="va">other</span>: <span class="dt">Money</span>): <span class="dt">Money</span> {</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true"></a>        require(currency == other.currency) { <span class="st">&quot;Currency mismatch&quot;</span> }</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true"></a>        <span class="kw">return</span> Money(amount + other.amount, currency)</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true"></a>    }</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true"></a>    </span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true"></a>    <span class="kw">operator</span> <span class="kw">fun</span> <span class="fu">times</span>(<span class="va">multiplier</span>: <span class="dt">Int</span>): <span class="dt">Money</span> =</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true"></a>        Money(amount * multiplier, currency)</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true"></a>}</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true"></a></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true"></a><span class="co">// Natural arithmetic syntax</span></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true"></a><span class="kw">val</span> <span class="va">price</span> = Money(<span class="dv">100</span>, <span class="st">&quot;EUR&quot;</span>)</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true"></a><span class="kw">val</span> <span class="va">total</span> = price * <span class="dv">3</span>  <span class="co">// Money(300, &quot;EUR&quot;)</span></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true"></a><span class="kw">val</span> <span class="va">sum</span> = total + Money(<span class="dv">50</span>, <span class="st">&quot;EUR&quot;</span>)  <span class="co">// Money(350, &quot;EUR&quot;)</span></span></code></pre></div>
 <p><strong>Java equivalent (without operator overloading):</strong></p>
-<div class="sourceCode" id="cb17"><pre
-class="sourceCode java"><code class="sourceCode java"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>Money price <span class="op">=</span> <span class="kw">new</span> <span class="fu">Money</span><span class="op">(</span><span class="dv">100</span><span class="op">,</span> <span class="st">&quot;EUR&quot;</span><span class="op">);</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>Money total <span class="op">=</span> price<span class="op">.</span><span class="fu">times</span><span class="op">(</span><span class="dv">3</span><span class="op">);</span>  <span class="co">// Money(300, &quot;EUR&quot;)</span></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>Money sum <span class="op">=</span> total<span class="op">.</span><span class="fu">plus</span><span class="op">(</span><span class="kw">new</span> <span class="fu">Money</span><span class="op">(</span><span class="dv">50</span><span class="op">,</span> <span class="st">&quot;EUR&quot;</span><span class="op">));</span>  <span class="co">// Money(350, &quot;EUR&quot;)</span></span></code></pre></div>
-<p><strong>Compare readability:</strong> - Kotlin:
-<code>baseCost * quantity + shipping</code> - Java:
-<code>baseCost.times(quantity).plus(shipping)</code></p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true"></a>Money price = <span class="kw">new</span> <span class="fu">Money</span>(<span class="dv">100</span>, <span class="st">&quot;EUR&quot;</span>);</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true"></a>Money total = price.<span class="fu">times</span>(<span class="dv">3</span>);  <span class="co">// Money(300, &quot;EUR&quot;)</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true"></a>Money sum = total.<span class="fu">plus</span>(<span class="kw">new</span> <span class="fu">Money</span>(<span class="dv">50</span>, <span class="st">&quot;EUR&quot;</span>));  <span class="co">// Money(350, &quot;EUR&quot;)</span></span></code></pre></div>
+<p><strong>Compare readability:</strong> - Kotlin: <code>baseCost * quantity + shipping</code> - Java: <code>baseCost.times(quantity).plus(shipping)</code></p>
 <h2 id="collection-access">Collection Access</h2>
-<div class="sourceCode" id="cb18"><pre
-class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Custom get/set operators</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Matrix<span class="op">(</span><span class="kw">private</span> <span class="kw">val</span> <span class="kw">data</span><span class="op">:</span> <span class="dt">Array</span>&lt;<span class="va">IntArray</span>&gt;<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">operator</span> <span class="kw">fun</span> <span class="kw">get</span><span class="op">(</span><span class="va">row</span><span class="op">:</span> <span class="dt">Int</span><span class="op">,</span> <span class="va">col</span><span class="op">:</span> <span class="dt">Int</span><span class="op">)</span> <span class="op">=</span> <span class="kw">data</span><span class="op">[</span>row<span class="op">][</span>col<span class="op">]</span></span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">operator</span> <span class="kw">fun</span> <span class="kw">set</span><span class="op">(</span><span class="va">row</span><span class="op">:</span> <span class="dt">Int</span><span class="op">,</span> <span class="va">col</span><span class="op">:</span> <span class="dt">Int</span><span class="op">,</span> <span class="va">value</span><span class="op">:</span> <span class="dt">Int</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>        <span class="kw">data</span><span class="op">[</span>row<span class="op">][</span>col<span class="op">]</span> <span class="op">=</span> value</span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="kw">val</span> <span class="va">matrix</span> <span class="op">=</span> Matrix<span class="op">(</span>arrayOf<span class="op">(</span>intArrayOf<span class="op">(</span><span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">),</span> intArrayOf<span class="op">(</span><span class="dv">3</span><span class="op">,</span> <span class="dv">4</span><span class="op">)))</span></span>
-<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="kw">val</span> <span class="va">value</span> <span class="op">=</span> matrix<span class="op">[</span><span class="dv">0</span><span class="op">,</span> <span class="dv">1</span><span class="op">]</span>  <span class="co">// 2</span></span>
-<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>matrix<span class="op">[</span><span class="dv">1</span><span class="op">,</span> <span class="dv">0</span><span class="op">]</span> <span class="op">=</span> <span class="dv">5</span></span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true"></a><span class="co">// Custom get/set operators</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true"></a><span class="kw">class</span> Matrix(<span class="kw">private</span> <span class="kw">val</span> <span class="kw">data</span>: <span class="dt">Array</span>&lt;<span class="va">IntArray</span>&gt;) {</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true"></a>    <span class="kw">operator</span> <span class="kw">fun</span> <span class="kw">get</span>(<span class="va">row</span>: <span class="dt">Int</span>, <span class="va">col</span>: <span class="dt">Int</span>) = <span class="kw">data</span>[row][col]</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true"></a>    <span class="kw">operator</span> <span class="kw">fun</span> <span class="kw">set</span>(<span class="va">row</span>: <span class="dt">Int</span>, <span class="va">col</span>: <span class="dt">Int</span>, <span class="va">value</span>: <span class="dt">Int</span>) {</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true"></a>        <span class="kw">data</span>[row][col] = value</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true"></a>    }</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true"></a>}</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true"></a></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true"></a><span class="kw">val</span> <span class="va">matrix</span> = Matrix(arrayOf(intArrayOf(<span class="dv">1</span>, <span class="dv">2</span>), intArrayOf(<span class="dv">3</span>, <span class="dv">4</span>)))</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true"></a><span class="kw">val</span> <span class="va">value</span> = matrix[<span class="dv">0</span>, <span class="dv">1</span>]  <span class="co">// 2</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true"></a>matrix[<span class="dv">1</span>, <span class="dv">0</span>] = <span class="dv">5</span></span></code></pre></div>
 <h2 id="invoke-operator">Invoke Operator</h2>
-<div class="sourceCode" id="cb19"><pre
-class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Make objects callable as functions</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> RequestBuilder <span class="op">{</span></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="kw">val</span> <span class="va">params</span> <span class="op">=</span> mutableMapOf<span class="op">&lt;</span><span class="kw">String</span><span class="op">,</span> <span class="kw">String</span><span class="op">&gt;()</span></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">operator</span> <span class="kw">fun</span> <span class="fu">invoke</span><span class="op">(</span><span class="va">key</span><span class="op">:</span> <span class="dt">String</span><span class="op">,</span> <span class="va">value</span><span class="op">:</span> <span class="dt">String</span><span class="op">)</span> <span class="op">=</span> apply <span class="op">{</span></span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>        params<span class="op">[</span>key<span class="op">]</span> <span class="op">=</span> value</span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">fun</span> <span class="fu">build</span><span class="op">()</span> <span class="op">=</span> params<span class="op">.</span>toMap<span class="op">()</span></span>
-<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
-<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a><span class="co">// DSL-like syntax</span></span>
-<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a><span class="kw">val</span> <span class="va">request</span> <span class="op">=</span> RequestBuilder<span class="op">()</span></span>
-<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>    <span class="op">(</span><span class="st">&quot;userId&quot;</span><span class="op">,</span> <span class="st">&quot;123&quot;</span><span class="op">)</span></span>
-<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>    <span class="op">(</span><span class="st">&quot;action&quot;</span><span class="op">,</span> <span class="st">&quot;submit&quot;</span><span class="op">)</span></span>
-<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span>build<span class="op">()</span></span></code></pre></div>
-<p><strong>Java alternative</strong>: Method chaining only
-(<code>.add()</code>, <code>.set()</code>), less natural syntax</p>
-<hr />
-<h1 id="feature-mapping">6. Feature Mapping</h1>
-<h2 id="inline-value-classes-type-safety-without-runtime-cost">Inline
-Value Classes: Type Safety Without Runtime Cost</h2>
-<div class="sourceCode" id="cb20"><pre
-class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Compile-time wrapper, runtime just a Long - zero allocation</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="at">@JvmInline</span></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>value <span class="kw">class</span> RequestId<span class="op">(</span><span class="kw">val</span> <span class="va">value</span><span class="op">:</span> <span class="dt">Long</span><span class="op">)</span></span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>@JvmInline</span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>value <span class="kw">class</span> UserId<span class="op">(</span><span class="kw">val</span> <span class="va">value</span><span class="op">:</span> <span class="dt">Long</span><span class="op">)</span></span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="co">// Type-safe at compile time</span></span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a><span class="kw">fun</span> processRequest<span class="op">(</span><span class="va">requestId</span><span class="op">:</span> <span class="dt">RequestId</span><span class="op">,</span> <span class="va">userId</span><span class="op">:</span> <span class="dt">UserId</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Cannot accidentally swap parameters</span></span>
-<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
-<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a><span class="co">// Usage</span></span>
-<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a><span class="kw">val</span> <span class="va">requestId</span> <span class="op">=</span> RequestId<span class="op">(</span><span class="dv">12345L</span><span class="op">)</span></span>
-<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>processRequest<span class="op">(</span>requestId<span class="op">,</span> userId<span class="op">)</span>  <span class="co">// Type-checked</span></span>
-<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>processRequest<span class="op">(</span>userId<span class="op">,</span> requestId<span class="op">)</span>  <span class="co">// Compile error!</span></span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true"></a><span class="co">// Make objects callable as functions</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true"></a><span class="kw">class</span> RequestBuilder {</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true"></a>    <span class="kw">private</span> <span class="kw">val</span> <span class="va">params</span> = mutableMapOf&lt;<span class="kw">String</span>, <span class="kw">String</span>&gt;()</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true"></a>    </span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true"></a>    <span class="kw">operator</span> <span class="kw">fun</span> <span class="fu">invoke</span>(<span class="va">key</span>: <span class="dt">String</span>, <span class="va">value</span>: <span class="dt">String</span>) = apply {</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true"></a>        params[key] = value</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true"></a>    }</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true"></a>    </span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true"></a>    <span class="kw">fun</span> <span class="fu">build</span>() = params.toMap()</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true"></a>}</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true"></a></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true"></a><span class="co">// DSL-like syntax</span></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true"></a><span class="kw">val</span> <span class="va">request</span> = RequestBuilder()</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true"></a>    (<span class="st">&quot;userId&quot;</span>, <span class="st">&quot;123&quot;</span>)</span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true"></a>    (<span class="st">&quot;action&quot;</span>, <span class="st">&quot;submit&quot;</span>)</span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true"></a>    .build()</span></code></pre></div>
+<p><strong>Java alternative</strong>: Method chaining only (<code>.add()</code>, <code>.set()</code>), less natural syntax</p>
+</section>
+<section id="feature-mapping" class="slide level1">
+<h1>6. Feature Mapping</h1>
+<h2 id="inline-value-classes-type-safety-without-runtime-cost">Inline Value Classes: Type Safety Without Runtime Cost</h2>
+<div class="sourceCode" id="cb20"><pre class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true"></a><span class="co">// Compile-time wrapper, runtime just a Long - zero allocation</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true"></a><span class="at">@JvmInline</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true"></a>value <span class="kw">class</span> RequestId(<span class="kw">val</span> <span class="va">value</span>: <span class="dt">Long</span>)</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true"></a></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true"></a>@JvmInline</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true"></a>value <span class="kw">class</span> UserId(<span class="kw">val</span> <span class="va">value</span>: <span class="dt">Long</span>)</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true"></a></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true"></a>// Type-safe at compile time</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true"></a><span class="kw">fun</span> processRequest(<span class="va">requestId</span>: <span class="dt">RequestId</span>, <span class="va">userId</span>: <span class="dt">UserId</span>) {</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true"></a>    <span class="co">// Cannot accidentally swap parameters</span></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true"></a>}</span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true"></a></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true"></a><span class="co">// Usage</span></span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true"></a><span class="kw">val</span> <span class="va">requestId</span> = RequestId(12345L)</span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true"></a>processRequest(requestId, userId)  <span class="co">// Type-checked</span></span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true"></a>processRequest(userId, requestId)  <span class="co">// Compile error!</span></span></code></pre></div>
 <h2 id="destructuring">Destructuring</h2>
-<div class="sourceCode" id="cb21"><pre
-class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">val</span> <span class="va">pair</span> <span class="op">=</span> Pair<span class="op">(</span><span class="dv">1</span><span class="op">,</span> <span class="st">&quot;one&quot;</span><span class="op">)</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="kw">val</span> (<span class="va">num</span><span class="op">,</span> str<span class="op">)</span> <span class="op">=</span> pair</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="co">// With data classes - extract multiple fields</span></span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="kw">val</span> (<span class="va">id</span><span class="op">,</span> name<span class="op">,</span> email<span class="op">)</span> <span class="op">=</span> User<span class="op">(</span><span class="dv">1</span><span class="op">,</span> <span class="st">&quot;Alice&quot;</span><span class="op">,</span> <span class="st">&quot;alice@test.com&quot;</span><span class="op">)</span></span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="co">// Ignore fields with underscore</span></span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a><span class="kw">val</span> (<span class="va">id</span><span class="op">,</span> _<span class="op">,</span> email<span class="op">)</span> <span class="op">=</span> user</span></code></pre></div>
-<hr />
-<h1 id="extension-functions">7. Extension Functions</h1>
-<h2 id="adding-methods-to-existing-types">Adding Methods to Existing
-Types</h2>
-<div class="sourceCode" id="cb22"><pre
-class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Production code - extending protobuf types</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="kw">fun</span> <span class="fu">Long</span><span class="op">.</span><span class="fu">toTimestamp</span><span class="op">()</span> <span class="op">=</span> Timestamp<span class="op">.</span>newBuilder<span class="op">().</span>also <span class="op">{</span></span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    it<span class="op">.</span>seconds <span class="op">=</span> Math<span class="op">.</span>floorDiv<span class="op">(</span><span class="kw">this</span><span class="op">,</span> <span class="dv">1000</span><span class="op">)</span></span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    it<span class="op">.</span>nanos <span class="op">=</span> Math<span class="op">.</span>floorMod<span class="op">(</span><span class="kw">this</span><span class="op">,</span> <span class="dv">1000</span><span class="op">)</span> <span class="op">*</span> <span class="dv">1000000</span></span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="op">}.</span>build<span class="op">()</span></span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="co">// Usage</span></span>
-<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a><span class="kw">val</span> <span class="va">timestamp</span> <span class="op">=</span> System<span class="op">.</span>currentTimeMillis<span class="op">().</span>toTimestamp<span class="op">()</span></span></code></pre></div>
-<h2 id="domain-extensions-for-api-versioning">Domain Extensions for API
-Versioning</h2>
-<div class="sourceCode" id="cb23"><pre
-class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="kw">fun</span> <span class="fu">Request</span><span class="op">.</span><span class="fu">toCurrentVersion</span><span class="op">(</span><span class="va">securityContext</span><span class="op">:</span> <span class="dt">SecurityContext</span><span class="op">?</span> <span class="op">=</span> null<span class="op">)</span> <span class="op">=</span> </span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    com<span class="op">.</span>example<span class="op">.</span>api<span class="op">.</span>Request<span class="op">.</span>newBuilder<span class="op">().</span>also <span class="op">{</span></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Mapping logic</span></span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="kw">fun</span> <span class="fu">Collection</span><span class="op">&lt;</span><span class="dt">Request</span><span class="op">&gt;.</span><span class="fu">toSnapshot</span><span class="op">(</span><span class="va">sequenceNumber</span><span class="op">:</span> <span class="dt">Long</span><span class="op">)</span> <span class="op">=</span> </span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>    Message<span class="op">.</span>newBuilder<span class="op">()</span></span>
-<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>        <span class="op">.</span>setDefaultHeader<span class="op">(</span>sequenceNumber<span class="op">)</span></span>
-<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>        <span class="op">.</span>also <span class="op">{</span> <span class="co">/* ... */</span> <span class="op">}</span></span>
-<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a><span class="co">// Method chaining</span></span>
-<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a><span class="kw">val</span> <span class="va">result</span> <span class="op">=</span> requests</span>
-<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span>filter <span class="op">{</span> it<span class="op">.</span>isActive <span class="op">}</span></span>
-<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span>map <span class="op">{</span> it<span class="op">.</span>toCurrentVersion<span class="op">()</span> <span class="op">}</span></span>
-<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span>toSnapshot<span class="op">(</span><span class="dv">123L</span><span class="op">)</span></span></code></pre></div>
-<p><strong>Compared to Java Utility Classes</strong>: Better IDE
-autocomplete, natural method chaining, improved discoverability</p>
-<hr />
-<h1 id="concurrency-reimagined">8. Concurrency Reimagined</h1>
-<h2 id="production-grpc-streaming-with-coroutines">Production gRPC
-Streaming with Coroutines</h2>
-<div class="sourceCode" id="cb24"><pre
-class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Handles 10,000+ concurrent streams on 4 CPU cores</span></span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="co">// Coroutines: ~100 bytes each vs 1MB per thread (10,000x less memory)</span></span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="at">@Component</span></span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> StreamingService <span class="op">:</span> <span class="dt">StreamingServiceGrpcKt</span>.<span class="dt">StreamingServiceCoroutineImplBase</span><span class="op">()</span> <span class="op">{</span></span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">override</span> suspend <span class="kw">fun</span> <span class="fu">subscribe</span><span class="op">(</span><span class="va">request</span><span class="op">:</span> <span class="dt">Subscription</span><span class="op">):</span> <span class="dt">Flow</span><span class="op">&lt;</span><span class="dt">Message</span><span class="op">&gt;</span> <span class="op">{</span></span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>        state<span class="op">.</span>checkStarted<span class="op">()</span></span>
-<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>        <span class="kw">return</span> sharedFlow</span>
-<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>            <span class="op">.</span>onSubscription <span class="op">{</span></span>
-<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>                log<span class="op">.</span>info<span class="op">(</span><span class="st">&quot;New subscription from {}&quot;</span><span class="op">,</span> request<span class="op">.</span>clientId<span class="op">)</span></span>
-<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>                requestSnapshotAction<span class="op">()</span></span>
-<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>            <span class="op">}</span></span>
-<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>            <span class="op">.</span>transform <span class="op">{</span> event <span class="op">-&gt;</span></span>
-<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>                <span class="cf">when</span> <span class="op">(</span>event<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>                    <span class="kw">is</span> MessageEvent <span class="op">-&gt;</span> emit<span class="op">(</span>event<span class="op">.</span>payload<span class="op">)</span></span>
-<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a>                    <span class="kw">is</span> HeartbeatEvent <span class="op">-&gt;</span> emit<span class="op">(</span>event<span class="op">.</span>heartbeat<span class="op">)</span></span>
-<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a>                    <span class="kw">is</span> SnapshotEvent <span class="op">-&gt;</span> emit<span class="op">(</span>event<span class="op">.</span>snapshot<span class="op">)</span></span>
-<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a>                <span class="op">}</span></span>
-<span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a>            <span class="op">}</span></span>
-<span id="cb24-21"><a href="#cb24-21" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
-<span id="cb24-22"><a href="#cb24-22" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true"></a><span class="kw">val</span> <span class="va">pair</span> = Pair(<span class="dv">1</span>, <span class="st">&quot;one&quot;</span>)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true"></a><span class="kw">val</span> (<span class="va">num</span>, str) = pair</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true"></a></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true"></a><span class="co">// With data classes - extract multiple fields</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true"></a><span class="kw">val</span> (<span class="va">id</span>, name, email) = User(<span class="dv">1</span>, <span class="st">&quot;Alice&quot;</span>, <span class="st">&quot;alice@test.com&quot;</span>)</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true"></a></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true"></a><span class="co">// Ignore fields with underscore</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true"></a><span class="kw">val</span> (<span class="va">id</span>, _, email) = user</span></code></pre></div>
+</section>
+<section id="extension-functions" class="slide level1">
+<h1>7. Extension Functions</h1>
+<h2 id="adding-methods-to-existing-types">Adding Methods to Existing Types</h2>
+<div class="sourceCode" id="cb22"><pre class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true"></a><span class="co">// Production code - extending protobuf types</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true"></a><span class="kw">fun</span> <span class="fu">Long</span>.<span class="fu">toTimestamp</span>() = Timestamp.newBuilder().also {</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true"></a>    it.seconds = Math.floorDiv(<span class="kw">this</span>, <span class="dv">1000</span>)</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true"></a>    it.nanos = Math.floorMod(<span class="kw">this</span>, <span class="dv">1000</span>) * <span class="dv">1000000</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true"></a>}.build()</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true"></a></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true"></a><span class="co">// Usage</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true"></a><span class="kw">val</span> <span class="va">timestamp</span> = System.currentTimeMillis().toTimestamp()</span></code></pre></div>
+<h2 id="domain-extensions-for-api-versioning">Domain Extensions for API Versioning</h2>
+<div class="sourceCode" id="cb23"><pre class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true"></a><span class="kw">fun</span> <span class="fu">Request</span>.<span class="fu">toCurrentVersion</span>(<span class="va">securityContext</span>: <span class="dt">SecurityContext?</span> = null) = </span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true"></a>    com.example.api.Request.newBuilder().also {</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true"></a>        <span class="co">// Mapping logic</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true"></a>    }</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true"></a></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true"></a><span class="kw">fun</span> <span class="fu">Collection</span>&lt;<span class="dt">Request</span>&gt;.<span class="fu">toSnapshot</span>(<span class="va">sequenceNumber</span>: <span class="dt">Long</span>) = </span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true"></a>    Message.newBuilder()</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true"></a>        .setDefaultHeader(sequenceNumber)</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true"></a>        .also { <span class="co">/* ... */</span> }</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true"></a></span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true"></a><span class="co">// Method chaining</span></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true"></a><span class="kw">val</span> <span class="va">result</span> = requests</span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true"></a>    .filter { it.isActive }</span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true"></a>    .map { it.toCurrentVersion() }</span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true"></a>    .toSnapshot(123L)</span></code></pre></div>
+<p><strong>Compared to Java Utility Classes</strong>: Better IDE autocomplete, natural method chaining, improved discoverability</p>
+</section>
+<section id="concurrency-reimagined" class="slide level1">
+<h1>8. Concurrency Reimagined</h1>
+<h2 id="production-grpc-streaming-with-coroutines">Production gRPC Streaming with Coroutines</h2>
+<div class="sourceCode" id="cb24"><pre class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true"></a><span class="co">// Handles 10,000+ concurrent streams on 4 CPU cores</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true"></a><span class="co">// Coroutines: ~100 bytes each vs 1MB per thread (10,000x less memory)</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true"></a><span class="at">@Component</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true"></a><span class="kw">class</span> StreamingService : <span class="dt">StreamingServiceGrpcKt</span>.<span class="dt">StreamingServiceCoroutineImplBase</span>() {</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true"></a>    </span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true"></a>    <span class="kw">override</span> suspend <span class="kw">fun</span> <span class="fu">subscribe</span>(<span class="va">request</span>: <span class="dt">Subscription</span>): <span class="dt">Flow</span>&lt;<span class="dt">Message</span>&gt; {</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true"></a>        state.checkStarted()</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true"></a>        </span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true"></a>        <span class="kw">return</span> sharedFlow</span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true"></a>            .onSubscription {</span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true"></a>                log.info(<span class="st">&quot;New subscription from {}&quot;</span>, request.clientId)</span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true"></a>                requestSnapshotAction()</span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true"></a>            }</span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true"></a>            .transform { event -&gt;</span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true"></a>                <span class="cf">when</span> (event) {</span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true"></a>                    <span class="kw">is</span> MessageEvent -&gt; emit(event.payload)</span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true"></a>                    <span class="kw">is</span> HeartbeatEvent -&gt; emit(event.heartbeat)</span>
+<span id="cb24-18"><a href="#cb24-18" aria-hidden="true"></a>                    <span class="kw">is</span> SnapshotEvent -&gt; emit(event.snapshot)</span>
+<span id="cb24-19"><a href="#cb24-19" aria-hidden="true"></a>                }</span>
+<span id="cb24-20"><a href="#cb24-20" aria-hidden="true"></a>            }</span>
+<span id="cb24-21"><a href="#cb24-21" aria-hidden="true"></a>    }</span>
+<span id="cb24-22"><a href="#cb24-22" aria-hidden="true"></a>}</span></code></pre></div>
 <h2 id="measured-benefits">Measured Benefits</h2>
-<p><strong>Memory efficiency</strong>: ~100 bytes per coroutine vs ~1MB
-per Java thread<br />
-<strong>Concurrency</strong>: 10,000+ streams on 4 cores vs ~1,000
-threads maximum<br />
-<strong>Code reduction</strong>: 50% less code (no StreamObserver
-callbacks)<br />
-<strong>Backpressure</strong>: Automatic flow control vs manual
-buffering logic</p>
+<p><strong>Memory efficiency</strong>: ~100 bytes per coroutine vs ~1MB per Java thread<br />
+<strong>Concurrency</strong>: 10,000+ streams on 4 cores vs ~1,000 threads maximum<br />
+<strong>Code reduction</strong>: 50% less code (no StreamObserver callbacks)<br />
+<strong>Backpressure</strong>: Automatic flow control vs manual buffering logic</p>
 <h2 id="debugging-coroutines">Debugging Coroutines</h2>
 <figure>
-<img src="images/coroutineDebugger.png" alt="Coroutine Debugger" />
-<figcaption aria-hidden="true">Coroutine Debugger</figcaption>
+<img data-src="images/coroutineDebugger.png" alt="" /><figcaption>Coroutine Debugger</figcaption>
 </figure>
-<p>IntelliJ IDEA shows coroutine suspension points and state - essential
-for debugging async code</p>
-<hr />
-<h1 id="the-framework-decision">9. The Framework Decision</h1>
-<h2 id="spring-boot-production-di-example">Spring Boot: Production DI
-Example</h2>
-<div class="sourceCode" id="cb25"><pre
-class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Constructor injection: 7 lines vs 20 in Java (65% reduction)</span></span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="co">// Immutability enforced by &#39;val&#39; - thread-safe by default</span></span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="at">@Component</span></span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> StreamingService<span class="op">(</span></span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>    @<span class="va">Value</span>(&quot;\${<span class="va">streaming</span>.<span class="va">channel</span>.<span class="va">buffer</span>.<span class="va">size</span>}&quot;<span class="op">)</span></span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="kw">val</span> channelBufferSize<span class="op">:</span> <span class="dt">Int</span> = 1<span class="dt">_000</span><span class="op">,</span></span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="kw">val</span> <span class="va">dispatchers</span><span class="op">:</span> Dispatchers<span class="op">,</span></span>
-<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">@Autowired</span><span class="op">(</span>required <span class="op">=</span> <span class="kw">false</span><span class="op">)</span></span>
-<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="kw">val</span> <span class="va">droppedMessageHandler</span><span class="op">:</span> <span class="op">(</span>Message<span class="op">)</span> <span class="op">-&gt;</span> <span class="kw">Unit</span> <span class="op">=</span> <span class="op">{},</span></span>
-<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">@Autowired</span> <span class="at">@Lazy</span></span>
-<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="kw">val</span> <span class="va">eventPublisher</span><span class="op">:</span> EventPublisher</span>
-<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a><span class="op">)</span></span></code></pre></div>
-<p><strong>Kotlin advantages</strong>: Automatic property creation,
-default values, enforced immutability</p>
+<p>IntelliJ IDEA shows coroutine suspension points and state - essential for debugging async code</p>
+</section>
+<section id="the-framework-decision" class="slide level1">
+<h1>9. The Framework Decision</h1>
+<h2 id="spring-boot-production-di-example">Spring Boot: Production DI Example</h2>
+<div class="sourceCode" id="cb25"><pre class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true"></a><span class="co">// Constructor injection: 7 lines vs 20 in Java (65% reduction)</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true"></a><span class="co">// Immutability enforced by &#39;val&#39; - thread-safe by default</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true"></a><span class="at">@Component</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true"></a><span class="kw">class</span> StreamingService(</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true"></a>    @<span class="va">Value</span>(&quot;\${<span class="va">streaming</span>.<span class="va">channel</span>.<span class="va">buffer</span>.<span class="va">size</span>}&quot;)</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true"></a>    <span class="kw">private</span> <span class="kw">val</span> channelBufferSize: <span class="dt">Int</span> = <span class="dt">1_000</span>,</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true"></a>    <span class="kw">private</span> <span class="kw">val</span> <span class="va">dispatchers</span>: Dispatchers,</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true"></a>    <span class="at">@Autowired</span>(required = <span class="kw">false</span>)</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true"></a>    <span class="kw">private</span> <span class="kw">val</span> <span class="va">droppedMessageHandler</span>: (Message) -&gt; <span class="kw">Unit</span> = {},</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true"></a>    <span class="at">@Autowired</span> <span class="at">@Lazy</span></span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true"></a>    <span class="kw">private</span> <span class="kw">val</span> <span class="va">eventPublisher</span>: EventPublisher</span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true"></a>)</span></code></pre></div>
+<p><strong>Kotlin advantages</strong>: Automatic property creation, default values, enforced immutability</p>
 <h2 id="spring-boot-endpoint-example">Spring Boot: Endpoint Example</h2>
-<div class="sourceCode" id="cb26"><pre
-class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="at">@RestController</span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="at">@RequestMapping</span><span class="op">(</span><span class="st">&quot;/api&quot;</span><span class="op">)</span></span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> UserController<span class="op">(</span><span class="kw">private</span> <span class="kw">val</span> <span class="va">userService</span><span class="op">:</span> <span class="dt">UserService</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">@GetMapping</span><span class="op">(</span><span class="st">&quot;/users/{id}&quot;</span><span class="op">)</span></span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>    suspend <span class="kw">fun</span> <span class="fu">getUser</span><span class="op">(</span>@<span class="va">PathVariable</span> <span class="va">id</span><span class="op">:</span> <span class="dt">Int</span><span class="op">):</span> <span class="dt">User</span> <span class="op">{</span></span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>        <span class="kw">return</span> userService<span class="op">.</span>findById<span class="op">(</span>id<span class="op">)</span></span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
-<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
-<p><strong>Note</strong>: Requires Spring WebFlux for suspend functions.
-Works with coroutines through adapters.</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true"></a><span class="at">@RestController</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true"></a><span class="at">@RequestMapping</span>(<span class="st">&quot;/api&quot;</span>)</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true"></a><span class="kw">class</span> UserController(<span class="kw">private</span> <span class="kw">val</span> <span class="va">userService</span>: <span class="dt">UserService</span>) {</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true"></a>    </span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true"></a>    <span class="at">@GetMapping</span>(<span class="st">&quot;/users/{id}&quot;</span>)</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true"></a>    suspend <span class="kw">fun</span> <span class="fu">getUser</span>(@<span class="va">PathVariable</span> <span class="va">id</span>: <span class="dt">Int</span>): <span class="dt">User</span> {</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true"></a>        <span class="kw">return</span> userService.findById(id)</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true"></a>    }</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true"></a>}</span></code></pre></div>
+<p><strong>Note</strong>: Requires Spring WebFlux for suspend functions. Works with coroutines through adapters.</p>
 <h2 id="ktor-di-example">Ktor: DI Example</h2>
-<div class="sourceCode" id="cb27"><pre
-class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="kw">fun</span> <span class="fu">Application</span><span class="op">.</span><span class="fu">module</span><span class="op">()</span> <span class="op">{</span></span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">val</span> <span class="va">userService</span> <span class="kw">by</span> inject<span class="op">&lt;</span>UserService<span class="op">&gt;()</span>  <span class="co">// Koin DI</span></span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>    routing <span class="op">{</span></span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>        <span class="kw">get</span><span class="op">(</span><span class="st">&quot;/api/users/{id}&quot;</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>            <span class="kw">val</span> <span class="va">id</span> <span class="op">=</span> call<span class="op">.</span>parameters<span class="op">[</span><span class="st">&quot;id&quot;</span><span class="op">]?.</span>toInt<span class="op">()</span> <span class="op">?:</span> return<span class="at">@get</span></span>
-<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>            call<span class="op">.</span>respond<span class="op">(</span>userService<span class="op">.</span>findById<span class="op">(</span>id<span class="op">))</span></span>
-<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
-<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
-<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
-<p><strong>Direct coroutine support</strong>: <code>suspend</code>
-functions work naturally without adapters</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true"></a><span class="kw">fun</span> <span class="fu">Application</span>.<span class="fu">module</span>() {</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true"></a>    <span class="kw">val</span> <span class="va">userService</span> <span class="kw">by</span> inject&lt;UserService&gt;()  <span class="co">// Koin DI</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true"></a>    </span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true"></a>    routing {</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true"></a>        <span class="kw">get</span>(<span class="st">&quot;/api/users/{id}&quot;</span>) {</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true"></a>            <span class="kw">val</span> <span class="va">id</span> = call.parameters[<span class="st">&quot;id&quot;</span>]?.toInt() ?: return<span class="at">@get</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true"></a>            call.respond(userService.findById(id))</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true"></a>        }</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true"></a>    }</span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true"></a>}</span></code></pre></div>
+<p><strong>Direct coroutine support</strong>: <code>suspend</code> functions work naturally without adapters</p>
 <h2 id="framework-comparison">Framework Comparison</h2>
-<table style="width:100%;">
-<colgroup>
-<col style="width: 29%" />
-<col style="width: 48%" />
-<col style="width: 22%" />
-</colgroup>
+<table>
 <thead>
-<tr>
+<tr class="header">
 <th>Aspect</th>
 <th>Spring Boot</th>
 <th>Ktor</th>
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td><strong>DI</strong></td>
 <td>Constructor injection, annotations</td>
 <td>Koin or manual</td>
 </tr>
-<tr>
+<tr class="even">
 <td><strong>Endpoints</strong></td>
 <td>Controllers with annotations</td>
 <td>DSL routing blocks</td>
 </tr>
-<tr>
+<tr class="odd">
 <td><strong>Coroutines</strong></td>
 <td>Adapter layer (added later)</td>
 <td>Native from day one</td>
 </tr>
-<tr>
+<tr class="even">
 <td><strong>Startup</strong></td>
 <td>5-10 seconds</td>
 <td>1-2 seconds</td>
 </tr>
-<tr>
+<tr class="odd">
 <td><strong>Memory</strong></td>
 <td>200MB+ base</td>
 <td>50MB base</td>
 </tr>
-<tr>
+<tr class="even">
 <td><strong>Best for</strong></td>
 <td>Enterprise apps, large teams</td>
 <td>Microservices, async-heavy</td>
 </tr>
 </tbody>
 </table>
-<p><strong>When to choose</strong>: Spring (enterprise, ecosystem), Ktor
-(lightweight microservices, coroutines-first)</p>
-<hr />
-<h1 id="ecosystem-recommendations">10. Ecosystem Recommendations</h1>
+<p><strong>When to choose</strong>: Spring (enterprise, ecosystem), Ktor (lightweight microservices, coroutines-first)</p>
+</section>
+<section id="ecosystem-recommendations" class="slide level1">
+<h1>10. Ecosystem Recommendations</h1>
 <h2 id="testing-mockk">Testing: MockK</h2>
-<div class="sourceCode" id="cb28"><pre
-class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="kw">val</span> <span class="va">userService</span> <span class="op">=</span> mockk<span class="op">&lt;</span>UserService<span class="op">&gt;()</span></span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>every <span class="op">{</span> userService<span class="op">.</span>findById<span class="op">(</span><span class="dv">1</span><span class="op">)</span> <span class="op">}</span> returns User<span class="op">(</span><span class="dv">1</span><span class="op">,</span> <span class="st">&quot;Alice&quot;</span><span class="op">,</span> <span class="st">&quot;alice@test.com&quot;</span><span class="op">)</span></span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>verify <span class="op">{</span> userService<span class="op">.</span>findById<span class="op">(</span><span class="dv">1</span><span class="op">)</span> <span class="op">}</span></span></code></pre></div>
-<h2 id="di-koin-lightweight-alternative-to-spring">DI: Koin (Lightweight
-Alternative to Spring)</h2>
-<div class="sourceCode" id="cb29"><pre
-class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="kw">val</span> <span class="va">koinModule</span> <span class="op">=</span> module <span class="op">{</span></span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>    single <span class="op">{</span> UserRepository<span class="op">()</span> <span class="op">}</span></span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    factory <span class="op">{</span> UserService<span class="op">(</span><span class="kw">get</span><span class="op">())</span> <span class="op">}</span></span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
-<p><strong>Koin vs Spring</strong>: Koin is simpler (no reflection, no
-AOP), near-zero overhead. Spring is more powerful for enterprise
-applications needing full ecosystem.</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true"></a><span class="kw">val</span> <span class="va">userService</span> = mockk&lt;UserService&gt;()</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true"></a>every { userService.findById(<span class="dv">1</span>) } returns User(<span class="dv">1</span>, <span class="st">&quot;Alice&quot;</span>, <span class="st">&quot;alice@test.com&quot;</span>)</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true"></a></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true"></a>verify { userService.findById(<span class="dv">1</span>) }</span></code></pre></div>
+<h2 id="di-koin-lightweight-alternative-to-spring">DI: Koin (Lightweight Alternative to Spring)</h2>
+<div class="sourceCode" id="cb29"><pre class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true"></a><span class="kw">val</span> <span class="va">koinModule</span> = module {</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true"></a>    single { UserRepository() }</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true"></a>    factory { UserService(<span class="kw">get</span>()) }</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true"></a>}</span></code></pre></div>
+<p><strong>Koin vs Spring</strong>: Koin is simpler (no reflection, no AOP), near-zero overhead. Spring is more powerful for enterprise applications needing full ecosystem.</p>
 <h2 id="other-essentials">Other Essentials</h2>
 <ul>
 <li><strong>Exposed</strong>: Type-safe SQL DSL</li>
 <li><strong>Kotlinx.serialization</strong>: JSON at compile-time</li>
 <li><strong>Coroutines</strong>: Flow for reactive streams</li>
-<li><strong>Arrow</strong>: Advanced functional programming (Either,
-Option, effect handling) - optional for FP-heavy projects</li>
+<li><strong>Arrow</strong>: Advanced functional programming (Either, Option, effect handling) - optional for FP-heavy projects</li>
 </ul>
-<hr />
-<h1 id="learning-resources">Learning Resources</h1>
+</section>
+<section id="learning-resources" class="slide level1">
+<h1>Learning Resources</h1>
 <h2 id="kotlin-koans">Kotlin Koans</h2>
-<p>Interactive exercises in your IDE - learn by solving 42 tasks
-covering Kotlin syntax and idioms</p>
-<p><strong>Best for</strong>: Hands-on learners who want to practice
-immediately</p>
+<p>Interactive exercises in your IDE - learn by solving 42 tasks covering Kotlin syntax and idioms</p>
+<p><strong>Best for</strong>: Hands-on learners who want to practice immediately</p>
 <h2 id="official-documentation">Official Documentation</h2>
 <ul>
 <li><strong>kotlinlang.org</strong> - Comprehensive language guide</li>
 <li><strong>Kotlin Style Guide</strong> - Idiomatic Kotlin patterns</li>
-<li><strong>Kotlin Blog</strong> - Updates and best practices from
-JetBrains</li>
+<li><strong>Kotlin Blog</strong> - Updates and best practices from JetBrains</li>
 </ul>
 <h2 id="books-courses">Books &amp; Courses</h2>
 <ul>
-<li><strong>Kotlin in Action</strong> (Dmitry Jemerov, Svetlana
-Isakova)</li>
+<li><strong>Kotlin in Action</strong> (Dmitry Jemerov, Svetlana Isakova)</li>
 <li><strong>Effective Kotlin</strong> (Marcin Moskała)</li>
 <li><strong>JetBrains Academy</strong> - Interactive courses</li>
 </ul>
@@ -790,33 +575,49 @@ Isakova)</li>
 <li>KotlinConf talks on YouTube</li>
 <li>/r/Kotlin subreddit</li>
 </ul>
-<hr />
-<h1 id="key-takeaways">Key Takeaways</h1>
+</section>
+<section id="key-takeaways" class="slide level1">
+<h1>Key Takeaways</h1>
 <ol type="1">
-<li><strong>Null safety prevents production bugs</strong> - Type-level
-enforcement</li>
-<li><strong>40-50% less code</strong> - Data classes, extensions,
-functional APIs</li>
-<li><strong>First-class functions eliminate ceremony</strong> - No
-functional interfaces needed<br />
+<li><strong>Null safety prevents production bugs</strong> - Type-level enforcement</li>
+<li><strong>40-50% less code</strong> - Data classes, extensions, functional APIs</li>
+<li><strong>First-class functions eliminate ceremony</strong> - No functional interfaces needed<br />
 </li>
-<li><strong>Extension functions improve code organization</strong> -
-Natural method chaining</li>
-<li><strong>Operator overloading for domain clarity</strong> - Natural
-arithmetic and access syntax</li>
-<li><strong>Inline value classes = type safety + zero overhead</strong>
-- Java waiting on Valhalla since 2014</li>
-<li><strong>Coroutines + Flow provide simpler async</strong> - Better
-than CompletableFuture</li>
+<li><strong>Extension functions improve code organization</strong> - Natural method chaining</li>
+<li><strong>Operator overloading for domain clarity</strong> - Natural arithmetic and access syntax</li>
+<li><strong>Inline value classes = type safety + zero overhead</strong> - Java waiting on Valhalla since 2014</li>
+<li><strong>Coroutines + Flow provide simpler async</strong> - Better than CompletableFuture</li>
 <li><strong>Production-proven</strong> - 30M+ req/day at scale</li>
-<li><strong>Spring Boot integration is mature</strong> - 65% less DI
-boilerplate</li>
-<li><strong>Learning curve: 2-4 weeks</strong> - Long-term productivity
-benefits</li>
+<li><strong>Spring Boot integration is mature</strong> - 65% less DI boilerplate</li>
+<li><strong>Learning curve: 2-4 weeks</strong> - Long-term productivity benefits</li>
 </ol>
-<hr />
-<h1 id="questions">Questions?</h1>
-<p><em>Let’s discuss. What resonates with your current
-challenges?</em></p>
-</body>
+</section>
+<section id="questions" class="slide level1">
+<h1>Questions?</h1>
+<p><em>Let’s discuss. What resonates with your current challenges?</em></p>
+</section>
+    </div>
+  </div>
+
+  <script src="reveal.js/js/reveal.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        // Push each slide change to the browser history
+        history: true,
+        // Transition style
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: 'reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: 'reveal.js/plugin/zoom-js/zoom.js', async: true },
+          { src: 'reveal.js/plugin/notes/notes.js', async: true }
+        ]
+      });
+    </script>
+    </body>
 </html>
