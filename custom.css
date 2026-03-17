@@ -54,28 +54,40 @@
     border-radius: 8px;
 }
 
-/* Fix syntax highlighting colors for dark background */
-.reveal pre code .hljs-keyword,
-.reveal pre code .hljs-built_in,
-.reveal pre code .hljs-type {
+/* Fix syntax highlighting colors for dark background (Pandoc classes) */
+.reveal pre code .kw {
     color: #ff79c6 !important; /* Pink for keywords */
 }
 
-.reveal pre code .hljs-string {
+.reveal pre code .va {
+    color: #f8f8f2 !important; /* Light gray for variables - no blue! */
+}
+
+.reveal pre code .st {
     color: #50fa7b !important; /* Green for strings */
 }
 
-.reveal pre code .hljs-number {
+.reveal pre code .dv,
+.reveal pre code .bn,
+.reveal pre code .fl {
     color: #bd93f9 !important; /* Purple for numbers */
 }
 
-.reveal pre code .hljs-function,
-.reveal pre code .hljs-title {
+.reveal pre code .fu {
     color: #8be9fd !important; /* Cyan for functions */
 }
 
-.reveal pre code .hljs-comment {
+.reveal pre code .dt,
+.reveal pre code .at {
+    color: #ffb86c !important; /* Orange for types and annotations */
+}
+
+.reveal pre code .co {
     color: #6272a4 !important; /* Muted for comments */
+}
+
+.reveal pre code .op {
+    color: #ff79c6 !important; /* Pink for operators */
 }
 
 /* Make inline code balanced */
