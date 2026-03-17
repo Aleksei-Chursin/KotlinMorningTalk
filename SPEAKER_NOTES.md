@@ -5,7 +5,7 @@
 Good morning. 
 Today's morning talk is about Kotlin for Java developers. We'll focus on practical Kotlin features rather than philosophical discussions about why you should or shouldn't use it. I want to show you tangible examples of how Kotlin makes your code better and helps you ship faster.
 
-This talk is designed for Java developers with a couple years of experience who are either considering Kotlin for their team or just curious about what makes it different. We'll cover 9 topics in about an hour, and each one represents a concrete feature you can start using in your own projects right away.
+This talk is designed for Java developers with a couple years of experience who are either considering Kotlin for their team or just curious about what makes it different. We'll cover 11 topics in about an hour, and each one represents a concrete feature you can start using in your own projects right away.
 
 ---
 

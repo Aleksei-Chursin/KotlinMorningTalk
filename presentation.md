@@ -1,6 +1,6 @@
 % Kotlin for Java Developers
 % Aleksei Chursin
-% February 2026
+% March 2026
 
 # Welcome
 
