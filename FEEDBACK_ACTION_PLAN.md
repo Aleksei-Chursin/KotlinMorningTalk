@@ -2,7 +2,7 @@
 
 ## Critical Issues to Fix
 
-### 1. **Java Records Comparison Missing** [Priority: HIGH] ✅ **COMPLETED**
+### 1. **Java Records Comparison Missing** [Priority: HIGH] COMPLETED
 **Timestamp:** [13:02.2]
 
 **Feedback:** Friend pointed out that Java 17 has Records which are similar to Kotlin data classes - also immutable. Presenter may not be aware of this feature.
@@ -23,7 +23,7 @@
 
 ---
 
-### 2. **Code Examples Too Fast / No Visual Walkthrough** [Priority: HIGH] ✅ **COMPLETED**
+### 2. **Code Examples Too Fast / No Visual Walkthrough** [Priority: HIGH] COMPLETED
 **Timestamp:** [17:05.9], [17:30.6]
 
 **Feedback:** Presenter jumped too quickly between code blocks. Friend was trying to read/process the code and couldn't follow what was being said. Half the content was missed while trying to understand the syntax.
@@ -46,7 +46,7 @@
 
 ---
 
-### 3. **Missing Java Comparison Code** [Priority: MEDIUM] ✅ **COMPLETED**
+### 3. **Missing Java Comparison Code** [Priority: MEDIUM] COMPLETED
 **Timestamp:** [22:21.0]
 
 **Feedback:** For operator overloading Money example, presenter explained Java alternative verbally but didn't show the code. Friend couldn't visualize what the Java equivalent would look like.
@@ -66,7 +66,7 @@
 
 ---
 
-### 4. **val/var Not Explained** [Priority: MEDIUM] ✅ **COMPLETED**
+### 4. **val/var Not Explained** [Priority: MEDIUM] COMPLETED
 **Timestamp:** [36:09.1]
 
 **Feedback:** Presenter kept mentioning val/var throughout but never explained what they mean. Not obvious for Java developers.
@@ -92,7 +92,7 @@
 
 ---
 
-### 5. **Inconsistent Framework Comparison** [Priority: HIGH] ✅ **COMPLETED**
+### 5. **Inconsistent Framework Comparison** [Priority: HIGH] COMPLETED
 **Timestamp:** [39:21.0], [39:40.9]
 
 **Feedback:** Spring Boot example shows DI/class creation, but Ktor example shows endpoint routing. This is comparing apples to oranges. Expected to see either both as endpoints OR both as class creation patterns.
@@ -137,7 +137,7 @@
 
 ---
 
-### 7. **No Visual Context for "3 Blocks" Structure** [Priority: LOW] ✅ **COMPLETED**
+### 7. **No Visual Context for "3 Blocks" Structure** [Priority: LOW] COMPLETED
 **Timestamp:** [04:37.1]
 
 **Feedback:** Presenter mentioned "three blocks with topics" but didn't provide visual context. Felt like noise without visual organization.
@@ -168,37 +168,15 @@
 ## Positive Feedback (Keep These!)
 
 ### Features Friend Found Interesting:
-1. ✅ **Extension Functions** [47:17.5] - "This is a cool feature"
-2. ✅ **Destructuring** [47:35.2] - "This is interesting"  
-3. ✅ **Inline Value Classes** [48:04.0] - "This is cool, we have utility classes for this"
+1. **Extension Functions** [47:17.5] - Allows adding methods to existing classes without inheritance
+2. **Destructuring** [47:35.2] - Enables unpacking data class properties into separate variables
+3. **Inline Value Classes** [48:04.0] - Zero-overhead wrapper types at runtime, equivalent to friend's current utility class patterns
 
 ---
 
 ## Additional Recommendations
 
-### 8. **Prepare for Java Records Challenge** ✅ **COMPLETED** (same as Issue 1)
-**Timestamp:** [48:22.1]
-
-**Feedback:** If someone knowledgeable about Java is in audience, they might challenge the data classes section by saying "Java has Records now, why is this special?"
-
-**Action Items:**
-- [x] Proactively address Java Records in presentation
-- [x] Show timeline: Kotlin data classes (2011) vs Java Records (2020)
-- [x] Highlight Kotlin advantages:
-  - `copy()` method with named parameters
-  - Can extend classes (Records cannot)
-  - More customization options
-  - Worked on older JVM versions
-- [x] Be ready for Q&A about Records
-
-**Location:** Slide 11-13 (Data Classes section)
-
-**Implementation:**
-- Same as Issue 1 - comprehensive Java Records comparison added with all these points covered
-
----
-
-### 9. **Mouse/Pointer Usage** ⚠️ **PARTIALLY ADDRESSED**
+### 8. **Mouse/Pointer Usage** PARTIALLY ADDRESSED
 **Implicit feedback from code reading struggles**
 
 **Action Items:**
@@ -219,21 +197,21 @@
 
 ## Summary Priority Order
 
-### ✅ COMPLETED:
+### COMPLETED:
 1. **Critical Content Fixes:**
-   - ✅ Added Java Records comparison to Data Classes section with timeline, limitations, and advantages
-   - ✅ Fixed Spring Boot vs Ktor comparison (now shows equivalent patterns: both DI examples, both endpoint examples, plus comparison table)
-   - ✅ Slowed down code walkthroughs with [pointer instructions] in speaker notes
-   - ✅ Explained val/var early in Unlearning Phase with Java comparison
+   - Added Java Records comparison to Data Classes section with timeline, limitations, and advantages
+   - Fixed Spring Boot vs Ktor comparison (now shows equivalent patterns: both DI examples, both endpoint examples, plus comparison table)
+   - Added [pointer instructions] throughout speaker notes for structured code walkthroughs
+   - Explained val/var early in Unlearning Phase with Java comparison
 
 2. **Medium Priority Fixes:**
-   - ✅ Added Kotlin vs Java side-by-side code for operator overloading
-   - ✅ Added visual structure to "3 blocks" in Today's Plan
+   - Added Kotlin vs Java side-by-side code for operator overloading
+   - Added visual structure to "3 blocks" in Today's Plan
 
 3. **Partially Addressed:**
-   - ⚠️ Mouse pointer discipline - added instructions in speaker notes, needs practice execution
+   - Mouse pointer discipline - added instructions in speaker notes, requires practice execution
 
-### 🔄 REMAINING (Practice/Delivery):
+### REMAINING (Practice/Delivery):
 1. **Delivery Energy** (Issue 6):
    - Practice when healthy to establish baseline energy level
    - Work on voice modulation, pauses, enthusiasm
@@ -241,7 +219,7 @@
 
 2. **Testing Plan:**
    - [ ] Record another practice run after fixes
-   - [ ] Time each section (aim for 5-7 min per topic)
+   - [ ] Time each section (target: 5-7 minutes per topic)
    - [ ] Ask friend or colleague to review revised version
 
 ---
@@ -261,8 +239,8 @@
   - Detailed explanations and Java comparisons
   - [Pointer instructions] for code walkthroughs
   - Framework comparison table walkthrough
-  - Java Records discussion (timing, limitations, advantages)
+  - Java Records discussion (timeline, limitations, advantages)
 
-**All critical and medium priority content issues resolved. Ready for practice run.**
+**All critical and medium priority content issues resolved.**
 - [ ] Test on someone unfamiliar with Kotlin
 - [ ] Ensure total runtime is under 60 minutes with Q&A buffer
