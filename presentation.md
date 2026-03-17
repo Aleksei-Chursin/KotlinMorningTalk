@@ -84,7 +84,7 @@ val p = Person("Alice", 30)
 
 ---
 
-# 1. The "Unlearning" Phase (cont'd)
+# 1. Top-Level & Inline Functions
 
 ## No Static Overhead
 
@@ -144,7 +144,7 @@ class StreamingService {
 
 ---
 
-# 2. Null Safety (cont'd)
+# 2. Safe Calls & Elvis Operator
 
 ## Safe Calls with `let`
 
@@ -198,7 +198,7 @@ data class Health(
 
 ---
 
-# 3. Data Classes (cont'd)
+# 3. Immutable Updates
 
 ## Immutable Updates with Copy
 
@@ -268,7 +268,7 @@ val result = calculate(5, 3, add)  // 8
 
 ---
 
-# 4. Functional Programming (cont'd)
+# 4. Collection Operations
 
 ## Collection Operations
 

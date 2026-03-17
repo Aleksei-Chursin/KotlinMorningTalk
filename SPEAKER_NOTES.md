@@ -67,21 +67,33 @@ Let me talk about null safety, because this is where Kotlin really differs from 
 
 Here's the key difference: in Kotlin, `String` and `String?` are actually different types at compile time. The compiler enforces this distinction, so you can't accidentally use a nullable value where a non-null one is expected.
 
-This matters because when we look at production bugs in Java systems, a huge portion of them are null-related. 
-Kotlin allows you to use patterns like the Elvis operator for early returns. When you write `sendingContext ?: return`, you get a single efficient null check that compiles to clean bytecode without nested branches.
+[Point to the slide title] This is a production example from a high-frequency service that handles 30+ million requests per day. Let me walk through what this code does.
 
-The compiler does something interesting here called smart casting. 
-After you check that a value isn't null, the compiler knows that for the rest of that scope, and it treats it as a non-null type. This means zero runtime overhead for accessing that value afterward - the compiler has already proven it's safe.
+[Point to the function signature] The `send` function takes an iterable of broadcasts. Inside, we check if `context` is null using the Elvis operator: `val ctx = context ?: return`. If context is null, the function returns early. If it's not null, `ctx` is now smart-cast to a non-null type.
 
-What this gives us in practice: The type-level null safety eliminates runtime null checks in hot code paths, which means fewer branch instructions. CPU branch prediction works by guessing which path a conditional branch will take. When you have defensive null checks scattered throughout code, the CPU's branch predictor must track more branches, and mispredictions cause pipeline stalls. Kotlin's type system eliminates many branches at compile time because the compiler has already proven values are non-null, reducing the total number of branches the CPU needs to predict.
+[Point to the ctx.scope.launch block] Now we can safely use `ctx` without any null checks because the compiler has proven it's non-null. We launch a coroutine, filter for MessageBroadcast instances, map them to data, and send through the channel.
+
+[Point to the comment about smart-cast] The key benefit: after the null check, `ctx` is smart-cast to non-null, so accessing `ctx.channel.send(messages)` requires zero runtime overhead - no null check needed because the compiler has already proven it's safe.
+
+This matters for performance: type-level null safety eliminates runtime null checks in hot code paths, reducing branch instructions. When you have defensive null checks scattered throughout code, the CPU's branch predictor must track more branches, and mispredictions cause pipeline stalls. Kotlin's type system eliminates many branches at compile time.
 
 ---
 
-## Slide 7: Null Safety (cont'd) - Safe Calls and Elvis
+## Slide 7: Safe Calls & Elvis Operator
 
-The `?.let { }` pattern is particularly useful for optional fields. The `let` function takes the non-null value and passes it to a lambda, executing the block only when the value isn't null. Under the hood, this compiles to the same bytecode as an if-not-null check, but the scoping is cleaner - the lambda parameter shadows the outer variable, making it impossible to accidentally use the nullable reference inside the block. When you're building objects where some fields might be present or not, you write one concise line instead of an if-not-null block. Compare that to Java where you'd write explicit if-not-null checks or chain Optional methods.
+[Point to the first code block] Now let's look at more null safety patterns. The `?.let { }` pattern is particularly useful when building objects with optional fields.
 
-The Elvis operator `?:` provides default values for null cases. It's particularly useful when chaining nullable properties or providing fallback values.
+[Walk through the buildRequest function] This function takes a request and a modification. When `modification.clientId` is not null, we execute the lambda and set the builder's clientId. If it's null, nothing happens - no exception, no extra code needed.
+
+[Point to the second let block] Same pattern with priceDelta - only when it's present do we extract its value and set it on the builder.
+
+The beauty here: the lambda parameter shadows the outer variable, making it impossible to accidentally use the nullable reference inside the block. This compiles to the same bytecode as an if-not-null check, but it's more concise and safer.
+
+[Point to the Elvis operator examples] The Elvis operator `?:` provides default values. Read it as "use the left side if it's not null, otherwise use the right side". So `modification.price ?: request.price` means: if modification has a price, use it; otherwise fall back to the request's price.
+
+[Point to the second Elvis example] Same with quantity - use the modified value if present, otherwise use the original.
+
+Compare this to Java: you'd write explicit if-not-null checks or chain Optional.map().orElse() calls. Kotlin's approach is more concise and reads more naturally.
 
 ---
 

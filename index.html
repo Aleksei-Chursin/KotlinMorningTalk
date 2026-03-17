@@ -166,8 +166,8 @@
 <div class="sourceCode" id="cb4"><pre class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a><span class="co">// Kotlin - no &quot;new&quot;</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true"></a><span class="kw">val</span> <span class="va">p</span> = Person(<span class="st">&quot;Alice&quot;</span>, <span class="dv">30</span>)</span></code></pre></div>
 </section>
-<section id="the-unlearning-phase-contd" class="slide level1">
-<h1>1. The “Unlearning” Phase (cont’d)</h1>
+<section id="top-level-inline-functions" class="slide level1">
+<h1>1. Top-Level &amp; Inline Functions</h1>
 <h2 id="no-static-overhead">No Static Overhead</h2>
 <div class="sourceCode" id="cb5"><pre class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a><span class="co">// Top-level functions (no class needed)</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true"></a><span class="kw">fun</span> <span class="fu">calculateTotal</span>(<span class="va">items</span>: <span class="dt">List</span>&lt;<span class="va">Int</span>&gt;): <span class="dt">Int</span> {</span>
@@ -210,8 +210,8 @@
 <span id="cb7-17"><a href="#cb7-17" aria-hidden="true"></a>}</span></code></pre></div>
 <p><strong>Key</strong>: <code>ctx</code> is smart-cast to non-null after the check</p>
 </section>
-<section id="null-safety-contd" class="slide level1">
-<h1>2. Null Safety (cont’d)</h1>
+<section id="safe-calls-elvis-operator" class="slide level1">
+<h1>2. Safe Calls &amp; Elvis Operator</h1>
 <h2 id="safe-calls-with-let">Safe Calls with <code>let</code></h2>
 <div class="sourceCode" id="cb8"><pre class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true"></a><span class="co">// Building objects with optional fields</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true"></a><span class="kw">fun</span> <span class="fu">buildRequest</span>(</span>
@@ -248,8 +248,8 @@
 <p><strong>Auto-generated</strong>: <code>equals()</code>, <code>hashCode()</code>, <code>toString()</code>, <code>copy()</code></p>
 <p><strong>vs Java pre-Records</strong>: 50+ lines needed</p>
 </section>
-<section id="data-classes-contd" class="slide level1">
-<h1>3. Data Classes (cont’d)</h1>
+<section id="immutable-updates" class="slide level1">
+<h1>3. Immutable Updates</h1>
 <h2 id="immutable-updates-with-copy">Immutable Updates with Copy</h2>
 <div class="sourceCode" id="cb11"><pre class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true"></a><span class="kw">val</span> <span class="va">state</span> = ServiceState(</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true"></a>    <span class="kw">internal</span> = ServiceStatus.RUNNING,</span>
@@ -329,9 +329,9 @@
 <span id="cb13-14"><a href="#cb13-14" aria-hidden="true"></a><span class="kw">val</span> <span class="va">result</span> = calculate(<span class="dv">5</span>, <span class="dv">3</span>, add)  <span class="co">// 8</span></span></code></pre></div>
 <p><strong>Java</strong>: Requires functional interfaces OR custom declarations</p>
 </section>
-<section id="functional-programming-contd" class="slide level1">
-<h1>4. Functional Programming (cont’d)</h1>
-<h2 id="collection-operations">Collection Operations</h2>
+<section id="collection-operations" class="slide level1">
+<h1>4. Collection Operations</h1>
+<h2 id="collection-operations-1">Collection Operations</h2>
 <div class="sourceCode" id="cb14"><pre class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true"></a><span class="kw">val</span> <span class="va">numbers</span> = listOf(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>)</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true"></a></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true"></a><span class="kw">val</span> <span class="va">result</span> = numbers</span>
