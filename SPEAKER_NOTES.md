@@ -31,17 +31,22 @@ I'll try to keep this hands-on. For each topic, I'll show you a problem and how 
 
 ---
 
-## Slide 4-6: The "Unlearning" Phase
+## Slide 4: The "Unlearning" Phase (Part 1)
 
 When you start with Kotlin, there are a few Java habits you need to unlearn. 
 First are Semicolons - they are now optional - you can just leave them off. 
 
 Before we go further, let me explain something you'll see everywhere in Kotlin code: `val` and `var`. In Kotlin, `val` declares an immutable reference - think of it like `final` in Java. Once you assign a value, you can't reassign it. `var` declares a mutable reference - you can reassign it later. The Kotlin convention is to default to `val` and only use `var` when you actually need mutability. This encourages immutability, which makes concurrent code safer and easier to reason about.
 
-Second is The `new` keyword - it doesn't exist - you call constructors directly. 
-And you don't need static methods everywhere - top-level functions work just fine.
+Second is The `new` keyword - it doesn't exist - you call constructors directly.
 
 These might seem like small things for now, but you will notice how they add up. We all know that code comprehension time increases non-linearly with boilerplate - every unnecessary character requires mental processing. In codebases with thousands of files, reducing visual noise helps developers focus on business logic rather than language syntax.
+
+---
+
+## Slide 5: The "Unlearning" Phase (Part 2)
+
+Continuing with unlearning Java habits - you don't need static methods everywhere - top-level functions work just fine.
 
 When you're working with a codebase that has thousands of files, every line of boilerplate you can remove is a line you don't have to read, test, or maintain later.
 
@@ -56,7 +61,7 @@ This matters for higher-order functions called frequently. In our high-frequency
 
 ---
 
-## Slide 7-10: Null Safety - The Real Power
+## Slide 6-9: Null Safety - The Real Power
 
 Let me talk about null safety, because this is where Kotlin really differs from Java. In Java, we have Optional as a library solution, but in Kotlin, null safety is built into the type system itself.
 
@@ -78,7 +83,7 @@ The `?.let { }` pattern is particularly useful for optional fields. The `let` fu
 
 ---
 
-## Slide 11-13: Data Classes & Properties
+## Slide 10-12: Data Classes & Properties
 
 Data classes are one of those features that seems simple on the surface but actually changes how you approach modeling your data structures and business entities.
 
@@ -108,7 +113,7 @@ The key advantage of Kotlin data classes is the `copy()` method with named param
 
 ---
 
-## Slide 14-16: Functional Programming
+## Slide 13-15: Functional Programming
 
 Let me talk about functional programming, because Kotlin has excellent support for it built right into the language - you don't need special libraries for most functional patterns.
 
@@ -139,7 +144,7 @@ This matters in concurrent code. Immutable data structures are inherently thread
 
 ---
 
-## Slide 17-19: Operator Overloading
+## Slide 16-18: Operator Overloading
 
 Operator overloading lets you define custom behavior for operators like plus, minus, times, get, set on your own types. This makes domain code more natural to read and write.
 
@@ -159,7 +164,7 @@ Java doesn't support operator overloading - it's a deliberate language design ch
 
 ---
 
-## Slide 20-22: Feature Mapping
+## Slide 19-21: Feature Mapping
 
 Let me show you a Kotlin feature that Java doesn't have yet - inline value classes. These provide type safety without any runtime overhead.
 
@@ -177,7 +182,7 @@ Another useful Kotlin feature is destructuring. It's a syntax feature that lets 
 
 ---
 
-## Slide 23-25: Extension Functions
+## Slide 22-24: Extension Functions
 
 Extension functions let you add methods to existing classes without modifying their source code or using inheritance. This is particularly useful when you're working with classes you don't own.
 
@@ -193,7 +198,7 @@ Extension functions come up frequently when teams talk about why they adopted Ko
 
 ---
 
-## Slide 26-28: Concurrency Reimagined
+## Slide 25-27: Concurrency Reimagined
 
 The `StreamingService` The code example on the slide is similar to the one I've written in hot path. Here the clients subscribe to get data updates - they receive an initial snapshot, then continuous updates as data changes, with heartbeats to keep the connection alive. This service handles thousands of concurrent subscriptions.
 
@@ -216,7 +221,7 @@ Coroutines provide a more maintainable async programming model than CompletableF
 Regarding debugging: IntelliJ IDEA provides specialized coroutine debuggers that show the coroutine call stack and suspension points. For Java threads, you see the traditional call stack. For coroutines, you can inspect which coroutines are suspended and their state. The presentation slide includes a screenshot of the coroutine debugger showing this capability. However, debugging async code in general - whether coroutines or threads - is more complex than synchronous code, and this comparison deserves its own deep-dive session.
 ---
 
-## Slide 29-31: The Framework Decision
+## Slide 28: The Framework Decision - Spring Boot
 
 Let me show you how both Spring Boot and Ktor work in Kotlin, with fair side-by-side comparisons.
 
@@ -225,6 +230,12 @@ First, dependency injection. The `StreamingService` constructor shows Spring Boo
 You can also provide default parameters right in the constructor, like `channelBufferSize = 1_000`. Java doesn't support default parameters at the language level, so you'd need multiple constructor overloads. All the properties are `val`, which makes them immutable - thread-safe by default. Lambda parameters like `(Message) -> Unit` work directly in Kotlin's type system without requiring functional interfaces.
 
 Now look at the endpoint comparison. Spring Boot uses RestController with annotations - `@GetMapping("/users/{id}")` and a suspend function. This works with Spring WebFlux and coroutine adapters. It's familiar if you know Spring.
+
+**Note for this slide**: Make sure to pause and let the audience scan the Spring Boot DI code example before explaining it. Point to the `@Value`, default parameters, and `val` keywords specifically.
+
+---
+
+## Slide 29: The Framework Decision - Ktor
 
 Ktor uses a routing DSL instead. In the Ktor DI example, you can see `val userService by inject<UserService>()` - this uses Koin for dependency injection. Then the routing block defines endpoints with `get("/api/users/{id}")` in a DSL style. The key difference: Ktor's endpoint handlers are just suspend function blocks - no annotations needed.
 
@@ -258,7 +269,7 @@ Consider Ktor for focused microservices where you want a lighter framework and y
 
 ---
 
-## Slide 32-34: Ecosystem Recommendations
+## Slide 30-32: Ecosystem Recommendations
 
 Let's compare Kotlin's ecosystem to Java's. Java's ecosystem is larger and more mature - it's been around for 25+ years. However, Kotlin has full interoperability with Java libraries, so you can use any Java library in Kotlin. What Kotlin adds is its own ecosystem of libraries specifically designed for Kotlin's features.
 
@@ -272,7 +283,7 @@ The ecosystem is mature and production-ready. You're not pioneering uncharted te
 
 ---
 
-## Slide 35: Learning Resources
+## Slide 33: Learning Resources
 
 If you're interested in learning Kotlin, let me share some resources that I found helpful and that teams at my company have used successfully.
 
@@ -290,7 +301,7 @@ My recommendation: start with Kotlin Koans to get a feel for the syntax, then pi
 
 ---
 
-## Slide 36: Key Takeaways
+## Slide 34: Key Takeaways
 
 There are many Kotlin features we haven't covered - inline classes, contracts, context receivers, delegation, type aliases, sealed classes, DSL builders, and more. The goal of this talk was to focus on the features that provide the most immediate practical value when transitioning from Java, particularly around null safety, data modeling, functional programming, operator overloading, extension functions, async programming, and framework integration. Think of this as your foundation - the 20% of Kotlin features that you'll use 80% of the time.
 
@@ -314,6 +325,6 @@ Regarding the learning investment: that 2 to 4 week learning curve results in 40
 
 ---
 
-## Slide 37: Questions?
+## Slide 35: Questions?
 
 I'm happy to dive deeper into any of these topics, discuss specific tradeoffs you might be considering, or talk about how Ktor versus Spring Boot might work for your particular deployment needs. Thanks for your time.

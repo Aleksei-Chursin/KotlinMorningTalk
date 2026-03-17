@@ -76,6 +76,10 @@ Person p = new Person("Alice", 30);
 val p = Person("Alice", 30)
 ```
 
+---
+
+# 1. The "Unlearning" Phase (cont'd)
+
 ## No Static Overhead
 
 ```kotlin
@@ -456,7 +460,7 @@ IntelliJ IDEA shows coroutine suspension points and state - essential for debugg
 
 ---
 
-# 9. The Framework Decision
+# 9. The Framework Decision: Spring Boot
 
 ## Spring Boot: Production DI Example
 
@@ -492,6 +496,10 @@ class UserController(private val userService: UserService) {
 ```
 
 **Note**: Requires Spring WebFlux for suspend functions. Works with coroutines through adapters.
+
+---
+
+# 9. The Framework Decision: Ktor
 
 ## Ktor: DI Example
 

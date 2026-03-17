@@ -144,6 +144,9 @@
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a>Person p = <span class="kw">new</span> <span class="fu">Person</span>(<span class="st">&quot;Alice&quot;</span>, <span class="dv">30</span>);</span></code></pre></div>
 <div class="sourceCode" id="cb4"><pre class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a><span class="co">// Kotlin - no &quot;new&quot;</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true"></a><span class="kw">val</span> <span class="va">p</span> = Person(<span class="st">&quot;Alice&quot;</span>, <span class="dv">30</span>)</span></code></pre></div>
+</section>
+<section id="the-unlearning-phase-contd" class="slide level1">
+<h1>1. The “Unlearning” Phase (cont’d)</h1>
 <h2 id="no-static-overhead">No Static Overhead</h2>
 <div class="sourceCode" id="cb5"><pre class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a><span class="co">// Top-level functions (no class needed)</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true"></a><span class="kw">fun</span> <span class="fu">calculateTotal</span>(<span class="va">items</span>: <span class="dt">List</span>&lt;<span class="va">Int</span>&gt;): <span class="dt">Int</span> {</span>
@@ -448,8 +451,8 @@
 </figure>
 <p>IntelliJ IDEA shows coroutine suspension points and state - essential for debugging async code</p>
 </section>
-<section id="the-framework-decision" class="slide level1">
-<h1>9. The Framework Decision</h1>
+<section id="the-framework-decision-spring-boot" class="slide level1">
+<h1>9. The Framework Decision: Spring Boot</h1>
 <h2 id="spring-boot-production-di-example">Spring Boot: Production DI Example</h2>
 <div class="sourceCode" id="cb25"><pre class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true"></a><span class="co">// Constructor injection: 7 lines vs 20 in Java (65% reduction)</span></span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true"></a><span class="co">// Immutability enforced by &#39;val&#39; - thread-safe by default</span></span>
@@ -475,6 +478,9 @@
 <span id="cb26-8"><a href="#cb26-8" aria-hidden="true"></a>    }</span>
 <span id="cb26-9"><a href="#cb26-9" aria-hidden="true"></a>}</span></code></pre></div>
 <p><strong>Note</strong>: Requires Spring WebFlux for suspend functions. Works with coroutines through adapters.</p>
+</section>
+<section id="the-framework-decision-ktor" class="slide level1">
+<h1>9. The Framework Decision: Ktor</h1>
 <h2 id="ktor-di-example">Ktor: DI Example</h2>
 <div class="sourceCode" id="cb27"><pre class="sourceCode kotlin"><code class="sourceCode kotlin"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true"></a><span class="kw">fun</span> <span class="fu">Application</span>.<span class="fu">module</span>() {</span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true"></a>    <span class="kw">val</span> <span class="va">userService</span> <span class="kw">by</span> inject&lt;UserService&gt;()  <span class="co">// Koin DI</span></span>
