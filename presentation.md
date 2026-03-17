@@ -382,6 +382,10 @@ val request = RequestBuilder()
     .build()
 ```
 
+<br>
+
+**The `invoke` operator makes objects callable as functions** - enables natural DSL syntax for configuration builders, test fixtures, and domain-specific languages.
+
 **Java alternative**: Method chaining only (`.add()`, `.set()`), less natural syntax
 
 ---
