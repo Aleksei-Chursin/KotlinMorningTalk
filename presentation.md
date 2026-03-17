@@ -20,13 +20,18 @@
 
 # Today's Plan
 
+**Block 1: Syntax & Safety** _(Getting rid of Java ceremony)_
 1. The "Unlearning" Phase
 2. Null Safety in Action
 3. Data Classes & Properties
+
+**Block 2: Functional & Expressive** _(Language features that make code cleaner)_
 4. Functional Programming
 5. Operator Overloading
 6. Feature Mapping
 7. Extension Functions
+
+**Block 3: Practical** _(Real-world usage)_
 8. Concurrency Reimagined
 9. The Framework Decision
 10. Ecosystem Recommendations
@@ -43,6 +48,21 @@ val x = 42
 val y = "hello"
 val z = listOf(1, 2, 3)  // No semicolon needed
 ```
+
+## val vs var: Immutability First
+
+```kotlin
+val name = "Alice"  // Immutable - like 'final' in Java
+// name = "Bob"     // ❌ Compile error
+
+var age = 25        // Mutable - can be reassigned
+age = 26            // ✅ OK
+
+val items = mutableListOf(1, 2, 3)
+items.add(4)        // ✅ Reference is immutable, content can change
+```
+
+**Default to `val`** - only use `var` when you need mutability
 
 ## The `new` Keyword Is Gone
 
@@ -163,7 +183,26 @@ val updated = state.copy(
 )
 ```
 
-**vs Java**: Would need 50+ lines for constructor, getters, equals, hashCode, toString
+**vs Java (pre-Records)**: Would need 50+ lines for constructor, getters, equals, hashCode, toString
+
+## Kotlin Data Classes vs Java Records
+
+**Java Records** (Java 14+, standardized in 16):
+```java
+record Point(int x, int y) {}  // Immutable, generates: constructor, getters, equals, hashCode, toString
+```
+
+**Key Differences:**
+
+| Feature | Kotlin Data Classes (2011) | Java Records (2020) |
+|---------|---------------------------|---------------------|
+| `copy()` method | ✅ Built-in with named parameters | ❌ No copy method |
+| Inheritance | ✅ Can extend classes | ❌ Cannot extend classes |
+| Custom body | ✅ Full class features | ⚠️ Limited (only compact constructor) |
+| Mutability | ✅ Can mix `val`/`var` | ❌ All fields final |
+| JVM version | ✅ Works on JVM 6+ | ⚠️ Requires JVM 16+ |
+
+**Kotlin advantage:** `copy()` makes immutable updates practical
 
 ---
 
@@ -242,6 +281,17 @@ val price = Money(100, "EUR")
 val total = price * 3  // Money(300, "EUR")
 val sum = total + Money(50, "EUR")  // Money(350, "EUR")
 ```
+
+**Java equivalent (without operator overloading):**
+```java
+Money price = new Money(100, "EUR");
+Money total = price.times(3);  // Money(300, "EUR")
+Money sum = total.plus(new Money(50, "EUR"));  // Money(350, "EUR")
+```
+
+**Compare readability:**
+- Kotlin: `baseCost * quantity + shipping`
+- Java: `baseCost.times(quantity).plus(shipping)`
 
 ## Collection Access
 
@@ -427,18 +477,49 @@ class StreamingService(
 
 **Kotlin advantages**: Automatic property creation, default values, enforced immutability
 
-## Ktor: Lightweight Alternative
+## Spring Boot: Endpoint Example
 
 ```kotlin
-embeddedServer(Netty, 8080) {
+@RestController
+@RequestMapping("/api")
+class UserController(private val userService: UserService) {
+    
+    @GetMapping("/users/{id}")
+    suspend fun getUser(@PathVariable id: Int): User {
+        return userService.findById(id)
+    }
+}
+```
+
+**Note**: Requires Spring WebFlux for suspend functions. Works with coroutines through adapters.
+
+## Ktor: DI Example
+
+```kotlin
+fun Application.module() {
+    val userService by inject<UserService>()  // Koin DI
+    
     routing {
-        get("/users/{id}") {
+        get("/api/users/{id}") {
             val id = call.parameters["id"]?.toInt() ?: return@get
             call.respond(userService.findById(id))
         }
     }
-}.start(wait = true)
+}
 ```
+
+**Direct coroutine support**: `suspend` functions work naturally without adapters
+
+## Framework Comparison
+
+| Aspect | Spring Boot | Ktor |
+|--------|-------------|------|
+| **DI** | Constructor injection, annotations | Koin or manual |
+| **Endpoints** | Controllers with annotations | DSL routing blocks |
+| **Coroutines** | Adapter layer (added later) | Native from day one |
+| **Startup** | 5-10 seconds | 1-2 seconds |
+| **Memory** | 200MB+ base | 50MB base |
+| **Best for** | Enterprise apps, large teams | Microservices, async-heavy |
 
 **When to choose**: Spring (enterprise, ecosystem), Ktor (lightweight microservices, coroutines-first)
 

@@ -25,7 +25,7 @@ Let me walk you through what we'll cover.
 
 There are many Kotlin features we will not cover - inline classes, contracts, context receivers, delegation, type aliases, DSL builders, and more. The goal of this talk is to focus on the features that provide the most immediate practical value when transitioning from Java. You can think of this as 20% of Kotlin features that you'll use 80% of the time.
 
-We will have 3 blocks with 3 topics each, plus a resources section at the end. The first three topics are about Kotlin syntax - getting rid of Java ceremony, understanding null safety, and working with data more effectively. Topics four through six focus on Kotlin's functional and expressive features - functional programming support, operator overloading, and value classes. Topic seven is about extension functions, then we go into more practical areas - concurrency, framework choices, and the ecosystem tools available for Kotlin. Finally, I'll share some learning resources to help you get started.
+I've organized the content into three blocks. Block 1 is about Syntax & Safety - getting rid of Java ceremony with features like null safety and data classes. Block 2 covers Functional & Expressive features - things like functional programming support, operator overloading, and extension functions that make your code cleaner. Block 3 is Practical - concurrency with coroutines, framework choices, and ecosystem tools. Finally, I'll share some learning resources to help you get started.
 
 I'll try to keep this hands-on. For each topic, I'll show you a problem and how Kotlin solves it, sometimes with a Java comparison so you can see the differences clearly.
 
@@ -35,6 +35,9 @@ I'll try to keep this hands-on. For each topic, I'll show you a problem and how 
 
 When you start with Kotlin, there are a few Java habits you need to unlearn. 
 First are Semicolons - they are now optional - you can just leave them off. 
+
+Before we go further, let me explain something you'll see everywhere in Kotlin code: `val` and `var`. In Kotlin, `val` declares an immutable reference - think of it like `final` in Java. Once you assign a value, you can't reassign it. `var` declares a mutable reference - you can reassign it later. The Kotlin convention is to default to `val` and only use `var` when you actually need mutability. This encourages immutability, which makes concurrent code safer and easier to reason about.
+
 Second is The `new` keyword - it doesn't exist - you call constructors directly. 
 And you don't need static methods everywhere - top-level functions work just fine.
 
@@ -93,17 +96,42 @@ This sharing is safe because the data class is immutable. If you have `val seque
 
 The alternative in Java is either using mutable POJOs, which requires synchronized blocks and creates lock contention when you have concurrent access, or implementing the builder pattern, which typically runs to 30 or more lines of code. Meanwhile the Kotlin data class definition is 5 lines (the class declaration plus its properties), and it gives you the constructor, equals, hashCode, toString, and copy methods automatically - no generated code needed in your source file.
 
+Now, I should mention Java Records since they were introduced in Java 14 and standardized in Java 16. Records are Java's answer to Kotlin data classes - they provide similar immutability and automatic generation of constructor, getters, equals, hashCode, and toString. So why am I still recommending Kotlin data classes?
+
+First, the timing: Kotlin has had data classes since 2011, Java got Records in 2020 - that's 9 years where Kotlin developers had this feature. Second, and more importantly, Java Records don't have a `copy()` method. If you want to update one field in a Record, you need to create a new instance by passing all fields to the constructor again. In Kotlin, you write `state.copy(sequences = newMap)` and only specify what changed.
+
+Third, Java Records cannot extend other classes - they can only implement interfaces. Kotlin data classes can extend classes and implement interfaces, giving you more flexibility. Fourth, Records automatically make all fields final - you can't have any mutable fields. In Kotlin, you can mix `val` and `var` if needed, though immutability is encouraged.
+
+Finally, Records require JVM 16+. Kotlin data classes work on JVM 6+, so if you're supporting legacy systems, data classes give you this feature without upgrading your JVM.
+
+The key advantage of Kotlin data classes is the `copy()` method with named parameters. This makes immutable programming practical without the ceremony of builders or constructors with many parameters.
+
 ---
 
 ## Slide 14-16: Functional Programming
 
 Let me talk about functional programming, because Kotlin has excellent support for it built right into the language - you don't need special libraries for most functional patterns.
 
-In Kotlin, functions are first-class citizens. You can assign functions to variables, pass them as parameters, and return them from other functions. The syntax is clean: `(Int, Int) -> Int` is a function type that takes two integers and returns an integer. No need for Java's functional interfaces like Function, BiFunction, Consumer - Kotlin has function types built into the language.
+**[Point to first code block]** Let's start with the basics. In Kotlin, functions are first-class citizens. Look at this first line: `val add: (Int, Int) -> Int = { a, b -> a + b }`. This is a function type. The `(Int, Int) -> Int` part means "a function that takes two Ints and returns an Int". The syntax is clean and built into the language - no need for Java's functional interfaces like Function, BiFunction, or Consumer.
 
-Higher-order functions are functions that take other functions as parameters or return functions. This is standard in Kotlin. You can write `fun calculate(x: Int, y: Int, operation: (Int, Int) -> Int)` and pass any lambda that matches that signature. In Java, you'd need to create a functional interface or use one of the standard ones, which adds ceremony.
+**[Point to second example]** You can also write it more concisely: `val multiply = { a: Int, b: Int -> a * b }`. Here the types are inferred.
 
-The collection operations in Kotlin are particularly powerful. Operations like filter, map, fold, groupBy - these are all built-in and work seamlessly with lambdas. The lambda-as-last-parameter syntax makes it very readable: you can write `numbers.filter { it % 2 == 0 }.map { it * it }` and it flows naturally. In our production code, we're processing tens of thousands of items per second with these operations, and the code is 60% shorter than equivalent Java streams.
+**[Point to calculate function]** Now look at the higher-order function below. Higher-order functions are functions that take other functions as parameters or return functions. Here we have `calculate` which takes two integers and an `operation` parameter that is itself a function: `(Int, Int) -> Int`. 
+
+**[Point to usage line]** And here's where it gets interesting: we can pass our `add` function as a parameter: `calculate(5, 3, add)`. The key thing to notice is that `add` has the same signature as the `operation` parameter - both are `(Int, Int) -> Int`. This is type-safe at compile time.
+
+In Java, you'd need to create a functional interface or use one of the standard ones like BiFunction, which adds ceremony.
+
+**[Point to second code block - pause 2 seconds]** Now let's look at collection operations. Operations like filter, map, fold, groupBy - these are all built-in and work seamlessly with lambdas. 
+
+**[Walk through the example line by line]**
+- First, `.filter { it % 2 == 0 }` keeps only even numbers
+- Then `.map { it * it }` squares each number  
+- Finally `.fold(0) { acc, value -> acc + value }` sums them up - it starts with 0 and accumulates
+
+The lambda-as-last-parameter syntax makes this very readable - the code reads left to right, like a pipeline. In our production code, we're processing tens of thousands of items per second with these operations, and the code is 60% shorter than equivalent Java streams.
+
+**[Point to production example]** Here's a real-world example from our system: we filter active requests, group them by user ID, and count how many each user has. This is the kind of data processing you do constantly in production systems, and Kotlin makes it concise and readable.
 
 Immutability is another key aspect. Kotlin encourages immutability by default. When you write `listOf()` or `mapOf()`, you get an immutable collection. If you want mutability, you explicitly use `mutableListOf()` or `mutableMapOf()`. This is the opposite of Java, where ArrayList and HashMap are mutable by default, and you need to wrap them with `Collections.unmodifiableList()` to make them immutable.
 
@@ -116,6 +144,10 @@ This matters in concurrent code. Immutable data structures are inherently thread
 Operator overloading lets you define custom behavior for operators like plus, minus, times, get, set on your own types. This makes domain code more natural to read and write.
 
 Let me show you a practical example. Say you're working with money in a financial system. You can define a Money data class and overload the plus operator so you can write `price + tax` instead of `price.add(tax)`. The operator function enforces business rules - like checking that currencies match before adding. The syntax is clean: you mark the function with the `operator` keyword.
+
+Now look at how this compares to Java. In the slide, you can see the same operations. In Kotlin: `price * 3` and `total + Money(50, "EUR")`. In Java, without operator overloading, you have to write: `price.times(3)` and `total.plus(new Money(50, "EUR"))`. 
+
+When you're reading domain code, the Kotlin version is immediately intuitive. If you see `baseCost * quantity + shipping`, you understand it instantly. The Java version `baseCost.times(quantity).plus(shipping)` requires mental translation - you have to parse method names instead of mathematical operators.
 
 You can overload comparison operators, arithmetic operators, and even the array access operator. For example, if you have a Matrix class, you can overload the `get` operator so you can write `matrix[row, col]` instead of `matrix.get(row, col)`. Same with `set` for mutation.
 
@@ -186,15 +218,25 @@ Regarding debugging: IntelliJ IDEA provides specialized coroutine debuggers that
 
 ## Slide 29-31: The Framework Decision
 
-The `StreamingService` constructor shows how Spring dependency injection works in Kotlin. 
-You define properties directly in the constructor - no separate field declarations, no manual assignments. 
-What would be 20 lines in Java becomes 7 lines in Kotlin. 
+Let me show you how both Spring Boot and Ktor work in Kotlin, with fair side-by-side comparisons.
 
-You can also provide default parameters right in the constructor, like `channelBufferSize = 1_000`. Java doesn't support default parameters at the language level, so you'd need to create multiple constructor overloads, each calling the next with a default value - this creates boilerplate that scales with the number of optional parameters.
+First, dependency injection. The `StreamingService` constructor shows Spring Boot's approach - you define properties directly in the constructor with no separate field declarations or manual assignments. What would be 20 lines in Java becomes 7 lines in Kotlin. 
 
-This means you don't need method overloading for optional dependencies. 
-All the properties are `val`, which makes them final - immutability is enforced by the language. 
-Lambda parameters like `(Message) -> Unit` work directly in Kotlin's type system without requiring functional interfaces.
+You can also provide default parameters right in the constructor, like `channelBufferSize = 1_000`. Java doesn't support default parameters at the language level, so you'd need multiple constructor overloads. All the properties are `val`, which makes them immutable - thread-safe by default. Lambda parameters like `(Message) -> Unit` work directly in Kotlin's type system without requiring functional interfaces.
+
+Now look at the endpoint comparison. Spring Boot uses RestController with annotations - `@GetMapping("/users/{id}")` and a suspend function. This works with Spring WebFlux and coroutine adapters. It's familiar if you know Spring.
+
+Ktor uses a routing DSL instead. In the Ktor DI example, you can see `val userService by inject<UserService>()` - this uses Koin for dependency injection. Then the routing block defines endpoints with `get("/api/users/{id}")` in a DSL style. The key difference: Ktor's endpoint handlers are just suspend function blocks - no annotations needed.
+
+[Point to comparison table] Now let's look at the practical differences. For dependency injection, both frameworks support it, but Spring has the more powerful IoC container with profiles, AOP, and extensive auto-configuration. Ktor with Koin is simpler - just basic DI without the complexity.
+
+For endpoints, both work with coroutines. Spring uses annotations you already know - `@GetMapping`, `@PostMapping`. Ktor uses DSL blocks - `get()`, `post()`. It's really about whether you prefer annotations or DSL syntax.
+
+Coroutines support is where it gets interesting. Spring WebFlux added coroutine support through adaptation layers - it bridges between Reactor's `Mono`/`Flux` types and Kotlin's `suspend` functions. Ktor was built with coroutines from day one, so there's no bridging - you work directly with suspend functions throughout.
+
+Look at startup time and memory usage. Spring Boot typically takes 5-10 seconds to start and uses 200MB+ base memory due to its extensive feature set - auto-configuration scanning, AOP proxy generation, complex DI container initialization. Ktor starts in 1-2 seconds and uses around 50MB because it's architecturally simpler with fewer abstraction layers.
+
+The use case column tells you when to choose each. Spring Boot is your choice for enterprise applications needing the full ecosystem - Spring Data, Spring Security, message queues, all the integrations. Ktor is better for lightweight microservices that are mostly routing and async operations with coroutines.
 
 There's one thing to be aware of with Spring and Kotlin: Kotlin classes are final by default, but Spring needs classes to be open for CGLIB proxies. The solution is the kotlin-spring compiler plugin, which automatically makes classes with Spring annotations open. You can also use the open keyword manually or switch to interface-based proxies.
 
