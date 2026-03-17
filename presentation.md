@@ -20,18 +20,24 @@
 
 # Today's Plan
 
-**Block 1: Syntax & Safety** _(Getting rid of Java ceremony)_
+**Block 1: Syntax & Safety**  
+_(Getting rid of Java ceremony)_
+
 1. The "Unlearning" Phase
 2. Null Safety in Action
 3. Data Classes & Properties
 
-**Block 2: Functional & Expressive** _(Language features that make code cleaner)_
+**Block 2: Functional & Expressive**  
+_(Language features that make code cleaner)_
+
 4. Functional Programming
 5. Operator Overloading
 6. Feature Mapping
 7. Extension Functions
 
-**Block 3: Practical** _(Real-world usage)_
+**Block 3: Practical**  
+_(Real-world usage)_
+
 8. Concurrency Reimagined
 9. The Framework Decision
 10. Ecosystem Recommendations
